@@ -1,0 +1,131 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx]{jsarticle}
+
+%------------------------------------------------------------------------
+% プリアンブル読み込み
+%------------------------------------------------------------------------
+\input{./preembles/all.tex}
+
+
+%------------------------------------------------------------------------
+% ちーとしーと
+%------------------------------------------------------------------------
+% \section{...}, \subsection{...}, \subsubsection{...}
+
+% \eqref{...} : 数式参照
+% \begin{equation}
+%     ... \label{eq:...}
+% \end{equation}
+
+% \begin{equation}
+%     \begin{aligned}
+%         ... & ... \\
+%         ... & ...
+%     \end{aligned} \label{eq:...}
+% \end{equation}
+
+% \begin{equation}
+%     \left\{ \begin{aligned}
+%         ... & ... \\
+%         ... & ...
+%     \end{aligned} \right. \label{eq:...}
+% \end{equation}
+
+% \qquad, \quad : 空白
+
+% \hypertarget{name}{text}
+% \hyperlink{name}{text}
+
+
+% \myTerm{a}{b}   ->    a(b)
+\newcommand*{\myTerm}[2]{\textsf{#1}{(\emph{#2})}}
+
+% \begin{dfn}\end{dfn}   ->    definition
+\newtheorem{dfn}{定義}
+
+% \begin{thm}\end{thm}   ->    theorem
+\newtheorem{thm}{定理}
+
+% \begin{prf}\end{prf}   ->    proof
+\newtheorem{prf}{証明}
+
+% \fig
+\newcommand{\fig}[5]{\begin{figure}[#4]\begin{center}\includegraphics[#5]{#1}\caption{#2}\label{fig:#3}\end{center}\end{figure}}
+% 
+\newcommand{\figref}[1]{図\ref{fig:#1}}
+
+%
+\newenvironment{tab}[4]{\begin{table}[#1]\centering \caption{#2}\label{tab:#4}\begin{tabular}{#3}}{\end{tabular}\end{table}}
+%
+\newcommand{\tabref}[1]{表\ref{tab:#1}}
+
+
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+\begin{document}
+  \begin{dfn}[イデアル]
+    $R$を可換環とする。以下を見たす$R$の部分集合$I$を$R$上のイデアルという。
+    \begin{description}
+      \item[(I1)] $\forall x, y\in I, x + y \in I$
+      \item[(I2)] $\forall x\in I, a \in R, a x \in I$
+    \end{description}
+  \end{dfn}
+
+  \begin{dfn}[剰余類]
+    可換環$R$上のイデアル$I$と任意の$x \in R$に対して
+    \begin{equation}
+      x + I = \{ x + a \mid a \in I \}
+    \end{equation}
+    を$x$を代表元とする剰余類という。
+  \end{dfn}
+
+  \begin{thm}
+    ある$x, y \in R$が$x - y \in I$であるとき、$x + I = y + I$である。
+    \begin{prf}
+      $I$の生成元が$m$であるとする。
+      まず定義より$x + I$の任意の元$a$はある$q \in R$によって
+      \begin{equation}
+        a = x + m q
+      \end{equation}
+      と書くことができる。
+      ここで仮定より、ある$p$によって$x - y = m p \Leftrightarrow x = y + m p$となる。
+      この$x$を代入すると
+      \begin{align}
+        a &= y + m p + m q \\
+          &= y + m (p + q)
+      \end{align}
+      となり、$a \in y + I$が得られた。ここで$a$は任意の$x + I$の元であるため$a \in x + I \Rightarrow a \in y + I$が示された。
+      同様にして$a \in y + I \Rightarrow a \in x + I$が示される。
+      以上より示された。
+    \end{prf}
+  \end{thm}
+
+
+
+  \begin{dfn}[剰余環]
+    可換環$R$上のイデアル$I$に対して
+    \begin{equation}
+      R/I = \{ x + I \mid x \in R \}
+    \end{equation}
+    として書かれる集合$R/I$を$R$上の剰余環という。
+  \end{dfn}
+
+  \begin{thm}
+    可換環$R$上の剰余環$R/I$は可換環となる。
+    \begin{prf}
+    \end{prf}
+  \end{thm}
+
+
+  \begin{thm}
+  \end{thm}
+
+
+  \begin{thm}[中国剰余定理(Chinese Remainder Theorem)]
+    ある剰余環$Z/mZ$に
+  \end{thm}
+
+
+\end{document}
+
