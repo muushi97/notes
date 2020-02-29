@@ -6,64 +6,16 @@
 \input{./preembles/all.tex}
 
 
-%------------------------------------------------------------------------
-% ちーとしーと
-%------------------------------------------------------------------------
-% \section{...}, \subsection{...}, \subsubsection{...}
+\title{代数学}
+\author{}
+\date{}
 
-% \eqref{...} : 数式参照
-% \begin{equation}
-%     ... \label{eq:...}
-% \end{equation}
-
-% \begin{equation}
-%     \begin{aligned}
-%         ... & ... \\
-%         ... & ...
-%     \end{aligned} \label{eq:...}
-% \end{equation}
-
-% \begin{equation}
-%     \left\{ \begin{aligned}
-%         ... & ... \\
-%         ... & ...
-%     \end{aligned} \right. \label{eq:...}
-% \end{equation}
-
-% \qquad, \quad : 空白
-
-% \hypertarget{name}{text}
-% \hyperlink{name}{text}
-
-
-% \myTerm{a}{b}   ->    a(b)
-\newcommand*{\myTerm}[2]{\textsf{#1}{(\emph{#2})}}
-
-% \begin{dfn}\end{dfn}   ->    definition
-\newtheorem{dfn}{定義}
-
-% \begin{thm}\end{thm}   ->    theorem
-\newtheorem{thm}{定理}
-
-% \begin{prf}\end{prf}   ->    proof
-\newtheorem{prf}{証明}
-
-% \fig
-\newcommand{\fig}[5]{\begin{figure}[#4]\begin{center}\includegraphics[#5]{#1}\caption{#2}\label{fig:#3}\end{center}\end{figure}}
-% 
-\newcommand{\figref}[1]{図\ref{fig:#1}}
-
-%
-\newenvironment{tab}[4]{\begin{table}[#1]\centering \caption{#2}\label{tab:#4}\begin{tabular}{#3}}{\end{tabular}\end{table}}
-%
-\newcommand{\tabref}[1]{表\ref{tab:#1}}
-
-
-
-% -----------------------------------------------------------------------
 % 本文
 % -----------------------------------------------------------------------
 \begin{document}
+
+\maketitle
+
   \begin{dfn}[イデアル]
     $R$を可換環とする。以下を見たす$R$の部分集合$I$を$R$上のイデアルという。
     \begin{description}
@@ -82,7 +34,7 @@
 
   \begin{thm}
     ある$x, y \in R$が$x - y \in I$であるとき、$x + I = y + I$である。
-    \begin{prf}
+    \begin{proof}
       $I$の生成元が$m$であるとする。
       まず定義より$x + I$の任意の元$a$はある$q \in R$によって
       \begin{equation}
@@ -98,7 +50,7 @@
       となり、$a \in y + I$が得られた。ここで$a$は任意の$x + I$の元であるため$a \in x + I \Rightarrow a \in y + I$が示された。
       同様にして$a \in y + I \Rightarrow a \in x + I$が示される。
       以上より示された。
-    \end{prf}
+    \end{proof}
   \end{thm}
 
 
@@ -113,12 +65,13 @@
 
   \begin{thm}
     可換環$R$上の剰余環$R/I$は可換環となる。
-    \begin{prf}
-    \end{prf}
+    \begin{proof}
+    \end{proof}
   \end{thm}
 
 
   \begin{thm}
+    hoge
   \end{thm}
 
 
