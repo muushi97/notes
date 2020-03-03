@@ -1,0 +1,95 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx]{jsarticle}
+
+%------------------------------------------------------------------------
+% プリアンブル読み込み
+%------------------------------------------------------------------------
+\input{./preembles/all.tex}
+
+
+\title{ペレリマン数列}
+\author{}
+\date{}
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle
+
+\section{概要}
+  ペレリマン数列は加藤文元、仲井保行``著の天に向かって続く数''という本に出てくる数列である。
+  この数列$p_n \quad (0 \leq n)$は
+  \begin{equation}
+    (p_n)^2 \equiv p_n \quad (mod 10^{n+1}) \label{eq:s}
+  \end{equation}
+  となる整数の列である。
+
+\section{導出}
+  $1$以上の$n$に対して$p_n$を導出する手順を考える。
+
+  まず、ある数が$p_n$をある整数$d_1, d_2$(ただし$0 \leq d_1 < 10, 0 \leq d_2 < 10^n)$によって
+  \begin{equation}
+    p_n = d_1 \times 10^n + d_2
+  \end{equation}
+  と書くことができるとする。
+  すると$(p_n)^2$は
+  \begin{equation} \begin{aligned}
+    (p_n)^2 &= (d_1 \times 10^n + d_2)^2 \\
+            &= (d_1)^2 \times 10^{2n} + 2 d_1 d_2 \times 10^n + (d_2)^2 \label{eq:aster}
+  \end{aligned} \end{equation}
+  となる。
+  ここである$0$以上の整数$q$と$0$以上$10^n$未満の整数$r$によって
+  \begin{equation}
+    (d_2)^2 = q \times 10^n + r
+  \end{equation}
+  とすれば\cref{eq:aster}は
+  \begin{equation} \begin{aligned}
+    (d_1)^2 \times 10^{2n} + 2 d_1 d_2 \times 10^n + (d_2)^2
+            &= (d_1)^2 \times 10^{2n} + 2 d_1 d_2 \times 10^n + q \times 10^n + r \\
+            &= (d_1)^2 \times 10^{2n} + (2 d_1 d_2 + q) \times 10^n + r \label{eq:aster2}
+  \end{aligned} \end{equation}
+  と変形することができる。
+
+  さらに$0$以上の整数$p$と$0$以上$10$未満の整数$s$によって
+  \begin{equation}
+    2 d_1 d_2 + q = p \times 10 + s
+  \end{equation}
+  と置くと\cref{eq:aster2}は
+  \begin{equation} \begin{aligned}
+    (d_1)^2 \times 10^{2n} + (2 d_1 d_2 + q) \times 10^n + r
+            &= (d_1)^2 \times 10^{2n} + (p \times 10 + s) \times 10^n + r \\
+            &= (d_1)^2 \times 10^{2n} + p \times 10^{n+1} + s \times 10^n + r \\
+            &= \left[ (d_1)^2 \times 10^{n-1} + p \right] \times 10^{n+1} + s \times 10^n + r \label{eq:aster3}
+  \end{aligned} \end{equation}
+  と書くことができる。
+
+  よって
+  \begin{equation} \begin{aligned}
+    (p_n)^2 = \left[ (d_1)^2 \times 10^{n-1} + p \right] \times 10^{n+1} + s \times 10^n + r
+                                                                    \equiv s \times 10^n + r \quad (mod 10^{n+1})
+  \end{aligned} \end{equation}
+  であり、 $s$と$r$の範囲から\cref{eq:aster3}を満たす$s$と$r$は一意に決まる。
+  したがって\cref{eq:s}を満たすためには
+  \begin{equation}
+    s = d_1, \quad r = d_2
+  \end{equation}
+  であることが必要十分条件となる。
+  そして$r = d_2$であるとき
+  \begin{equation}
+    (d_2)^2 = q \times 10^n + d_2 \equiv d_2 \quad (mod 10^n)
+  \end{equation}
+  であるため$d_2 = p_{n-1}$となる。
+
+  \subsection{手順}
+    $p_n$を求める手順を以下に示す。
+    \begin{enumerate}
+      \item $p_{n-1}$を求める
+      \item $(p_{n-1})^2 = q \times 10^n + p_{n-1} \rightleftharpoons (p_{n-1})^2 - p_{n-1} = q \times 10^n$を満たす$q$を求める。
+      \item $q = 10 p + (1 - 2 p_{n-1}) d$を満たす$p, d$の組のうち、$0 \leq d < 10$となる組み合わせを求める。
+      \item $p_n = d \times 10^n + p_{n-1}$とすれば$p_n$が得られ、このとき$(p_n)^2 = \left( d^2 \times 10^{n-1} + p \right) \times 10^{n+1} + d \times 10^n + p_{n-1}$となる
+    \end{enumerate}
+
+\end{document}
+
