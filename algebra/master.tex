@@ -19,260 +19,303 @@
 \maketitle
 
 \section{整数の性質}
-  整数全体の集合$\Z$には加法、乗法という演算が定義れている。
-  $\Z$上の加法と乗法は以下の性質を満たす。
-  \begin{itemize}
-    \item 任意の$a, b, c \in \Z$に対して
-          \begin{equation} \begin{gathered}
-            ( a + b ) + c = a + ( b + c ) \\
-            ( a \cdot b ) \cdot c = a \cdot ( b \cdot c )
-          \end{gathered} \end{equation}
-          が成立する
-    \item 任意の$a, b \in \Z$に対して
-          \begin{equation} \begin{gathered}
-            a + b = b + a \\
-            a \cdot b = b \cdot a
-          \end{gathered} \end{equation}
-          が成立する
-    \item 任意の$a, b, c \in \Z$に対して
-          \begin{equation} \begin{gathered}
-            ( a + b ) \cdot c = a \cdot c + b \cdot c \\
-            a \cdot ( b + c ) = a \cdot b + a \cdot c
-          \end{gathered} \end{equation}
-          が成立する
-    \item 加法と乗法にはそれぞれ単位元$0 \in \Z$と$1 \in \Z$が存在する
-    \item 任意の$x \in \Z$に対して加法に関する逆元$-x \in \Z$が存在する
-  \end{itemize}
+  \subsection{基礎}
+    整数全体の集合$\Z$には加法、乗法という演算が定義れている。
+    $\Z$上の加法と乗法は以下の性質を満たす。
+    \begin{itemize}
+      \item 任意の$a, b, c \in \Z$に対して
+            \begin{equation} \begin{gathered}
+              ( a + b ) + c = a + ( b + c ) \\
+              ( a \cdot b ) \cdot c = a \cdot ( b \cdot c )
+            \end{gathered} \end{equation}
+            が成立する
+      \item 任意の$a, b \in \Z$に対して
+            \begin{equation} \begin{gathered}
+              a + b = b + a \\
+              a \cdot b = b \cdot a
+            \end{gathered} \end{equation}
+            が成立する
+      \item 任意の$a, b, c \in \Z$に対して
+            \begin{equation} \begin{gathered}
+              ( a + b ) \cdot c = a \cdot c + b \cdot c \\
+              a \cdot ( b + c ) = a \cdot b + a \cdot c
+            \end{gathered} \end{equation}
+            が成立する
+      \item 加法と乗法にはそれぞれ単位元$0 \in \Z$と$1 \in \Z$が存在する
+      \item 任意の$x \in \Z$に対して加法に関する逆元$-x \in \Z$が存在する
+    \end{itemize}
 
-  このような構造を代数的構造($\Z$は環という構造)という。
+    このような構造を代数的構造($\Z$は環という構造)という。
 
-  さらに$\Z$は以下のような性質を満たす。
-  \begin{itemize}
-    \item 任意の$a, b \in \Z$に対して以下の3つのうちいずれか1つのみが成立する
-      \begin{itemize}
-        \item a > b
-        \item a < b
-        \item a = b
-      \end{itemize}
-    \item 任意の$a, b, c \in \Z$に対して$a < b$かつ$b < c$ならば$a < c$である
-    \item 任意の$a, b, c \in \Z$に対して$a < b$ならば$a + c < b + c$である
-  \end{itemize}
+    さらに$\Z$は以下のような性質を満たす。
+    \begin{itemize}
+      \item 任意の$a, b \in \Z$に対して以下の3つのうちいずれか1つのみが成立する
+        \begin{itemize}
+          \item a > b
+          \item a < b
+          \item a = b
+        \end{itemize}
+      \item 任意の$a, b, c \in \Z$に対して$a < b$かつ$b < c$ならば$a < c$である
+      \item 任意の$a, b, c \in \Z$に対して$a < b$ならば$a + c < b + c$である
+    \end{itemize}
 
-  このような構造を順序構造という。
+    このような構造を順序構造という。
 
-  \begin{screen}
-    \begin{prop}
-      $a, b, c \in \Z$のとき、$a c = b c$かつ$c \neq 0$ならば$a = b$である
-    \end{prop}
-  \end{screen}
-  \begin{proof}
-    まず$a c = b c$の両辺に$b c$の加法逆元$-bc$を加える。
-    すると
-    \begin{equation} \begin{aligned}
-                          a c - b c &= b c - b c \\
-      \rightleftharpoons  a c - b c &= 0
-    \end{aligned} \end{equation}
-    となり、分配法則から
-    \begin{equation} \begin{aligned}
-      a c - b c &= (a - b) c
-    \end{aligned} \end{equation}
-    であるため
-    \begin{equation} \begin{aligned}
-                          a c - b c &= 0 \\
-      \rightleftharpoons  (a - b) c &= 0  \label{eq:aster-1}
-    \end{aligned} \end{equation}
-    となる。
-    \cref{eq:aster-1}より$a - b = 0$もしくは$c = 0$のどちらか一方が成立する。
-    しかし、仮定より$c \neq 0$であるため
-    \begin{equation}
-      a - b = 0
-    \end{equation}
-    が成立する。
-    両辺に$b$を加えると
-    \begin{equation} \begin{aligned}
-                          a - b + b &= 0 + b \\
-      \rightleftharpoons  a + b - b &= b \\
-      \rightleftharpoons  a + 0 &= b \\
-      \rightleftharpoons  a &= b
-    \end{aligned} \end{equation}
-    となり、示された。
-  \end{proof}
-
-  \begin{screen}
-    \begin{prop}
-      $a \in \Z$のとき$0 \cdot a = 0$である。
-    \end{prop}
+    \begin{screen}
+      \begin{prop}
+        $a, b, c \in \Z$のとき、$a c = b c$かつ$c \neq 0$ならば$a = b$である
+      \end{prop}
+    \end{screen}
     \begin{proof}
-      零元の性質から$0 = 0 + 0$であるため
+      まず$a c = b c$の両辺に$b c$の加法逆元$-bc$を加える。
+      すると
       \begin{equation} \begin{aligned}
-        0 \cdot a = (0 + 0) \cdot a
+                            a c - b c &= b c - b c \\
+        \rightleftharpoons  a c - b c &= 0
       \end{aligned} \end{equation}
-      であり、分配法則より
+      となり、分配法則から
       \begin{equation} \begin{aligned}
-        0 \cdot a &= (0 + 0) \cdot a \\
-                  &= 0 \cdot a + 0 \cdot a
+        a c - b c &= (a - b) c
+      \end{aligned} \end{equation}
+      であるため
+      \begin{equation} \begin{aligned}
+                            a c - b c &= 0 \\
+        \rightleftharpoons  (a - b) c &= 0  \label{eq:aster-1}
       \end{aligned} \end{equation}
       となる。
-      ここで両辺に$0 \cdot a$の加法逆元$-(0 \cdot a)$を加えると、
+      \cref{eq:aster-1}より$a - b = 0$もしくは$c = 0$のどちらか一方が成立する。
+      しかし、仮定より$c \neq 0$であるため
+      \begin{equation}
+        a - b = 0
+      \end{equation}
+      が成立する。
+      両辺に$b$を加えると
       \begin{equation} \begin{aligned}
-        0 \cdot a               &= 0 \cdot a + 0 \cdot a \\
-        0 \cdot a - (0 \cdot a) &= 0 \cdot a + 0 \cdot a  - (0 \cdot a) \\
-        0                       &= 0 \cdot a + 0
+                            a - b + b &= 0 + b \\
+        \rightleftharpoons  a + b - b &= b \\
+        \rightleftharpoons  a + 0 &= b \\
+        \rightleftharpoons  a &= b
       \end{aligned} \end{equation}
-      となり示された。
+      となり、示された。
     \end{proof}
-  \end{screen}
 
-  このように様々な命題は代数的構造の定義から証明できる。
-  しかし、手間がかかるため以降簡単なものは認めて議論を行う。
+    \begin{screen}
+      \begin{prop}
+        $a \in \Z$のとき$0 \cdot a = 0$である。
+      \end{prop}
+      \begin{proof}
+        零元の性質から$0 = 0 + 0$であるため
+        \begin{equation} \begin{aligned}
+          0 \cdot a = (0 + 0) \cdot a
+        \end{aligned} \end{equation}
+        であり、分配法則より
+        \begin{equation} \begin{aligned}
+          0 \cdot a &= (0 + 0) \cdot a \\
+                    &= 0 \cdot a + 0 \cdot a
+        \end{aligned} \end{equation}
+        となる。
+        ここで両辺に$0 \cdot a$の加法逆元$-(0 \cdot a)$を加えると、
+        \begin{equation} \begin{aligned}
+          0 \cdot a               &= 0 \cdot a + 0 \cdot a \\
+          0 \cdot a - (0 \cdot a) &= 0 \cdot a + 0 \cdot a  - (0 \cdot a) \\
+          0                       &= 0 \cdot a + 0
+        \end{aligned} \end{equation}
+        となり示された。
+      \end{proof}
+    \end{screen}
 
-  \begin{screen}
-    \begin{thm}
-      \label{thm:division-theorem}
-      除法の定理\\
-      $a \in \Z, a \geq 0, b \in \N$とする。
-      このとき次を満たす$q, r \in \Z$の組が唯一つ定まる。
+    このように様々な命題は代数的構造の定義から証明できる。
+    しかし、手間がかかるため以降簡単なものは認めて議論を行う。
+
+    \begin{screen}
+      \begin{thm}
+        \label{thm:division-theorem}
+        除法の定理\\
+        $a \in \Z, a \geq 0, b \in \N$とする。
+        このとき次を満たす$q, r \in \Z$の組が唯一つ定まる。
+        \begin{equation}
+          a = b \cdot q + r \quad (a \leq r < b)
+        \end{equation}
+        このとき$q$のことを$a$を$b$で割った商、$r$のことを剰余と言う。
+
+        この定理は整数をグループ分けしているとも言える。
+      \end{thm}
+    \end{screen}
+
+    この定理は$(q, r) \in \Z^2$存在性と一意性の2つを主張している。
+    除法の定理の証明には数学的帰納法を用いる。
+
+    \begin{screen}
+      自然数の性質(数学的帰納法の原理)
+      \begin{description}
+        \item[第1形式] $S \subset \N$のとき、$1 \in S$であり任意の$a \in S$に対して$a \in S \Rightarrow a + 1 \in S$が成立するならば$S = \N$である
+        \item[第2形式] $S \subset \N$のとき、$1 \in S$でありある$a \in S$に対して$1, 2, \cdots, a \in S \Rightarrow a + 1 \in S$が成立するならば$S = \N$である
+      \end{description}
+    \end{screen}
+
+    この自然数の性質を用いて数学的帰納法の正当性を示す。
+
+    \begin{screen}
+      \begin{thm}
+        \label{thm:mathematical-induction}
+        各自然数ごとの命題$P(n)$について
+        \begin{enumerate}
+          \item $P(1)$が真である \label{en:re-1}
+          \item ある$a \in \N$に対して、$P(a)$が真ならば$P(a + 1)$も真である \label{en:re-2}
+        \end{enumerate}
+        の双方が真であるならば、任意の$m \in \N$に対して$P(m)$が真である。
+      \end{thm}
+      \begin{proof}
+        $S := \Set{ n \in \N | P(n) }$とし、\cref{en:re-1}, \cref{en:re-2}ともに成立するとする。
+        ここで\cref{en:re-1}から$1 \in S$であり、\cref{en:re-2}から任意の$a \in \N$に対して$a \in S$ならば$a + 1 \in S$である。
+        したがって自然数の性質より
+        \begin{equation}
+          S = \N \text{であり}
+        \end{equation}
+        $S$の定義から任意の$n \in S$に対して$P(n)$が真となるため、任意の$n \in \N$に対しても$P(n)$が真となる。
+      \end{proof}
+    \end{screen}
+
+    \cref{thm:division-theorem}を数学的帰納法を用いて証明する。
+    \begin{proof}
+      まず存在証明を行う。
+      \begin{enumerate}
+        \item $0 \leq a < b$のとき$ = 0, r = a$とすれば
+          \begin{equation}
+           a = b \cdot q + r \rightleftharpoons a = r
+          \end{equation}
+          となり、存在することが示された。
+        \item $a \geq b$とし、$0 \leq k \leq a - 1$に対して$q, r$が存在すると仮定する。
+              このとき$a \geq b, b > 0$であることから
+              \begin{equation}
+                0 \leq a - b \leq a - 1
+              \end{equation}
+              が成立する。
+              よって仮定より
+              \begin{equation}
+                a - b = b \cdot q' + r'
+              \end{equation}
+              を満たす$q', r'$が存在する。
+              この式を変形すると
+              \begin{equation} \begin{aligned}
+                a - b = b \cdot q' + r' \\
+                \rightleftharpoons a = b \cdot q' + b + r' \\
+                \rightleftharpoons a = b \cdot (q' + 1) + r'
+              \end{aligned} \end{equation}
+              となり、$q = q' + 1, r = r'$としたときに
+              \begin{equation}
+                a  = b \cdot q + r
+              \end{equation}
+              が成立する。
+              このとき$q, r$ともに自然数であるため、存在することが示された。
+      \end{enumerate}
+      以上より、\cref{thm:mathematical-induction}から任意の$a \in \Set{ x \in \Z | 0 \leq x }, b \in \N$に対して
       \begin{equation}
         a = b \cdot q + r \quad (a \leq r < b)
       \end{equation}
-      このとき$q$のことを$a$を$b$で割った商、$r$のことを剰余と言う。
+      を満たす$q, r$が存在する。
 
-      この定理は整数をグループ分けしているとも言える。
-    \end{thm}
-  \end{screen}
-
-  この定理は$(q, r) \in \Z^2$存在性と一意性の2つを主張している。
-  除法の定理の証明には数学的帰納法を用いる。
-
-  \begin{screen}
-    自然数の性質(数学的帰納法の原理)
-    \begin{description}
-      \item[第1形式] $S \subset \N$のとき、$1 \in S$であり任意の$a \in S$に対して$a \in S \Rightarrow a + 1 \in S$が成立するならば$S = \N$である
-      \item[第2形式] $S \subset \N$のとき、$1 \in S$でありある$a \in S$に対して$1, 2, \cdots, a \in S \Rightarrow a + 1 \in S$が成立するならば$S = \N$である
-    \end{description}
-  \end{screen}
-
-  この自然数の性質を用いて数学的帰納法の正当性を示す。
-
-  \begin{screen}
-    \begin{thm}
-      \label{thm:mathematical-induction}
-      各自然数ごとの命題$P(n)$について
-      \begin{enumerate}
-        \item $P(1)$が真である \label{en:re-1}
-        \item ある$a \in \N$に対して、$P(a)$が真ならば$P(a + 1)$も真である \label{en:re-2}
-      \end{enumerate}
-      の双方が真であるならば、任意の$m \in \N$に対して$P(m)$が真である。
-    \end{thm}
-    \begin{proof}
-      $S := \Set{ n \in \N | P(n) }$とし、\cref{en:re-1}, \cref{en:re-2}ともに成立するとする。
-      ここで\cref{en:re-1}から$1 \in S$であり、\cref{en:re-2}から任意の$a \in \N$に対して$a \in S$ならば$a + 1 \in S$である。
-      したがって自然数の性質より
+      次に$q, r$の一意性を示す。
+      ある$a, q_1, q_2 \in \Set{ x \in \Z | 0 \leq x }, b \in \N, r_1, r_2 \in \Set{ x \in \Z | 0 \leq x < b }$に対して
+      \begin{equation}\begin{gathered}
+        a = b \cdot q_1 + r_1, \quad a = b \cdot q_2 + r_2
+      \end{gathered}\end{equation}
+      が成立するとする。
+      ここで$q_1 \geq q_2 + 1$とすると
+      \begin{equation} \begin{aligned}
+        b \cdot q_1 + r_1 \geq b \cdot q_1 \geq b \cdot (q_2 + 1) \\
+        \rightleftharpoons b \cdot q_1 + r_1 \geq b \cdot q_1 \geq b \cdot q_2 + b \\
+        \rightleftharpoons b \cdot q_1 + r_1 \geq b \cdot q_2 + b
+      \end{aligned} \end{equation}
+      となり
       \begin{equation}
-        S = \N \text{であり}
+        b \cdot q_2 + b > b \cdot q_2 + r_2
       \end{equation}
-      $S$の定義から任意の$n \in S$に対して$P(n)$が真となるため、任意の$n \in \N$に対しても$P(n)$が真となる。
+      であるため
+      \begin{equation} \begin{aligned}
+        b \cdot q_1 + r_1 \geq b \cdot q_2 + b > b \cdot q_2 + r_2 \\
+        \rightleftharpoons b \cdot q_1 + r_1 > b \cdot q_2 + r_2 \\
+      \end{aligned} \end{equation}
+      が成立する。
+      仮定より
+      \begin{equation} \begin{aligned}
+        b \cdot q_1 + r_1 > b \cdot q_2 + r_2 \rightleftharpoons a > a
+      \end{aligned} \end{equation}
+      であり矛盾するため$q_1 < q_2 + 1$である。
+      $q_1 + 1 > q_2$とすると
+      \begin{equation} \begin{aligned}
+        b \cdot q_1 + r_1 < b \cdot q_1 + b \\
+        \rightleftharpoons b \cdot q_1 + r_1 < b \cdot (q_1 + 1)
+      \end{aligned} \end{equation}
+      となり
+      \begin{equation}
+        b \cdot (q_1 + 1) \leq b \cdot q_2 \leq b \cdot q_2 + r_2
+      \end{equation}
+      であるため
+      \begin{equation} \begin{aligned}
+        b \cdot q_1 + r_1 < b \cdot (q_1 + 1) \leq b \cdot q_2 \leq b \cdot q_2 + r_2 \\
+        \rightleftharpoons b \cdot q_1 + r_1 <  b \cdot q_2 + r_2
+      \end{aligned} \end{equation}
+      が成立する。
+      仮定より
+      \begin{equation} \begin{aligned}
+        b \cdot q_1 + r_1 < b \cdot q_2 + r_2 \rightleftharpoons a < a
+      \end{aligned} \end{equation}
+      であり矛盾するため$q_1 + 1 > q_2$である。
+
+      以上より$q_1, q_2$に対して
+      \begin{equation}\begin{gathered}
+        q_1 < q_2 + 1, \quad q_1 + 1 > q_2
+      \end{gathered}\end{equation}
+      が成立しなければならないため$q_1 = q_2$となる。
+      さらに$r_1 = a - b \cdot q_1, r_2 = a - b \cdot q_2$なので$r_1 = r_2$となり一意性が示された。
+
+      よって\cref{thm:division-theorem}が正しいことが示された。
     \end{proof}
-  \end{screen}
 
-  \cref{thm:division-theorem}を数学的帰納法を用いて証明する。
-  \begin{proof}
-    まず存在証明を行う。
-    \begin{enumerate}
-      \item $0 \leq a < b$のとき$ = 0, r = a$とすれば
+    \begin{screen}
+      \begin{thm}
+        \label{thm:division-theorem-2}
+        除法の定理の拡張\\
+        $a \in \Z, a \geq 0, b \in \Z - \{0\}$とする。
+        このとき
         \begin{equation}
-         a = b \cdot q + r \rightleftharpoons a = r
+          a = b \cdot q + r \quad (a \leq r < |b|)
         \end{equation}
-        となり、存在することが示された。
-      \item $a \geq b$とし、$0 \leq k \leq a - 1$に対して$q, r$が存在すると仮定する。
-            このとき$a \geq b, b > 0$であることから
-            \begin{equation}
-              0 \leq a - b \leq a - 1
-            \end{equation}
-            が成立する。
-            よって仮定より
-            \begin{equation}
-              a - b = b \cdot q' + r'
-            \end{equation}
-            を満たす$q', r'$が存在する。
-            この式を変形すると
-            \begin{equation} \begin{aligned}
-              a - b = b \cdot q' + r' \\
-              \rightleftharpoons a = b \cdot q' + b + r' \\
-              \rightleftharpoons a = b \cdot (q' + 1) + r'
-            \end{aligned} \end{equation}
-            となり、$q = q' + 1, r = r'$としたときに
-            \begin{equation}
-              a  = b \cdot q + r
-            \end{equation}
-            が成立する。
-            このとき$q, r$ともに自然数であるため、存在することが示された。
-    \end{enumerate}
-    以上より、\cref{thm:mathematical-induction}から任意の$a \in \Set{ x \in \Z | 0 \leq x }, b \in \N$に対して
-    \begin{equation}
-      a = b \cdot q + r \quad (a \leq r < b)
-    \end{equation}
-    を満たす$q, r$が存在する。
+        を満たす$q, r \in \Z$の組が唯一つ定まる。
+      \end{thm}
+    \end{screen}
 
-    次に$q, r$の一意性を示す。
-    ある$a, q_1, q_2 \in \Set{ x \in \Z | 0 \leq x }, b \in \N, r_1, r_2 \in \Set{ x \in \Z | 0 \leq x < b }$に対して
-    \begin{equation}\begin{gathered}
-      a = b \cdot q_1 + r_1, \quad a = b \cdot q_2 + r_2
-    \end{gathered}\end{equation}
-    が成立するとする。
-    ここで$q_1 \geq q_2 + 1$とすると
-    \begin{equation} \begin{aligned}
-      b \cdot q_1 + r_1 \geq b \cdot q_1 \geq b \cdot (q_2 + 1) \\
-      \rightleftharpoons b \cdot q_1 + r_1 \geq b \cdot q_1 \geq b \cdot q_2 + b \\
-      \rightleftharpoons b \cdot q_1 + r_1 \geq b \cdot q_2 + b
-    \end{aligned} \end{equation}
-    となり
-    \begin{equation}
-      b \cdot q_2 + b > b \cdot q_2 + r_2
-    \end{equation}
-    であるため
-    \begin{equation} \begin{aligned}
-      b \cdot q_1 + r_1 \geq b \cdot q_2 + b > b \cdot q_2 + r_2 \\
-      \rightleftharpoons b \cdot q_1 + r_1 > b \cdot q_2 + r_2 \\
-    \end{aligned} \end{equation}
-    が成立する。
-    仮定より
-    \begin{equation} \begin{aligned}
-      b \cdot q_1 + r_1 > b \cdot q_2 + r_2 \rightleftharpoons a > a
-    \end{aligned} \end{equation}
-    であり矛盾するため$q_1 < q_2 + 1$である。
-    $q_1 + 1 > q_2$とすると
-    \begin{equation} \begin{aligned}
-      b \cdot q_1 + r_1 < b \cdot q_1 + b \\
-      \rightleftharpoons b \cdot q_1 + r_1 < b \cdot (q_1 + 1)
-    \end{aligned} \end{equation}
-    となり
-    \begin{equation}
-      b \cdot (q_1 + 1) \leq b \cdot q_2 \leq b \cdot q_2 + r_2
-    \end{equation}
-    であるため
-    \begin{equation} \begin{aligned}
-      b \cdot q_1 + r_1 < b \cdot (q_1 + 1) \leq b \cdot q_2 \leq b \cdot q_2 + r_2 \\
-      \rightleftharpoons b \cdot q_1 + r_1 <  b \cdot q_2 + r_2
-    \end{aligned} \end{equation}
-    が成立する。
-    仮定より
-    \begin{equation} \begin{aligned}
-      b \cdot q_1 + r_1 < b \cdot q_2 + r_2 \rightleftharpoons a < a
-    \end{aligned} \end{equation}
-    であり矛盾するため$q_1 + 1 > q_2$である。
+    \cref{thm:division-theorem-2}を示す。
+    \begin{proof}
+      $b$が$0$より大きい場合については\cref{thm:division-theorem}によって示されているため、$b < 0$の場合について示せばよい。
 
-    以上より$q_1, q_2$に対して
-    \begin{equation}\begin{gathered}
-      q_1 < q_2 + 1, \quad q_1 + 1 > q_2
-    \end{gathered}\end{equation}
-    が成立しなければならないため$q_1 = q_2$となる。
-    さらに$r_1 = a - b \cdot q_1, r_2 = a - b \cdot q_2$なので$r_1 = r_2$となり一意性が示された。
+      $b < 0$の場合も\cref{thm:division-theorem}と同様に数学的帰納法によって示すことができる。%TODO
+    \end{proof}
 
-    よって\cref{thm:division-theorem}が正しいことが示された。
-  \end{proof}
+  \subsection{約数}
+    \begin{screen} \begin{dfn}
+      $a, b \in \Z$とする。
+      このとき
+      \begin{equation}
+        \text{$a$は$b$で割り切れる} :\Leftrightarrow \exists q \in Z s.t. a = bq
+      \end{equation}
+      と定義する。
+      そして$a$が$b$で割り切れることを$b \mid a$と書く。
+    \end{dfn} \end{screen}
+    \begin{screen} \begin{prop}
+      $a, b, c \in \Z$としたとき以下の3つが成立する。
+      \begin{enumerate}
+        \item $b \mid a \land b \mid c$ならば$b \mid (a + c)$
+        \item $b \mid a$ならば$\forall x \in \Z s.t. b \mid ax$
+        \item $c \mid b \land b \mid a$ならば$c \mid a$
+      \end{enumerate}
+    \end{prop} \end{screen}
 
-  % ここまでで ノート p.12
+
+
+    % ここまでで ノート p.14 (such thatの書きかた)
+
 
 
 \end{document}

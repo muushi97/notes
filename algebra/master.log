@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.14159265-p3.8.2-u1.24-190131-2.6 (utf8.uptex) (TeX Live 2019/Arch Linux) (preloaded format=uplatex 2019.9.11)  27 FEB 2020 23:10
+This is e-upTeX, Version 3.14159265-p3.8.2-u1.24-190131-2.6 (utf8.uptex) (TeX Live 2019/Arch Linux) (preloaded format=uplatex 2019.9.11)  3 MAR 2020 22:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1456,64 +1456,71 @@ File: t1qhv.fd 2009/09/25 v1.2 font definition file for T1/qhv
 )
 LaTeX Font Info:    Font shape `T1/qhv/m/n' will be
 (Font)              scaled to size 12.9599pt on input line 21.
+LaTeX Font Info:    Font shape `JT2/hgt/m/n' will be
+(Font)              scaled to size 11.09619pt on input line 22.
+LaTeX Font Info:    Font shape `JY2/hgt/m/n' will be
+(Font)              scaled to size 11.09619pt on input line 22.
+LaTeX Font Info:    Font shape `T1/qhv/m/n' will be
+(Font)              scaled to size 10.79993pt on input line 22.
 LaTeX Font Info:    Try loading font information for TS1+ntxtlf on input line 2
-5.
+6.
 
 (/usr/share/texmf-dist/tex/latex/newtx/ts1ntxtlf.fd
 File: ts1ntxtlf.fd 2015/01/18 v1.0 fd file for TS1/ntxtlf
 )
 LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
-(Font)              scaled to size 10.0pt on input line 25.
+(Font)              scaled to size 10.0pt on input line 26.
 LaTeX Font Info:    Font shape `JT2/hmc/bx/n' in size <10> not available
-(Font)              Font shape `JT2/hgt/m/n' tried instead on input line 53.
+(Font)              Font shape `JT2/hgt/m/n' tried instead on input line 54.
 LaTeX Font Info:    Font shape `JT2/hgt/m/n' will be
-(Font)              scaled to size 9.24683pt on input line 53.
+(Font)              scaled to size 9.24683pt on input line 54.
 LaTeX Font Info:    Font shape `JY2/hmc/bx/n' in size <10> not available
-(Font)              Font shape `JY2/hgt/m/n' tried instead on input line 53.
+(Font)              Font shape `JY2/hgt/m/n' tried instead on input line 54.
 LaTeX Font Info:    Font shape `JY2/hgt/m/n' will be
-(Font)              scaled to size 9.24683pt on input line 53.
+(Font)              scaled to size 9.24683pt on input line 54.
 LaTeX Font Info:    Font shape `T1/ntxtlf/bx/n' in size <10> not available
-(Font)              Font shape `T1/ntxtlf/b/n' tried instead on input line 53.
+(Font)              Font shape `T1/ntxtlf/b/n' tried instead on input line 54.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 10.0pt on input line 53.
+(Font)              scaled to size 10.0pt on input line 54.
  [1
 
 ]
 LaTeX Font Info:    Font shape `T1/qhv/m/n' will be
-(Font)              scaled to size 8.99994pt on input line 65.
+(Font)              scaled to size 8.99994pt on input line 66.
  [2]
 LaTeX Font Info:    Font shape `JT2/hmc/m/n' will be
-(Font)              scaled to size 6.75018pt on input line 172.
+(Font)              scaled to size 6.75018pt on input line 173.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 7.3pt on input line 172.
+(Font)              scaled to size 7.3pt on input line 173.
 LaTeX Font Info:    Font shape `JT2/hmc/m/n' will be
-(Font)              scaled to size 5.08575pt on input line 172.
+(Font)              scaled to size 5.08575pt on input line 173.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 5.5pt on input line 172.
+(Font)              scaled to size 5.5pt on input line 173.
  [3] [4]
-Overfull \hbox (8.59564pt too wide) in paragraph at lines 217--219
+Overfull \hbox (8.59564pt too wide) in paragraph at lines 218--220
 []\JY2/hmc/m/n/10 次に $\OML/ntxmi/m/it/10 q; r$ \JY2/hmc/m/n/10 の一意性
 を示す 。 ある $\OML/ntxmi/m/it/10 a; q[]; q[] \LMS/ntxsy/m/n/10 2 [] \OM
 L/ntxmi/m/it/10 ; b \LMS/ntxsy/m/n/10 2 \U/ntxsym/m/n/10 N\OML/ntxmi/m/it/10 ; 
 r[]; r[] \LMS/ntxsy/m/n/10 2 []$
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 278.
 [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 278.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 321.
+ [6]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 321.
  (./master.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 278.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 278.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 321.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 321.
 Package rerunfilecheck Info: File `master.out' has not changed.
-(rerunfilecheck)             Checksum: AE8BDDFABFA5C95EA2F60F50B98665B9;106.
+(rerunfilecheck)             Checksum: 587068D678C4ADEBD49366B0E3354F91;221.
  ) 
 Here is how much of TeX's memory you used:
- 30205 strings out of 493219
- 536476 string characters out of 6149338
+ 30286 strings out of 493219
+ 538051 string characters out of 6149338
  815355 words of memory out of 5000000
- 33801 multiletter control sequences out of 15000+600000
- 647505 words of font info for 173 fonts, out of 8000000 for 9000
+ 33881 multiletter control sequences out of 15000+600000
+ 705944 words of font info for 244 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
  63i,9n,122p,959b,992s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on master.dvi (5 pages, 21648 bytes).
+Output written on master.dvi (6 pages, 25584 bytes).
