@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.14159265-p3.8.2-u1.24-190131-2.6 (utf8.uptex) (TeX Live 2019/Arch Linux) (preloaded format=uplatex 2019.9.11)  12 MAR 2020 21:22
+This is e-upTeX, Version 3.14159265-p3.8.2-u1.24-190131-2.6 (utf8.uptex) (TeX Live 2019/Arch Linux) (preloaded format=uplatex 2019.9.11)  22 MAR 2020 22:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -48,8 +48,8 @@ LaTeX Info: Redefining \LaTeX on input line 147.
 LaTeX Info: Redefining \LaTeXe on input line 200.
 )
 \heisei=\count91
-) (./preembles/all.tex
-(./preembles/packages.tex (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
+) (./preambles/all.tex
+(./preambles/packages.tex (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 
 (/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -1199,7 +1199,7 @@ Package: siunitx 2018/05/17 v2.7s A comprehensive (SI) units package
 (/usr/share/texmf-dist/tex/latex/translator/translator.sty
 Package: translator 2018/01/04 v1.12 Easy translation of strings in LaTeX
 )))
-(./preembles/setting/listing.tex
+(./preambles/setting/listing.tex
 (/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2019/02/27 1.8b listings language file
 )
@@ -1236,7 +1236,7 @@ File: lstlang3.sty 2019/02/27 1.8b listings language file
 (/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2019/02/27 1.8b (Carsten Heinz)
 ))
-(./preembles/setting/math.tex) (./preembles/macros/macro.tex
+(./preambles/setting/math.tex) (./preambles/macros/macro.tex
 \c@dfn=\count337
 \c@thm=\count338
 \c@lem=\count339
@@ -1462,38 +1462,38 @@ LaTeX Font Info:    Font shape `JY2/hgt/m/n' will be
 (Font)              scaled to size 11.09619pt on input line 22.
 LaTeX Font Info:    Font shape `T1/qhv/m/n' will be
 (Font)              scaled to size 10.79993pt on input line 22.
-LaTeX Font Info:    Try loading font information for TS1+ntxtlf on input line 3
-1.
+LaTeX Font Info:    Try loading font information for TS1+ntxtlf on input line 2
+9.
 
 (/usr/share/texmf-dist/tex/latex/newtx/ts1ntxtlf.fd
 File: ts1ntxtlf.fd 2015/01/18 v1.0 fd file for TS1/ntxtlf
 )
 LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
-(Font)              scaled to size 10.0pt on input line 31.
+(Font)              scaled to size 10.0pt on input line 29.
 LaTeX Font Info:    Font shape `JT2/hgt/m/n' will be
-(Font)              scaled to size 9.24683pt on input line 45.
+(Font)              scaled to size 9.24683pt on input line 35.
 LaTeX Font Info:    Font shape `JY2/hgt/m/n' will be
-(Font)              scaled to size 9.24683pt on input line 45.
+(Font)              scaled to size 9.24683pt on input line 35.
 LaTeX Font Info:    Font shape `T1/qhv/m/n' will be
-(Font)              scaled to size 8.99994pt on input line 45.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 52.
+(Font)              scaled to size 8.99994pt on input line 35.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 38.
  [1
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 52.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 38.
  (./master.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 52.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 52.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 38.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 38.
 Package rerunfilecheck Info: File `master.out' has not changed.
 (rerunfilecheck)             Checksum: 1512B091A64535241A85CF4E79831155;166.
  ) 
 Here is how much of TeX's memory you used:
  30185 strings out of 493219
  536063 string characters out of 6149338
- 810355 words of memory out of 5000000
+ 809355 words of memory out of 5000000
  33782 multiletter control sequences out of 15000+600000
  642156 words of font info for 171 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
  63i,9n,122p,959b,992s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on master.dvi (1 page, 3696 bytes).
+Output written on master.dvi (1 page, 3560 bytes).

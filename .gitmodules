@@ -1,0 +1,18 @@
+[submodule "algebra/.template"]
+	path = algebra/.template
+	url = https://github.com/muushi97/tex-project-template
+[submodule "bookkeeping/.template"]
+	path = bookkeeping/.template
+	url = https://github.com/muushi97/tex-project-template
+[submodule "chinese-remainder-theorem/.template"]
+	path = chinese-remainder-theorem/.template
+	url = https://github.com/muushi97/tex-project-template
+[submodule "perelman-sequence/.template"]
+	path = perelman-sequence/.template
+	url = https://github.com/muushi97/tex-project-template
+[submodule "reed-solomon-coding/.template"]
+	path = reed-solomon-coding/.template
+	url = https://github.com/muushi97/tex-project-template
+[submodule "russell-s-paradox/.template"]
+	path = russell-s-paradox/.template
+	url = https://github.com/muushi97/tex-project-template

@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.14159265-p3.8.2-u1.24-190131-2.6 (utf8.uptex) (TeX Live 2019/Arch Linux) (preloaded format=uplatex 2019.9.11)  29 FEB 2020 23:42
+This is e-upTeX, Version 3.14159265-p3.8.2-u1.24-190131-2.6 (utf8.uptex) (TeX Live 2019/Arch Linux) (preloaded format=uplatex 2019.9.11)  22 MAR 2020 22:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -48,8 +48,8 @@ LaTeX Info: Redefining \LaTeX on input line 147.
 LaTeX Info: Redefining \LaTeXe on input line 200.
 )
 \heisei=\count91
-) (./preembles/all.tex
-(./preembles/packages.tex (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
+) (./preambles/all.tex
+(./preambles/packages.tex (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 
 (/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -1199,7 +1199,7 @@ Package: siunitx 2018/05/17 v2.7s A comprehensive (SI) units package
 (/usr/share/texmf-dist/tex/latex/translator/translator.sty
 Package: translator 2018/01/04 v1.12 Easy translation of strings in LaTeX
 )))
-(./preembles/setting/listing.tex
+(./preambles/setting/listing.tex
 (/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2019/02/27 1.8b listings language file
 )
@@ -1236,7 +1236,7 @@ File: lstlang3.sty 2019/02/27 1.8b listings language file
 (/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2019/02/27 1.8b (Carsten Heinz)
 ))
-(./preembles/setting/math.tex) (./preembles/macros/macro.tex
+(./preambles/setting/math.tex) (./preambles/macros/macro.tex
 \c@dfn=\count337
 \c@thm=\count338
 \c@lem=\count339
