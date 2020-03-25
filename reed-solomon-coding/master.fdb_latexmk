@@ -1,10 +1,10 @@
 # Fdb version 3
-["dvipdf"] 1584882470 "master.dvi" "master.pdf" "master" 1584882470
-  "master.dvi" 1584882470 3560 a394adf64abee071437869b06bf27f20 "latex"
+["dvipdf"] 1584980428 "master.dvi" "master.pdf" "master" 1584980428
+  "master.dvi" 1584980428 14612 606d64ba7d9c26a878bc7fa9032cd0df "latex"
   (generated)
   "master.pdf"
-["latex"] 1584882469 "master.tex" "master.dvi" "master" 1584882470
-  "/dev/null" 1584367657 0 d41d8cd98f00b204e9800998ecf8427e ""
+["latex"] 1584980443 "master.tex" "master.dvi" "master" 1584980443
+  "/dev/null" 1584970368 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1557554374 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecrm1000.tfm" 1557554374 3584 adb004a0c8e7c46ee66cad73671f37b4 ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1557554374 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -54,7 +54,6 @@
   "/usr/share/texmf-dist/fonts/tfm/public/newtx/ntxsyc.tfm" 1557554766 1000 87e2e76aa7620cce3ce133af7d90e5a8 ""
   "/usr/share/texmf-dist/fonts/tfm/public/newtx/ntxsym.tfm" 1557554766 1560 ae8ac5319fdb36e33db9257944d6b1c1 ""
   "/usr/share/texmf-dist/fonts/tfm/public/tex-gyre/ec-qhvr.tfm" 1557554374 12084 374c5b7e91efcc10472ab8e61f66d36b ""
-  "/usr/share/texmf-dist/fonts/tfm/public/tex-gyre/ts1-qtmr.tfm" 1557554374 1600 20cdf11dab97d5d39e847571f9314407 ""
   "/usr/share/texmf-dist/fonts/tfm/uptex-fonts/jis/upjisr-h.tfm" 1557556234 812 52bd92aa20c58a398601cda6dd62c8d1 ""
   "/usr/share/texmf-dist/fonts/tfm/uptex-fonts/jis/upjisr-v.tfm" 1557556234 536 5f2475e9deb198c23894800d3c5eed00 ""
   "/usr/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1557554374 1458 43ab4710dc82f3edeabecd0d099626b2 ""
@@ -142,7 +141,6 @@
   "/usr/share/texmf-dist/tex/latex/newtx/newtxtext.sty" 1557554766 8038 253ac07e6417d2c0abb163f601e66a42 ""
   "/usr/share/texmf-dist/tex/latex/newtx/omlntxmi.fd" 1557554766 1919 e9d8f2f584e8bea3fa98fd6a074cab36 ""
   "/usr/share/texmf-dist/tex/latex/newtx/t1ntxtlf.fd" 1557554766 1697 fff932dd00a7f82bda4dacfdf1c9646b ""
-  "/usr/share/texmf-dist/tex/latex/newtx/ts1ntxtlf.fd" 1557554766 1219 06811c362a6c86c10e17f80577d8ceee ""
   "/usr/share/texmf-dist/tex/latex/newtx/untxexa.fd" 1557554766 558 91031960917530f42e0f8fc4d1db1550 ""
   "/usr/share/texmf-dist/tex/latex/newtx/untxmia.fd" 1557554766 1962 569e6151bda20fc005384b662ebb2cb4 ""
   "/usr/share/texmf-dist/tex/latex/newtx/untxsyc.fd" 1557554766 558 e8967b9c8273bc0c05b993fe92a9b757 ""
@@ -174,16 +172,16 @@
   "/usr/share/texmf-dist/tex/platex/pxjahyper/pxjahyper.sty" 1557556234 31930 8cfcbda6f31d388ab1de8524f6efd674 ""
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1557554374 33301 a3134070eacafb10b1f371612ce2650d ""
   "/var/lib/texmf/web2c/euptex/uplatex.fmt" 1568196212 8175167 620b269f4647f1de44534244d85ceba4 ""
-  "master.aux" 1584882470 1010 cc8f586e720484f4b1bcab01bf986c64 "latex"
-  "master.out" 1584882470 166 1512b091a64535241a85cf4e79831155 "latex"
-  "master.tex" 1584882465 1027 e05e66e1cd6d96fc49068d1e389fc7a9 ""
+  "master.aux" 1584980428 1397 3e584da4fa62d05dad9306ae1baa919a "latex"
+  "master.out" 1584980428 391 4030f7b1e1ff5e6b758ceed051121b80 "latex"
+  "master.tex" 1584980442 6647 74f46813471fb52d042ba9a8f89c21bc ""
   "preambles/all.tex" 1584882354 740 9b13983cd0b647823ebd0910d3af10d6 ""
   "preambles/macros/macro.tex" 1584882354 1945 f6f462d247833dbcc96b42b87072999a ""
   "preambles/packages.tex" 1584882354 1819 d423765d258841e5591d3e2863bd2b5d ""
   "preambles/setting/listing.tex" 1584882354 1071 f1ec33c98dff8b7183dbeec0e44eab0d ""
   "preambles/setting/math.tex" 1584882354 410 9140db3263a3ca4eaba0008aa4b6aa71 ""
   (generated)
-  "master.out"
-  "master.aux"
-  "master.dvi"
   "master.log"
+  "master.aux"
+  "master.out"
+  "master.dvi"

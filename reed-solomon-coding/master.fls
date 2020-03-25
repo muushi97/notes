@@ -413,13 +413,6 @@ INPUT /usr/share/texmf-dist/fonts/tfm/public/tex-gyre/ec-qhvr.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/japanese-otf-uptex/upnmlgothr-v.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/japanese-otf-uptex/upnmlgothr-h.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/tex-gyre/ec-qhvr.tfm
-INPUT /usr/share/texmf-dist/tex/latex/newtx/ts1ntxtlf.fd
-INPUT /usr/share/texmf-dist/tex/latex/newtx/ts1ntxtlf.fd
-INPUT /usr/share/texmf-dist/fonts/tfm/public/tex-gyre/ts1-qtmr.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/japanese-otf-uptex/upnmlgothr-v.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/japanese-otf-uptex/upnmlgothr-h.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/tex-gyre/ec-qhvr.tfm
-OUTPUT master.dvi
-INPUT master.aux
-INPUT ./master.out
-INPUT ./master.out
