@@ -16,3 +16,6 @@
 [submodule "russell-s-paradox/.template"]
 	path = russell-s-paradox/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "neural-network/.template"]
+	path = neural-network/.template
+	url = https://github.com/muushi97/tex-project-template
