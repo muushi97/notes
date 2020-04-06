@@ -1,9 +1,9 @@
-This is e-upTeX, Version 3.14159265-p3.8.2-u1.24-190131-2.6 (utf8.uptex) (TeX Live 2019/Arch Linux) (preloaded format=uplatex 2019.9.11)  24 MAR 2020 01:20
+This is e-upTeX, Version 3.14159265-p3.8.2-u1.24-190131-2.6 (utf8.uptex) (TeX Live 2019/Arch Linux) (preloaded format=uplatex 2019.9.11)  6 APR 2020 15:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**master.tex
-(./master.tex
+**master.ltx
+(./master.ltx
 pLaTeX2e <2019-04-06u02> (based on LaTeX2e <2018-12-01>)
 (/usr/share/texmf-dist/tex/platex/jsclasses/jsarticle.cls
 Document Class: jsarticle 2019/04/06 jsclasses (okumura, texjporg)
@@ -1468,21 +1468,33 @@ LaTeX Font Info:    Font shape `JY2/hgt/m/n' will be
 (Font)              scaled to size 9.24683pt on input line 29.
 LaTeX Font Info:    Font shape `T1/qhv/m/n' will be
 (Font)              scaled to size 8.99994pt on input line 29.
+ [1
 
-Runaway argument?
-a]{equation} f(T) = a_0 + a_1 T^1 + \cdots + a_n T^n \end {equation} \ETC.
-! Paragraph ended before \[ was complete.
-<to be read again> 
-                   \par 
-l.37 
-      
+] [2]
+LaTeX Font Info:    Font shape `JT2/hmc/m/n' will be
+(Font)              scaled to size 6.75018pt on input line 140.
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
+(Font)              scaled to size 7.3pt on input line 140.
+LaTeX Font Info:    Font shape `JT2/hmc/m/n' will be
+(Font)              scaled to size 5.08575pt on input line 140.
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
+(Font)              scaled to size 5.5pt on input line 140.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 151.
+ [3]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 151.
+ (./master.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 151.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 151.
+Package rerunfilecheck Info: File `master.out' has not changed.
+(rerunfilecheck)             Checksum: 4030F7B1E1FF5E6B758CEED051121B80;391.
+ ) 
 Here is how much of TeX's memory you used:
- 30152 strings out of 493219
- 535492 string characters out of 6149338
- 808355 words of memory out of 5000000
- 33756 multiletter control sequences out of 15000+600000
- 641780 words of font info for 170 fonts, out of 8000000 for 9000
+ 30163 strings out of 493219
+ 535655 string characters out of 6149338
+ 811355 words of memory out of 5000000
+ 33764 multiletter control sequences out of 15000+600000
+ 647640 words of font info for 174 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
  63i,9n,122p,959b,992s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-No pages of output.
+Output written on master.dvi (3 pages, 14608 bytes).
