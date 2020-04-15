@@ -19,3 +19,6 @@
 [submodule "neural-network/.template"]
 	path = neural-network/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "gradient-descent/.template"]
+	path = gradient-descent/.template
+	url = https://github.com/muushi97/tex-project-template
