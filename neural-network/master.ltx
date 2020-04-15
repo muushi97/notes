@@ -21,7 +21,6 @@
 \newcommand{\descitem}[2]{\item[#1\namedlabel{#2}{#1}]}
 
 
-
 \title{ニューラルネットワーク (ISBN 4-254-11612-8) 自習ノート}
 \author{}
 \date{}
@@ -245,7 +244,7 @@
               複数の入力パターン$\vect{i}^I_p = (i^I_{p, 1}, i^I_{p, 2}, \cdots, i^I_{p, m}) \in \R^m \; (p = 1, 2, \cdots, P)$と、$p$番目の入力パターンと対応する教師信号$t^O_p \in \{0, 1\}$を用意する。
           \descitem{Step2}{dsc:variable definition in learning by error-correction}
               シナプス結合荷重$\vect{w}^{M, O} = \left( w^{M, O}_1, w^{M, O}_2, \cdots, w^{M, O}_{n+1} \right)$の初期値を乱数によって小さい値に設定する。そして、学習率$\eta \in (0, 1]$を与える。
-            % TODO: 上の 小さい値 is 何
+              % ここで初期値は誤り訂正法においてはなんでもいい
           \descitem{Step3}{dsc:loop's starting point in learning by error-correction}
               ある$p \in \{1, 2, \cdots, P\}$に対して、$p$個目の入力パターン$\vect{i}^I_p$に対する連合ユニットの出力値$o^M_{p, j} \; (j = 1, 2, \cdots, n)$を
               \begin{equation}
@@ -293,7 +292,12 @@
         したがって、単純パーセプトロンの学習は入力パターンを適切に識別可能な$n$次元超平面を求めることと同値となる。
         問題によってはどのような超平面を用いても正しく識別することができないものが存在し、逆に正しく識別することができる超平面が存在するとき線形分離可能という。
         \begin{dfn}[線形分離可能(linear separable)]
-          %TODO
+          $F^+, F^- \in \{0, 1\}^n \; (n \in \N)$としたとき任意の$\vect{o}^+ \in F^+, \vect{o}^- \in F^-$に対して
+          \begin{gather}
+            \vect{w} \cdot \vect{o}^+  >  0 \\
+            \vect{w} \cdot \vect{o}^- \le 0
+          \end{gather}
+          となる$\vect{w} \in \R^n$が存在することを$F^+$と$F^-$は線形分離可能であるという。
         \end{dfn}
         パーセプトロンでは線形分離可能でない問題に対して適切な識別を行なうことはできない。
         したがってパーセプトロンが扱うのは線形分離可能な問題である。
