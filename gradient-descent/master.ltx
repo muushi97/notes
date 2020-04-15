@@ -5,6 +5,23 @@
 %------------------------------------------------------------------------
 \usepackage{./preambles/ownpack}
 
+% ベクトルコマンド
+\newcommand{\vect}[1]{\mathbf{#1}}
+% ノルムコマンド
+\newcommand{\norm}[1]{{\left\lVert#1\right\rVert}}
+% 転置
+\newcommand{\trans}[1]{{}^t\!#1}
+% 絶対値
+\newcommand{\abs}[1]{{\left\lvert#1\right\rvert}}
+
+% description の各アイテムへのラベル付け
+\makeatletter
+\def\namedlabel#1#2{\begingroup
+   \def\@currentlabel{#2}%
+   \label{#1}\endgroup
+}
+\makeatother
+\newcommand{\descitem}[2]{\item[#1\namedlabel{#2}{#1}]}
 
 \title{最急降下法(Gradient descent)}
 \author{}
@@ -18,6 +35,73 @@
 
   \maketitle
 
+  \begin{dfn}[最急降下法(Gradient descent)]
+    ある関数
+    \begin{equation}
+      f \colon \R^n \to \R \quad (n \in \N)
+    \end{equation}
+    が$\R^n$上で微分可能であるとする。
+    最急降下法はこの$f$の極小値(極大値)を探索するアルゴリズムである。
+  \end{dfn}
 
+  以下のような手順で実行される。
+  \begin{enumerate}
+    \item 探索における初期値$\vect{x}^0 \in \R^n$を定める
+    \item 学習に依存する正の実数によるパラメータ$\alpha$を定める
+    \item \label{start} $k$回目の解による$f(\vect{x}^k)$の勾配$\nabla f(\vect{x}^k)$が$\vect{0}$となれば終了する(実際にはある程度小さい値で終了する)
+    \item $k$回目の解$\vect{x}^k$から$k+1$回目の解を
+      \begin{equation}
+        \vect{x}^{k+1} = \vect{x}^k - \alpha \nabla f(\vect{x}^k) \label{eq:step}
+      \end{equation}
+      によって得る
+    \item \cref{start}へ戻る
+  \end{enumerate}
+
+  \begin{proof}[最急降下法の正当性]
+    対象とする関数を$f$とし、$k$回目の解を$\vect{x}^k$とする。
+    このとき、$f$を1次の項までテイラー展開すると
+    \begin{equation}
+      f(\vect{x} + \vect{d}) = f(\vect{x}) + (\vect{d} \cdot \nabla) f(\vect{x}) + o(\norm{\vect{d}}) \label{eq:taylor}
+    \end{equation}
+    となる。
+    ここで\cref{eq:taylor}を
+    \begin{align}
+      f(\vect{x} - \alpha \vect{d}) &= f(\vect{x}) - \alpha (\vect{d} \cdot \nabla) f(\vect{x}) + o(\norm{\alpha \vect{d}}) \\
+                                    &= f(\vect{x}) - \alpha \vect{d} \cdot \nabla f(\vect{x}) + \alpha^2 o(\norm{\vect{d}})
+    \end{align}
+    と書くと
+    \begin{equation}
+      f(\vect{x} - \alpha \vect{d}) - f(\vect{x}) = -\alpha \vect{d} \cdot \nabla f(\vect{x}) + \alpha^2 o(\norm{\vect{d}})
+    \end{equation}
+    が成立する。
+    この$f(\vect{x} - \alpha \vect{d}) - f(\vect{x})$が負であるためには
+    \begin{equation}
+      -\alpha \vect{d} \cdot \nabla f(\vect{x}) + \alpha^2 o(\norm{\vect{d}}) \le 0
+    \end{equation}
+    である必要がある。
+    ここで$\vect{d} \cdot \nabla f(\vect{x}) \ge 0$とすると
+    \begin{equation}
+      -\alpha \vect{d} \cdot \nabla f(\vect{x}) + \alpha^2 o(\norm{\vect{d}}) \le 0
+        \rightleftharpoons \alpha \vect{d} \cdot \nabla f(\vect{x}) \ge \alpha^2 o(\norm{\vect{d}})
+    \end{equation}
+    となる。
+    $b = o(\norm{\vect{d}})$としたとき
+    \begin{align}
+      \alpha \vect{d} \cdot \nabla f(\vect{x}) \ge \alpha^2 \abs{b} \\
+      \rightleftharpoons \vect{d} \cdot \nabla f(\vect{x}) \ge \alpha \abs{b} \\
+      \rightleftharpoons \alpha \le \frac{\vect{d} \cdot \nabla f(\vect{x})}{\abs{b}}
+    \end{align}
+    となるため、$\vect{d} \cdot \nabla f(\vect{x}) \ge 0$であるとき$f(\vect{x} - \alpha \vect{d}) - f(\vect{x}) \le 0$を成立させる$\alpha$は必ず存在する。
+
+    最急降下法では$\vect{d} = \nabla f(\vect{x})$であるため
+    \begin{align}
+      \vect{d} \cdot \nabla f(\vect{x}) &= \nabla f(\vect{x}) \cdot \nabla f(\vect{x}) \\
+      \vect{d} \cdot \nabla f(\vect{x}) &= \norm{\nabla f(\vect{x})}^2
+    \end{align}
+    となり$\vect{d} \cdot \nabla f(\vect{x}) = \norm{\nabla f(\vect{x})}^2 \ge 0$が成立する。
+    したがってある$\alpha$が存在し、$f(\vect{x} - \alpha \nabla f(\vect{x})) - f(\vect{x}) \le 0$が成立する。
+
+    よって適切な$\alpha$を定めれば繰り返し計算するごとに$f$の値は小さくなる。
+  \end{proof}
 \end{document}
 
