@@ -66,7 +66,7 @@
 
         神経細胞の細胞膜に存在するカリウムイオンチャネルは通常開いており、カリウムイオンが常に細胞内と体液内を行き来することができる。
         他に、電位依存性のナトリウムイオンチャネルや電位依存性のカリウムイオンチャネルが存在し、どちらも通常は閉じている。
-        % ナトリウムポンプは?
+        % TODO: ナトリウムポンプは?
         また細胞はDNAによってタンパク質を常に製造しており、タンパク質は負の電荷を帯びている。
         よって体液内のカリウムイオン(1荷の正イオン)が体液内と細胞内の電位差によって細胞内に入ってくる。
         しかし、一定数のカリウムイオンが細胞内に入ると濃度の差によりカリウムイオンは細胞内から体液内へと移動する。
@@ -95,11 +95,11 @@
         神経細胞を信号処理器と捉えると、軸索(もしくはシナプス)は出力、細胞膜や樹状突起は入力とみることができる。
         複数の他神経細胞から伝達物質を受取り膜電位がしきい値を越えると、発火しそれを他の神経細胞へ伝えるという過程は非線形なふるまいであり、これが脳の高性能な処理能力の所以であるとされる。
 
-        % 軸索はとことどころ絶縁体で覆われていて、これにより信号が早く伝わるらしい
+        % TODO: 軸索はとことどころ絶縁体で覆われていて、これにより信号が早く伝わるらしい
 
     \subsection{神経細胞のモデル}
     \subsection{シナプスの可塑性}
-    % ヘブの原理は実際に起こっている -> SNNの学習はこれを用いる
+    % TODO: ヘブの原理は実際に起こっている -> SNNの学習はこれを用いる
     \subsection{ニューラルネットワークの分類}
       \subsubsection{階層型ニューラルネットワーク}
       \subsubsection{相互結合型ニューラルネットワーク}
@@ -113,7 +113,6 @@
     また、小脳においてパーセプトロンと類似した機能を有する部分があると指摘されている。
     本章ではパーセプトロンはら発展した階層型ニューラルネットワークについて述べる。
     ニューラルネットワークによる応用のうちで最も多いのが、階層型ニューラルネットワークのバックプロパゲーションである。
-    %担当1始め
     \subsection{パーセプトロン}
       \subsubsection{単純パーセプトロン}
         パーセプトロンは3つの層からなる階層型ニューラルネットワークである。
@@ -244,7 +243,7 @@
               複数の入力パターン$\vect{i}^I_p = (i^I_{p, 1}, i^I_{p, 2}, \cdots, i^I_{p, m}) \in \R^m \; (p = 1, 2, \cdots, P)$と、$p$番目の入力パターンと対応する教師信号$t^O_p \in \{0, 1\}$を用意する。
           \descitem{Step2}{dsc:variable definition in learning by error-correction}
               シナプス結合荷重$\vect{w}^{M, O} = \left( w^{M, O}_1, w^{M, O}_2, \cdots, w^{M, O}_{n+1} \right)$の初期値を乱数によって小さい値に設定する。そして、学習率$\eta \in (0, 1]$を与える。
-              % ここで初期値は誤り訂正法においてはなんでもいい
+              % TODO: ここで初期値は誤り訂正法においてはなんでもいい
           \descitem{Step3}{dsc:loop's starting point in learning by error-correction}
               ある$p \in \{1, 2, \cdots, P\}$に対して、$p$個目の入力パターン$\vect{i}^I_p$に対する連合ユニットの出力値$o^M_{p, j} \; (j = 1, 2, \cdots, n)$を
               \begin{equation}
@@ -489,7 +488,6 @@
 
         また、パーセプトロンの学習則である誤り訂正法をデルタ則(delta rule)ということもある。
         %TODO: 根拠等が薄い
-    %担当1終り
 
     \subsection{バックプロパゲーション}
       \subsubsection{一般化デルタ則}
@@ -524,7 +522,7 @@
           E = \frac{1}{2} \sum_{p, j} \left( o_{p, j} - t_{p, k} \right) ^2 \label{eq:pbp:error function 1}
         \end{equation}
         と定める。
-        % E = \frac{1}{2} \sum_{p, j} \norm{\vect{O} - \vect{T}} ^2 と書いてあるけど\vect{O}と\vect{T}の意味がわからない
+        % TODO: E = \frac{1}{2} \sum_{p, j} \norm{\vect{O} - \vect{T}} ^2 と書いてあるけど\vect{O}と\vect{T}の意味がわからない -> まぁただ並べただけのやつでしょうね
         この誤差関数$E$の値が$0$となれば入力パターン全てを正しく識別できていることとなる。
         したがって、誤差関数$E$の値を小さくすることを学習ということができる。
 
@@ -695,35 +693,35 @@
         また、逐次修正法と一括修正法を合わせて、いくつかのパターン分の修正をまとめて行なうミニバッチ学習という方法も用いられる。
         厳密に逐次修正法は全パターンに対する誤差の極小値を得るわけではないが学習率$\eta$を小さくすることで全パターンに対する誤差の極小値を得ることができる。%TODO: 確率的勾配降下法
 
-      % 担当2始め
       \subsubsection{応用例}
         誤差逆伝搬法は広く応用に使われている。
         応用されている事例をいくつか示す。
         \begin{description}
           \descitem{英語の発音学習システム}{} \par
             a
+            % TODO:
             % 作ったヤツと時
             % ニューラルネットワークの構成
             % 特徴量
             % 出力
             % 正答率
         \end{description}
-        %TODO: ここまで p.40
 
       \subsubsection{ニューラルネットワークの構造とパラメータの与え方}
+        % TODO:
         % 学習データが少ない状態で次元を上げると学習データが高次空間上で疎に分布することになる
         % この状態で学習によって得られる境界は大く存在し、意味があまりない
         % この場所にしか引くことができない境界の方が意味がある
         % よって学習データを増やすことが大切であり、境界を引くことができるできるだけ小さい次元を選択することが重要となる
         % 学習が収束しないからと無闇矢鱈に層数やニューロン数を上げるのではなく、できるだけ小さくすむようにする方がよい
 
-        % 教師信号に0.1や0.9を使うのは、入出力関数がシグモイドやtanhのときだけやで
+        % TODO: 教師信号に0.1や0.9を使うのは、入出力関数がシグモイドやtanhのときだけやで
 
       \subsubsection{誤差逆伝搬法の改良}
+        % TODO:
         % 根本的な解決じゃない -> 大域的最小値が得られないという問題に対して、局所的最小値になりにくくするのはちがうじゃん？ってこと
         % 慣性項を使う場合 alpha = 0.9 等のことが多いが、学習率は0.1、場合によっては0.01等とすることがおおい
         % なんならetaを時間で変動させたりもする
-      % 担当2終り
 
   \section{相互結合型ニューラルネットワークの情報処理}
     \subsection{相互結合型ニューラルネットワークの形態}
@@ -795,7 +793,7 @@
           E = -\frac{1}{2} \sum_{i=1}^n \sum_{j=1}^n w_{i, j} x_i x_j + \sum_{i=1}^n \theta_i x_i \label{eq:binary hopfield energy}
         \end{equation}
         として定義される。
-        % イジングモデルのハミルトニアンと一緒?
+        % TODO: イジングモデルのハミルトニアンと一緒?
         \cref{eq:binary hopfield energy}の値は任意の状態から\cref{eq:binary hopfield model 1}と\cref{eq:binary hopfield model 2}に従って内部状態変化を繰り返すことで必ず平衡状態へと遷移する。
         \begin{proof}
           ホップフィールドモデルにおいて1度の内部状態変化では1つのニューロンの内部状態のみが変化する。
@@ -886,43 +884,157 @@
         で近似できることが示されている。
 
       \subsubsection{連続値ホップフィールドモデル}
+        本節では連続値ホップフィールドモデルについて考える。
+        連続値ホップフィールドモデルと2値ホップフィールドモデルとの違いは、出力値がとりうる値の区間が$[0, 1]$であることである。
+        また、出力値の変化に共なってニューロン$i$の内部状態$u_i(t)$の変化は微分方程式
+        \begin{gather}
+          \diff{u_i(t)}{t} = -\frac{u_i(t)}{\tau} + \sum_{j=1}^n w_{i, j} x_j(t) - \theta_i \label{eq:continuous hopfield model 1} \\
+          x_i(t) = f_i(u_i(t)) \label{eq:continuous hopfield model 2}
+        \end{gather}
+        で表わされる。
+        ここで$i = 1, 2, \cdots, n$であり、$f_i(u)$は非線形な連続単調増加関数である。
+        また、$\tau$はニューロンの内部状態における時定数である。 % TODO: 時定数ってなんじゃい
+
+        \cref{eq:continuous hopfield model 1}の第1項目は$u_i(t)$を指数関数的に減少させることで、$u_i(t)$の発散を抑制し平衡値へと近づける効果がある。
+        第1項を除けば\cref{eq:continuous hopfield model 1}は\cref{eq:binary hopfield model 1}と同等の式とみることができ、膜電位に対応する値が正であれば$u_i(t)$は時間的に増加させる、負であれば$u_i(t)$は時間的に減少させる、$0$であれば$u_i(t)$の変化に寄与しないという効果がある。
+        また
+        \begin{equation}
+          u_i(t) = \tau \left( \sum_{j=1}^n w_{i, j} x_j(t) - \theta_i \right)
+        \end{equation}
+        のとき\cref{eq:continuous hopfield model 1}は$0$となり平衡状態となり、$\tau = 1$のとすると2値ホップフィールドモデルの\cref{eq:binary hopfield model 2}と一致する。
+        % TODO: これマジ?
+
+        このネットワークに対してエネルギー関数は
+        \begin{equation}
+          E = -\frac{1}{2} \sum_{i=1}^n \sum_{j=1}^n w_{i, j} x_i x_j + \sum_{i=1}^n \theta_i x_i + \frac{1}{\tau} \sum_{i=1}^n \int_0^{x_i} f^{-1}_i (x) dx
+            \label{eq:continuous hopfield energy}
+        \end{equation}
+        と定義される。
+        ここで$f^{-1}_i(x)$は$f_i(x)$の逆関数である。
+        \cref{eq:continuous hopfield energy}は2値ホップフィールドモデルのエネルギー関数(\cref{eq:binary hopfield energy})に項を追加したものである。
+        これはエネルギー関数が時間$t$に対して単調減少関数であるために追加された項である。
+
+        2値ホップフィールドモデルと同様に時間変化によるエネルギーの変化を考える。
+        エネルギー関数(\cref{eq:continuous hopfield energy})を時間$t$によって微分すると\cref{eq:proof:hopfield aster 1}によって
+        \begin{align}
+          \diff{E}{t} &= \sum_{i=1}^n \diffp{E}{x_i} \diff{x_i}{t} \\
+                      &= \sum_{i=1}^n \left( -\sum_{j=1}^n w_{i, j} x_j + \theta_i - \frac{1}{\tau} f^{-1}_i(x_i) \right) \diff{x_i}{t} \\
+                      &= -\sum_{i=1}^n \left( \sum_{j=1}^n w_{i, j} x_j - \theta_i + \frac{1}{\tau} f^{-1}_i(x_i) \right) \diff{x_i}{t}
+        \end{align}
+        となり、$f^{-1}_i$が$f_i$の逆関数であることと\cref{eq:continuous hopfield model 1}と\cref{eq:continuous hopfield model 2}から
+        \begin{equation}
+          \diff{E}{t} = \sum_{i=1}^n \diff{u_i}{t} \diff{x_i}{t}
+        \end{equation}
+        となり、また
+        \begin{equation}
+          \diff{x_i}{t} = \diff{f_i}{u_i} \diff{u_i}{t}
+        \end{equation}
+        であるため
+        \begin{equation}
+          \diff{E}{t} = \sum_{i=1}^n \diff{f_i}{u_i} \left( \diff{u_i}{t} \right)^2
+        \end{equation}
+        が得られる。
+        よって$\diff{f_i}{u_i} > 0$であることから
+        \begin{equation}
+          \diff{E}{t} \le 0
+        \end{equation}
+        となり、エネルギー関数(\cref{eq:continuous hopfield energy})が時間に対して単調減少であることが示された。
+        エネルギー関数が単調減少であるため、連続値ホップフィールドモデルのエネルギーは時間$t \to \infty$によって極小値となる。
+        % TODO: 極小値になんでなるの? -\inftyになったりせんの? => 少し前に書いた平衡状態がどうのってとこに答えがある感じかな
+
+        ホップフィールドは単調増加関数としてシグモイド関数
+        \begin{equation}
+          f_i(u_i) = \frac{1}{1 + e^{-\frac{2u_i}{\mu_0}}}
+        \end{equation}
+        を用いており、ここで$\mu_0$は基準活性化レベル(reference activation level)と呼ばれる。
+
       \subsubsection{最適化問題への応用}
+        組み合わせ最適化問題(combinatorial optimization problem)は、目的関数を最小化する組み合わせを探す問題である。
+        ここで組み合わせ最適化問題の変数列をベクトル$\vect{x} \in \{0, 1\}^n$へ変換し、また目的関数と\cref{eq:binary hopfield energy}が一致するような$w_{i, j}$を求めることができれば、2値ホップフィールドモデルの平衡状態は組み合わせ最適化問題の目的関数の極小値と同等である。
+        よって2値ホップフィールドモデルは組み合わせ最適化問題を解きうるモデルであるといえる。
+        本節ではNP困難である組み合わせ最適化問題の中で代表的な問題であるTSPを解くことを考える。
+        % TODO: p62-p65
+
       \subsubsection{連続値ホップフィールドモデルの改良}
+        % TODO: p65-p66
+
     \subsection{ボルツマンマシン}
       % 担当3始め
       \subsubsection{ボルツマンマシンの動作}
-      % 担当3終り
+        % TODO: p66-p73
+
+      % TODO: 担当3終り
       \subsubsection{ボルツマンマシンの学習}
+        % TODO: p73-p78
+
       \subsubsection{ボルツマンマシンの特徴}
+        % TODO: p78-p79
 
   \section{競合学習型ニューラルネットワークの方法処理}
     \subsection{認識機構の自己形成}
+      % TODO: p80-p81
+
     \subsection{生体のトポロジカルマッピングのモデル}
+      % TODO: p81-p85
+
     \subsection{コホーネンのモデル}
+      % TODO: p85-p96
       \subsubsection{予備実験}
-      % 担当4始め
+        % TODO: p86-p88
+
+      % TODO: 担当4始め
       \subsubsection{特徴抽出細胞の形成}
+        % TODO: p88-p90
+
       \subsubsection{コホーネンの学習則}
+        % TODO: p90-p91
+
       \subsubsection{コホーネンの自己組織化特徴マップのアルゴリズムとシミュレーション}
+        % TODO: p91-p94
+
       \subsubsection{応用例}
-      % 担当4終り
+        % TODO: p91-p96
+
+      % TODO: 担当4終り
 
   % やらない
   % \section{ニューラルネットワークにおける競合と協調}
 
   \section{ニューラルネットワーク研究の意義}
+    % TODO: p130-p
     \subsection{特徴を生かす}
+      % TODO: p130-p143
       \subsubsection{研究の歴史}
+        % TODO: p131-p135
+
       \subsubsection{生物内のニューラルネットワークと人工ニューラルネットワーク}
+        % TODO: p135-p135
+
       \subsubsection{シナプスの可塑性と脳・神経系の可塑性}
+        % TODO: p136-p136
+
       \subsubsection{教師あり学習と教師なし学習}
+        % TODO: p136-p137
+
       \subsubsection{ニューロンコンピュータ}
+        % TODO: p137-p140
+
       \subsubsection{融合化技術}
+        % TODO: p140-p143
+
     \subsection{応用}
+      % TODO: p143-p146
       \subsubsection{応用されてきた分野}
+        % TODO: p143-p144
+
       \subsubsection{事例の完備性と適用有効範囲}
+        % TODO: p144-p144
+
       \subsubsection{ブラックボックスモデルの利用環境への適合性}
+        % TODO: p144-p145
+
     \subsection{脳科学への貢献}
+      % TODO: p145-p146
 
 \end{document}
 
