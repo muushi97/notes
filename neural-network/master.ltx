@@ -307,13 +307,12 @@
           %TODO
         \end{thm}
         \begin{proof}[\cref{thm:perceptron convergence theorem}の証明]
-          %TODO
           正しい識別を与えるシナプス結合荷重のうち任意の$\vect{o} \in F^+ \cup F^-$に対して
           \begin{equation}
-            \vect{o} \cdot \vect{w}* \neq \vect{0}
+            \vect{o} \cdot \vect{w}^* \neq \vect{0}
           \end{equation}
-          となる$\vect{w}* \in \R^{n+1}, \vect{w}* \neq \vect{0}$をひとつ選ぶ。
-          実数空間が連続であることから$\vect{w}*$は必ず存在する。
+          となる$\vect{w}^* \in \R^{n+1}, \vect{w}^* \neq \vect{0}$をひとつ選ぶ。
+          実数空間が連続であることから$\vect{w}^*$は必ず存在する。
 
           また、シナプス結合荷重の初期値を$\vect{w}_0$、$t$回修正を繰り返したシナプス結合荷重を$\vect{w}_t$とすると\cref{eq:learning by error-correction one-step}から、ある$\vect{o}^M \in \{0, 1\}^{n+1}$が存在して
           \begin{equation}
@@ -324,8 +323,8 @@
 
           \cref{eq:perceptron convergence theorem:aster}の両辺と$\vect{w}*$の内積をとり、変形すると
           \begin{align}
-            \vect{w}* \cdot \vect{w}_{t+1} &= \vect{w}* \cdot \left[ \vect{w}_t + \eta \left( t^O - o^O \right) \vect{o}^M \right] \\
-                                           &= \vect{w}* \cdot \vect{w}_t + \eta \left( t^O - o^O \right) \vect{w}* \cdot \vect{o}^M
+            \vect{w}^* \cdot \vect{w}_{t+1} &= \vect{w}^* \cdot \left[ \vect{w}_t + \eta \left( t^O - o^O \right) \vect{o}^M \right] \\
+                                            &= \vect{w}^* \cdot \vect{w}_t + \eta \left( t^O - o^O \right) \vect{w}^* \cdot \vect{o}^M
               \label{eq:perceptron convergence theorem:aster2}
           \end{align}
           となる。
@@ -343,31 +342,31 @@
               0, & \vect{w}* \cdot \vect{o}^M \le 0
             \end{cases}
           \end{equation}
-          であり、$\eta > 0$であることと$\vect{w}*$の定義から
+          であり、$\eta > 0$であることと$\vect{w}^*$の定義から
           \begin{equation}
-            \eta \left( t^O - o^O \right) \vect{w}* \cdot \vect{o}^M > 0
+            \eta \left( t^O - o^O \right) \vect{w}^* \cdot \vect{o}^M > 0
           \end{equation}
           が成立する。
           ここで$\delta$を
           \begin{equation}
-            \delta = \min_{\vect{o} \in F^+ \cup F^-} \vect{w}* \cdot \vect{o}^M
+            \delta = \min_{\vect{o} \in F^+ \cup F^-} \vect{w}^* \cdot \vect{o}^M
           \end{equation}
           とすると$\delta$は非ゼロな実数となり、任意の$\vect{o} \in F^+ \cup F^-$に対して
           \begin{equation}
-            \eta \left( t^O - o^O \right) \vect{w}* \cdot \vect{o}^M \ge \eta\delta
+            \eta \left( t^O - o^O \right) \vect{w}^* \cdot \vect{o}^M \ge \eta\delta
               \label{eq:perceptron convergence theorem:aster3}
           \end{equation}
           となる。
           そして\cref{eq:perceptron convergence theorem:aster2}と\cref{eq:perceptron convergence theorem:aster3}から、任意の$t \; (t = 1, 2, \cdots)$に対して
           \begin{align}
-            \vect{w}* \cdot \vect{w}_t + \eta \left( t^O - o^O \right) \vect{w}* \cdot \vect{o}^M \ge \vect{w}* \cdot \vect{w}_t + \eta\delta \\
-            \rightleftharpoons \vect{w}* \cdot \vect{w}_{t+1} \ge \vect{w}* \cdot \vect{w}_t + \eta\delta
+            \vect{w}^* \cdot \vect{w}_t + \eta \left( t^O - o^O \right) \vect{w}^* \cdot \vect{o}^M \ge \vect{w}^* \cdot \vect{w}_t + \eta\delta \\
+            \rightleftharpoons \vect{w}^* \cdot \vect{w}_{t+1} \ge \vect{w}^* \cdot \vect{w}_t + \eta\delta
               \label{eq:perceptron convergence theorem:aster4}
           \end{align}
           となる。
           したがって、初期値$\vect{w}_0$に$n$回修正を行なった$\vect{w}_n$に対して
           \begin{equation}
-            \vect{w}* \cdot \vect{w}_{n} \ge \vect{w}* \cdot \vect{w}_0 + n\eta\delta
+            \vect{w}^* \cdot \vect{w}_{n} \ge \vect{w}^* \cdot \vect{w}_0 + n\eta\delta
               \label{eq:perceptron convergence theorem:aster5}
           \end{equation}
           が成立する。
@@ -378,7 +377,7 @@
                                     &= \norm{\vect{w}_t}^2 + 2 \eta \left( t^O - o^O \right) \vect{w}_t \cdot \vect{o}^M + \eta^2 \left( t^O - o^O \right)^2 \norm{\vect{o}^M}^2
               \label{eq:perceptron convergence theorem:aster6}
           \end{align}
-          と表わすことができ、\cref{eq:perceptron convergence theorem:aster2}と同様に\cref{eq:perceptron convergence theorem:aster6}は修正が発生したときの式であるため$t^O \neq o^O$であり$\left( \vect{w}* \cdot \vect{o}^M \right) \left( \vect{w}_t \cdot \vect{o}^M \right) \le 0$である。
+          と表わすことができ、\cref{eq:perceptron convergence theorem:aster2}と同様に\cref{eq:perceptron convergence theorem:aster6}は修正が発生したときの式であるため$t^O \neq o^O$であり$\left( \vect{w}^* \cdot \vect{o}^M \right) \left( \vect{w}_t \cdot \vect{o}^M \right) \le 0$である。
           したがって\cref{eq:simple-perceptron's output}から
           \begin{equation}
             o^O   = \begin{cases}
@@ -421,36 +420,65 @@
           \end{equation}
           が成立する。
 
-          さらに$\vect{w}*$が非ゼロベクトルであることから、\cref{eq:perceptron convergence theorem:aster5}は$\vect{w}*$と$\vect{w}_n$のなす角を$\theta$とすると
+          さらに$\vect{w}^*$が非ゼロベクトルであることから、\cref{eq:perceptron convergence theorem:aster5}は$\vect{w}^*$と$\vect{w}_n$のなす角を$\theta$とすると
           \begin{align}
-            \vect{w}* \cdot \vect{w}_{n} \ge \vect{w}* \cdot \vect{w}_0 + n\eta\delta \\
-            \rightleftharpoons \norm{\vect{w}*} \norm{\vect{w}_n} \cos \theta \ge \vect{w}* \cdot \vect{w}_0 + n\eta\delta \\
-            \rightleftharpoons \norm{\vect{w}*} \norm{\vect{w}_n} \ge \vect{w}* \cdot \vect{w}_0 + n\eta\delta \\
-            \rightleftharpoons \norm{\vect{w}_n} \ge \frac{\vect{w}* \cdot \vect{w}_0 + n\eta\delta}{\norm{\vect{w}*}}
+            \vect{w}^* \cdot \vect{w}_{n} \ge \vect{w}^* \cdot \vect{w}_0 + n\eta\delta \\
+            \rightleftharpoons \norm{\vect{w}^*} \norm{\vect{w}_n} \cos \theta \ge \vect{w}^* \cdot \vect{w}_0 + n\eta\delta \\
+            \rightleftharpoons \norm{\vect{w}^*} \norm{\vect{w}_n} \ge \vect{w}^* \cdot \vect{w}_0 + n\eta\delta \\
+            \rightleftharpoons \norm{\vect{w}_n} \ge \frac{\vect{w}^* \cdot \vect{w}_0 + n\eta\delta}{\norm{\vect{w}^*}}
               \label{eq:perceptron convergence theorem:aster11}
           \end{align}
           と書きかえることができる。
 
           \cref{eq:perceptron convergence theorem:aster10}と\cref{eq:perceptron convergence theorem:aster11}から
           \begin{equation}
-            \frac{\left( \vect{w}* \cdot \vect{w}_0 + n\eta\delta \right)^2}{\norm{\vect{w}*}^2} \le \norm{\vect{w}_{n}}^2 \le \norm{\vect{w}_0}^2 + n \eta^2 M^2
-          \end{equation}
-          となり、シナプス結合荷重の初期値$\vect{w}_0$をゼロベクトルとすると
-          \begin{equation}
-            \frac{n^2\eta^2\delta^2}{\norm{\vect{w}*}^2} \le \norm{\vect{w}_{n}}^2 \le n \eta^2 M^2
+            \frac{\left( \vect{w}^* \cdot \vect{w}_0 + n\eta\delta \right)^2}{\norm{\vect{w}^*}^2} \le \norm{\vect{w}_{n}}^2 \le \norm{\vect{w}_0}^2 + n \eta^2 M^2
               \label{eq:perceptron convergence theorem:aster12}
           \end{equation}
           となる。
           ここで\cref{eq:perceptron convergence theorem:aster12}を見たす$\norm{\vect{w}_n}^2$が存在するためには
           \begin{align}
-            \frac{n^2\eta^2\delta^2}{\norm{\vect{w}*}^2} \le n \eta^2 M^2 \\
-            \rightleftharpoons n \le \frac{M^2 \norm{\vect{w}*}^2}{\delta^2}
+            \frac{\left( \vect{w}^* \cdot \vect{w}_0 + n\eta\delta \right)^2}{\norm{\vect{w}^*}^2} \le \norm{\vect{w}_0}^2 + n \eta^2 M^2
               \label{eq:perceptron convergence theorem:aster13}
           \end{align}
-          が成立している必要があり、\cref{eq:perceptron convergence theorem:aster13}の右辺は定数であるため修正回数$n$が一定以下であることを示している。
+          が成立している必要があり、\cref{eq:perceptron convergence theorem:aster13}を変形すると
+          \begin{align}
+            \left( \vect{w}^* \cdot \vect{w}_0 + n\eta\delta \right)^2 \le \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 + n \eta^2 M^2 \norm{\vect{w}^*}^2 \\
+            \rightleftharpoons
+              n^2 \eta^2 \delta^2 + n \left[ 2 \eta \delta \left( \vect{w}^* \cdot \vect{w}_0 \right) - \eta^2 M^2 \norm{\vect{w}^*}^2 \right] + \left( \vect{w}^* \cdot \vect{w}_0 \right)^2 - \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 \le 0
+                \label{eq:perceptron convergence theorem:aster14}
+          \end{align}
+          となる。
+          また、\cref{eq:perceptron convergence theorem:aster14}の左辺は下に凸な放物線であるため
+          \begin{equation}
+            n^2 \eta^2 \delta^2 + n \left[ 2 \eta \delta \left( \vect{w}^* \cdot \vect{w}_0 \right) - \eta^2 M^2 \norm{\vect{w}^*}^2 \right] + \left( \vect{w}^* \cdot \vect{w}_0 \right)^2 - \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 = 0
+                \label{eq:perceptron convergence theorem:aster15}
+          \end{equation}
+          の解を$n_-, n_+ \; (n_- \le n_+)$とすると\cref{eq:perceptron convergence theorem:aster14}が成立することと
+          \begin{equation}
+            n_- \le n \le n_+
+              \label{eq:perceptron convergence theorem:aster16}
+          \end{equation}
+          が成立することは同値である。
+
+          ここで\cref{eq:perceptron convergence theorem:aster15}の判別式$D$は
+          \begin{align}
+            D &= \left[ 2 \eta \delta \left( \vect{w}^* \cdot \vect{w}_0 \right) - \eta^2 M^2 \norm{\vect{w}^*}^2 \right]^2 - 4 \eta^2 \delta^2 \left[ \left( \vect{w}^* \cdot \vect{w}_0 \right)^2 - \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 \right] \\
+              &= \eta^4 M^4 \norm{\vect{w}^*}^4 - 4 \eta^3 \delta M^2 \left( \vect{w}^* \cdot \vect{w}_0 \right) \norm{\vect{w}^*}^2 + 4 \eta^2 \delta^2 \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 \\
+              &= \left[ \eta^4 M^4 \norm{\vect{w}^*}^2 - 4 \eta^3 \delta M^2 \left( \vect{w}^* \cdot \vect{w}_0 \right) + 4 \eta^2 \delta^2 \norm{\vect{w}^*}^2 \right] \norm{\vect{w}_0}^2
+              \label{eq:perceptron convergence theorem:aster17}
+          \end{align}
+          となり、\cref{eq:perceptron convergence theorem:aster17}は$\vect{w}^* = \frac{2 \delta}{\eta M^2} \vect{w}_0$のときのみ$0$となり、それ以外の場合に正となることがわかる。
+          % 判別式Dを delta や eta 等の変数の2次式とみて、再度判別式を考えると解が存在するのが上記の場合のみとわかる
+          さらに$\left( \vect{w}^* \cdot \vect{w}_0 \right)^2 - \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 \le 0$であるため
+          \begin{equation}
+            n_- \le 0 \le n_+
+          \end{equation}
+          が必ず成立し$\vect{w}^* = \frac{2 \delta}{\eta M^2} \vect{w}_0$でないとき$n$は有限の値$n_+$によってバウンドされる。
+          また、$\vect{w}^* = \frac{2 \delta}{\eta M^2} \vect{w}_0$であるとき$n_- = n_+ = 0$であり、$\vect{w}^*$の正の実数倍ベクトルは正しく分離するため$n = 0$となる。
 
           以上より、シナプス結合荷重の初期値$\vect{w}_0$がゼロベクトルであるときに誤り訂正法によるパーセプトロンの学習が有限回の修正で収束することが示された。
-          % 振動しないのってシナプス結合荷重$\vect{w}_t$のノルムが増えることで修正による角度の変化量が相対的に小さくなるからでは....?
+          % 振動しないのってシナプス結合荷重$\vect{w}_t$のノルムが増えることで修正による角度の変化量が相対的に小さくなるから....?
         \end{proof}
 
         線形分離可能な問題に対しては単純パーセプトロンは適切に学習することができることが示された。
