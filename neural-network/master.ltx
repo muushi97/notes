@@ -10,6 +10,8 @@
 \newcommand{\vect}[1]{\mathbf{#1}}
 % ノルムコマンド
 \newcommand{\norm}[1]{{\left\lVert#1\right\rVert}}
+% 絶対値
+\newcommand{\abs}[1]{{\left\lvert#1\right\rvert}}
 
 % description の各アイテムへのラベル付け
 \makeatletter
@@ -464,7 +466,7 @@
           \begin{align}
             D &= \left[ 2 \eta \delta \left( \vect{w}^* \cdot \vect{w}_0 \right) - \eta^2 M^2 \norm{\vect{w}^*}^2 \right]^2 - 4 \eta^2 \delta^2 \left[ \left( \vect{w}^* \cdot \vect{w}_0 \right)^2 - \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 \right] \\
               &= \eta^4 M^4 \norm{\vect{w}^*}^4 - 4 \eta^3 \delta M^2 \left( \vect{w}^* \cdot \vect{w}_0 \right) \norm{\vect{w}^*}^2 + 4 \eta^2 \delta^2 \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 \\
-              &= \left[ \eta^4 M^4 \norm{\vect{w}^*}^2 - 4 \eta^3 \delta M^2 \left( \vect{w}^* \cdot \vect{w}_0 \right) + 4 \eta^2 \delta^2 \norm{\vect{w}^*}^2 \right] \norm{\vect{w}_0}^2
+              &= \left[ \eta^4 M^4 \norm{\vect{w}^*}^2 - 4 \eta^3 \delta M^2 \left( \vect{w}^* \cdot \vect{w}_0 \right) + 4 \eta^2 \delta^2 \norm{\vect{w}_0}^2 \right] \norm{\vect{w}^*}^2
               \label{eq:perceptron convergence theorem:aster17}
           \end{align}
           となり、\cref{eq:perceptron convergence theorem:aster17}は$\vect{w}^* = \frac{2 \delta}{\eta M^2} \vect{w}_0$のときのみ$0$となり、それ以外の場合に正となることがわかる。
