@@ -4,33 +4,10 @@
 % プリアンブル読み込み
 %------------------------------------------------------------------------
 \usepackage{./preambles/ownpack}
-%\usepackage[subpreambles=true]{standalone}
-\usepackage{standalone}
-\usepackage{import}
-\usepackage{xr}
-
-% ベクトルコマンド
-\newcommand{\vect}[1]{\mathbf{#1}}
-% ノルムコマンド
-\newcommand{\norm}[1]{{\left\lVert#1\right\rVert}}
-% 絶対値
-\newcommand{\abs}[1]{{\left\lvert#1\right\rvert}}
-
-% description の各アイテムへのラベル付け
-\makeatletter
-\def\namedlabel#1#2{\begingroup
-   \def\@currentlabel{#2}%
-   \label{#1}\endgroup
-}
-\makeatother
-\newcommand{\descitem}[2]{\item[#1\namedlabel{#2}{#1}]}
 
 \title{ニューラルネットワーク (ISBN 4-254-11612-8) 自習ノート}
 \author{}
 \date{}
-
-%a\ref{hoge:eq:hoge}
-%i\ref{hoge:Introduction}
 
 % -----------------------------------------------------------------------
 % 本文
