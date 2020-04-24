@@ -1,0 +1,56 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx, class=ujarticle, crop=false]{standalone}
+
+\usepackage{./preambles/ownpack}
+
+\usepackage{standalone}
+\usepackage{import}
+
+% ベクトルコマンド
+\newcommand{\vect}[1]{\mathbf{#1}}
+% ノルムコマンド
+\newcommand{\norm}[1]{{\left\lVert#1\right\rVert}}
+% 絶対値
+\newcommand{\abs}[1]{{\left\lvert#1\right\rvert}}
+
+% description の各アイテムへのラベル付け
+\makeatletter
+\def\namedlabel#1#2{\begingroup
+   \def\@currentlabel{#2}%
+   \label{#1}\endgroup
+}
+\makeatother
+\newcommand{\descitem}[2]{\item[#1\namedlabel{#2}{#1}]}
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+
+\begin{document}
+  \section{競合学習型ニューラルネットワーク}\label{sec:competitive-neural-network}
+    \subsection{認識機構の自己形成}
+      % TODO: p80-p81
+
+    \subsection{生体のトポロジカルマッピングのモデル}
+      % TODO: p81-p85
+
+    \subsection{コホーネンのモデル}
+      % TODO: p85-p96
+      \subsubsection{予備実験}
+        % TODO: p86-p88
+
+      % TODO: 担当4始め
+      \subsubsection{特徴抽出細胞の形成}
+        % TODO: p88-p90
+
+      \subsubsection{コホーネンの学習則}
+        % TODO: p90-p91
+
+      \subsubsection{コホーネンの自己組織化特徴マップのアルゴリズムとシミュレーション}
+        % TODO: p91-p94
+
+      \subsubsection{応用例}
+        % TODO: p91-p96
+
+      % TODO: 担当4終り
+\end{document}
+

@@ -1,0 +1,645 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx, class=ujarticle, crop=false]{standalone}
+
+\usepackage{./preambles/ownpack}
+
+\usepackage{standalone}
+\usepackage{import}
+
+% ベクトルコマンド
+\newcommand{\vect}[1]{\mathbf{#1}}
+% ノルムコマンド
+\newcommand{\norm}[1]{{\left\lVert#1\right\rVert}}
+% 絶対値
+\newcommand{\abs}[1]{{\left\lvert#1\right\rvert}}
+
+% description の各アイテムへのラベル付け
+\makeatletter
+\def\namedlabel#1#2{\begingroup
+   \def\@currentlabel{#2}%
+   \label{#1}\endgroup
+}
+\makeatother
+\newcommand{\descitem}[2]{\item[#1\namedlabel{#2}{#1}]}
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+
+\begin{document}
+  \section{階層型ニューラルネットワーク}\label{sec:layered-neural-network}
+    階層型ニューラルネットワークは心理学者ローゼンブラットによって提案されたパーセプトロンから発展したものである。
+    パーセプトロンはパターンを学習・識別することができるニューラルネットワークであり、形式ニューロンとシナプスの可塑性を用いている。
+    また、小脳においてパーセプトロンと類似した機能を有する部分があると指摘されている。
+    本章ではパーセプトロンはら発展した階層型ニューラルネットワークについて述べる。
+    ニューラルネットワークによる応用のうちで最も多いのが、階層型ニューラルネットワークのバックプロパゲーションである。
+    \subsection{パーセプトロン}
+      \subsubsection{単純パーセプトロン}
+        パーセプトロンは3つの層からなる階層型ニューラルネットワークである。
+        パーセプトロンを構成する3つの層はそれぞれ感覚ユニット(sensory unit)、連合ユニット(associate unit)、反応ユニット(response unit)と呼ばれる。
+        パーセプトロンの基本形である単純パーセプトロンは感覚ユニットから連合ユニット、連合ユニットから反応ユニットへと一方向に繋がっている。
+        また反応ユニットは1つのニューロンによって構成され、連合ユニットの全てのニューロンと接続される。
+
+        感覚ユニットの各ニューロンは入力を$x \in \{0, 1\}$としたとき出力値$z$は
+        \begin{equation}
+          z = x
+        \end{equation}
+        と表わされる。
+        連合ユニットと反応ユニットのニューロンはマッカロとピッツの形式ニューロンであり、入力(神経細胞が受け取るシナプス前神経細胞の出力)を$x_k \in \{0, 1\} \; (k = 1, 2, \cdots, n)$、$w_k \in \R$をシナプス結合荷重、$y$を膜電位の変化量としたとき、出力値$z$は
+        \begin{equation}
+          y = \sum^n_{k=1} w_k x_k  \label{eq:formal-neuron-1}
+        \end{equation}
+        \begin{equation}
+          f(u) = \begin{cases}
+            1, & u  >  0 \\
+            0, & u \le 0
+          \end{cases}               \label{eq:formal-neuron-2}
+        \end{equation}
+        \begin{equation}
+          z = f\left( y - h \right) \label{eq:formal-neuron-3}
+        \end{equation}
+        という計算式で表わされる。
+        ここで感覚ユニットのニューロン数を$m$とし、$i$番目$(i = 1, 2, \cdots, m)$のニューロンの出力を$o^I_1, \cdots, o^I_m$、連合ユニットのニューロン数を$n$として感覚ユニットの$i$番目のニューロンと連合ユニットの$j$番目$(j = 1, 2, \cdots n)$のユニットとのシナプス結合荷重を$w^{I, M}_{i, j}$とすると連合ユニットの$j$番目のニューロンへの入力は
+        \begin{equation}
+          \sum^m_{i=1} w^{I, M}_{i, j} o^I_i
+        \end{equation}
+        と表わすことができる。
+        この式は\cref{eq:formal-neuron-1}に対応し
+        連合ユニットの各ニューロンの出力値は\cref{eq:formal-neuron-2}、\cref{eq:formal-neuron-3}によって計算されるため、$\theta^M_j$を連合ユニットの$j$番目のニューロンのしきい値とすると連合ユニットのニューロンの出力値$o^M_1, \cdots, o^M_n$は
+        \begin{equation}
+          o^M_j = \begin{cases}
+            1, & \sum^m_{i=1} w^{I, M}_{i, j} o^I_i - \theta^M_j  >  0 \\
+            0, & \sum^m_{i=1} w^{I, M}_{i, j} o^I_i - \theta^M_j \le 0
+          \end{cases}
+        \end{equation}
+        となる。
+        同様に連合ユニットの$j$番目のニューロンと反応ユニットのニューロンとのシナプス結合荷重を$w^{M, O}_j$、反応ユニットのニューロンのしきい値を$\theta^O$とすれば、反応ユニットのニューロンの出力値$o^O$は
+        \begin{equation}
+          o^O   = \begin{cases}
+            1, & \sum^n_{j=1} w^{M, O}_{j} o^M_j - \theta^O  >  0 \\
+            0, & \sum^n_{j=1} w^{M, O}_{j} o^M_j - \theta^O \le 0
+          \end{cases} \label{eq:simple-perceptron's output}
+        \end{equation}
+        となる。
+        また、この単純パーセプトロンにおいて学習するパラメータは$w^{M, O}_j \; (j = 1, 2, \cdots, n)$と$\theta^O$のみであり、$w^{I, M}_{i, j} \; (i = 1, 2, \cdots, m, j = 1, 2, \cdots, n)$と$\theta^M_j$は固定して学習を行う。
+
+        ここで$w^{M, O}_{n+1} = - \theta^O$、$o^M_{n+1} = 1$とすれば
+        \begin{align}
+          \sum^n_{j=1} w^{M, O}_{j} o^M_j - \theta^O &= \sum^n_{j=1} w^{M, O}_{j} o^M_j + w^{M, O}_{n+1} o^O_{n+1} \\
+                                                     &= \sum^{n+1}_{j=1} w^{M, O}_{j} o^M_j
+        \end{align}
+        と書きなおすことができる。
+        また、新たに$\vect{w}^{M, O} \in \R^{n+1}, \vect{o}^M \in \{0, 1\}^{n+1}$を
+        \begin{equation}
+          \vect{w}^{M, O} = \left( w^{M, O}_1, w^{M, O}_2, \ldots, w^{M, O}_n, w^{M, O}_{n+1} \right)
+                          = \left( w^{M, O}_1, w^{M, O}_2, \ldots, w^{M, O}_n, - \theta^O \right)
+        \end{equation}
+        \begin{equation}
+          \vect{o}^M = \left( o^M_1, o^M_2, \ldots, o^M_n, o^M_{n+1} \right)
+                     = \left( o^M_1, o^M_2, \ldots, o^M_n, 1 \right)
+        \end{equation}
+        とするとベクトル同士の内積によって
+        \begin{equation}
+          \sum^n_{j=1} w^{M, O}_{j} o^M_j - \theta^O = \sum^{n+1}_{j=1} w^{M, O}_{j} o^M_j = \vect{w}^{M, O} \cdot \vect{o}^M
+              \label{eq:output-layer's dot-product in simple perceptron}
+        \end{equation}
+        が成立する。
+
+      \subsubsection{単純パーセプトロンの学習}
+        単純パーセプトロンの学習法のうち、代表的なものである誤り訂正法(learning by error-correction)について説明する。
+        誤り訂正法は、複数の入力と教師信号(入力を与えた際に求められる出力値)の組を用いて学習を行う。
+        おおまかな手順は以下の通りである。
+        \begin{enumerate}
+          \item パーセプトロンに入力を与えて出力値を計算する  \label{enm:learning by error-correction starting}
+          \item 得られた出力値と教師信号を比較してシナプス結合荷重としきい値によるベクトル$\vect{w}^{M, O}$を修正する
+          \item 修正がなくなるまで\ref{enm:learning by error-correction starting}へ戻る
+        \end{enumerate}
+        シナプス結合荷重としきい値によるベクトル$\vect{w}^{M, O}$を修正した$\vect{w}'^{M, O}$は
+        \begin{equation}
+          \Delta \vect{w}^{M, O} = \eta \left( t^O - o^O \right) \vect{o}^M
+        \end{equation}
+        によって計算される$\Delta \vect{w}^{M, O}$を用いて
+        \begin{equation}
+          \vect{w}'^{M, O} = \vect{w}^{M, O} + \Delta \vect{w}^{M, O} \label{eq:learning by error-correction one-step}
+        \end{equation}
+        と表わされる。
+        ここで$t^O \in \{0, 1\}$は入力に対する教師信号、$\eta \in (0, 1]$は学習率(learning rate)である。
+        学習率は学習に大きく影響を与える定数であり、実際に学習する際には学習率$\eta$は適切に決める必要がある。
+
+        $t^O, o^O$共に$0, 1$のどちらかであるため$t^O - o^O$がとりうる値は
+        \begin{equation}
+          t^O - o^O = \begin{cases}
+            1,  & t^O = 1, o^O = 0 \\
+            -1, & t^O = 0, o^O = 1 \\
+            0,  & t^O = o^O
+          \end{cases}
+        \end{equation}
+        であり$\Delta \vect{w}^{M, O}$は
+        \begin{equation}
+          \Delta \vect{w}^{M, O} = \begin{cases}
+            \eta \vect{o}^M,  & t^O = 1, o^O = 0 \\
+            -\eta \vect{o}^M, & t^O = 0, o^O = 1 \\
+            \vect{0},         & t^O = o^O
+          \end{cases}
+        \end{equation}
+        と書くことができる。
+        また、教師信号$t^O$は入力に対して$o^O$がとるべき値であるため、\cref{eq:learning by error-correction one-step}はパーセプトロンが入力に対して誤った値を出力したときにシナプス結合荷重としきい値を修正するという式である。
+        さらに修正後の$\vect{w}'^{M, O}$を用いて同じ入力に対する\cref{eq:output-layer's dot-product in simple perceptron}の値を計算すると
+        \begin{align}
+          \vect{w}'^{M, O} \cdot \vect{o}^{O} &= \left( \vect{w}^{M, O} + \Delta \vect{w}^{M, O} \right) \cdot \vect{o}^M \\
+                                              &= \vect{w}^{M, O} \cdot \vect{o}^{O} + \Delta \vect{w}^{M, O} \cdot \vect{o}^M \\
+                                              &= \vect{w}^{M, O} \cdot \vect{o}^{O} + \left[ \eta \left( t^O - o^O \right) \vect{o}^M \right] \cdot \vect{o}^M \\
+                                              &= \vect{w}^{M, O} \cdot \vect{o}^{O} + \eta \left( t^O - o^O \right) \vect{o}^M \cdot \vect{o}^M \\
+                                              &= \vect{w}^{M, O} \cdot \vect{o}^{O} + \eta \left( t^O - o^O \right) \norm{\vect{o}^M}^2
+        \end{align}
+        となり$t^O - o^O$がとりうる値から、$t^O = 0, o^O = 1$のときは\cref{eq:output-layer's dot-product in simple perceptron}の値は$\eta \norm{\vect{o}^M}^2$だけ減ることで$o^O$が$0$になりやすくなり、$t^O = 1, o^O = 0$のときは\cref{eq:output-layer's dot-product in simple perceptron}の値は$\eta \norm{\vect{o}^M}^2$だけ増えることで$o^O$が$1$になりやすくなり、それ以外の場合は\cref{eq:output-layer's dot-product in simple perceptron}の値と$o^O$の値は変化しないことがわかる。
+
+        学習をつづけることを時間の経過とらえることで\cref{eq:output-layer's dot-product in simple perceptron}はヘブの強化則ということができ、\cref{eq:output-layer's dot-product in simple perceptron}はシナプス結合荷重を変化させているためシナプスの可塑性を利用しているともいうことができる。
+
+        \cref{eq:learning by error-correction one-step}によるシナプス結合荷重の修正を複数の入力と教師信号の組に対して繰り返し行なうことで学習を進める。
+        誤り訂正法による単純パーセプトロンの学習の詳細な手順は以下の通りである。
+        \begin{description}
+          \descitem{Step1}{}
+              複数の入力パターン$\vect{i}^I_p = (i^I_{p, 1}, i^I_{p, 2}, \cdots, i^I_{p, m}) \in \R^m \; (p = 1, 2, \cdots, P)$と、$p$番目の入力パターンと対応する教師信号$t^O_p \in \{0, 1\}$を用意する。
+          \descitem{Step2}{dsc:variable definition in learning by error-correction}
+              シナプス結合荷重$\vect{w}^{M, O} = \left( w^{M, O}_1, w^{M, O}_2, \cdots, w^{M, O}_{n+1} \right)$の初期値を乱数によって小さい値に設定する。そして、学習率$\eta \in (0, 1]$を与える。
+              % TODO: ここで初期値は誤り訂正法においてはなんでもいい
+          \descitem{Step3}{dsc:loop's starting point in learning by error-correction}
+              ある$p \in \{1, 2, \cdots, P\}$に対して、$p$個目の入力パターン$\vect{i}^I_p$に対する連合ユニットの出力値$o^M_{p, j} \; (j = 1, 2, \cdots, n)$を
+              \begin{equation}
+                o^M_{p, j} = \begin{cases}
+                  1, & \sum^m_{i=1} w^{I, M}_{i, j} i^I_{p, i} - \theta^M_j  >  0 \\
+                  0, & \sum^m_{i=1} w^{I, M}_{i, j} i^I_{p, i} - \theta^M_j \le 0
+                \end{cases}
+              \end{equation}
+              によって計算する。
+          \descitem{Step4}{}
+              得られた連合ユニットのニューロンの出力$o^{M, O}_{p, j} \; (j = 1, 2, \cdots, n)$によって表わされるベクトル$\vect{o}^M_p = \left( o^M_{p, 1}, o^M_{p, 2}, \cdots, o^M_{p, n}, 1 \right)$とシナプス結合荷重から反応ユニットのニューロンの出力値$o^O_p$を
+              \begin{equation}
+                o^O_p = \begin{cases}
+                  1, & \vect{w}^{M, O} \cdot \vect{o}^M_p  >  0 \\
+                  0, & \vect{w}^{M, O} \cdot \vect{o}^M_p \le 0
+                \end{cases}
+              \end{equation}
+              によって計算する。
+          \descitem{Step5}{dsc:loop's ending point in learning by error-correction}
+              反応ユニットのニューロンの出力値の計算に用いた入力パターンベクトル$\vect{t}^I_p$と対応する教師信号$t^O_p$と得られた反応ユニットの出力値$o^O_p$を用いて計算される$\Delta \vect{w}^{M, O}$を
+              \begin{equation}
+                \Delta \vect{w}^{M, O} = \eta \left( t^O_p - o^O_p \right) \vect{o}^M_p
+              \end{equation}
+              によって計算する。
+              そして、シナプス結合荷重$\vect{w}^{M, O}$に$\Delta \vect{w}^{M, O}$を加算することでシナプス結合荷重を修正する。
+          \descitem{Step6}{dsc:termination decision in learning by error-correction}
+              任意の$p \in \{1, 2, \cdots, P\}$に対して、入力パターンベクトル$\vect{i}^I_p$から計算される反応ユニットの出力値$o^O_p$と$t^O_p$が等しいならば終了する。そうでない場合は\ref{dsc:loop's starting point in learning by error-correction}から\ref{dsc:loop's ending point in learning by error-correction}までを繰り返す。
+        \end{description}
+        実際に学習を行う際には\ref{dsc:termination decision in learning by error-correction}において、シナプス結合荷重の変化$\Delta \vect{w}^{M, O}$が一定の値より小さくなったら終了としたり、もしくは繰り返し回数に上限を設けて繰り返し回数が上限を越えたときに終了とするなどの条件も用いる。
+        \ref{dsc:variable definition in learning by error-correction}において学習率$\eta$の値は大きいほど学習が早く進むがシナプス結合荷重や、教師信号と計算された反応ユニットの出力値との差が発散、振動しやすくなる。
+        そのため$\eta$には適切な値を用いる必要がある。
+        適切な$\eta$の値は問題の対象によって変化する。
+
+        単純パーセプトロンは入力パターンを2つの集合に分類することができる機械であり、分類する事を認識という。
+        単純パーセプトロンにおける認識とは、入力パターンに対して反応ユニットのニューロンの出力値を計算することであり、出力値が$0$か$1$かによって入力パターンが2つの集合に分類される。
+        \cref{eq:simple-perceptron's output}から反応ユニットのニューロンの出力値は\cref{eq:output-layer's dot-product in simple perceptron}の値が正か負かによって決まることがわかる。
+        \cref{eq:output-layer's dot-product in simple perceptron}が
+        \begin{equation}
+          \sum^n_{j=1} w^{M, O}_{j} o^M_j - \theta^O = \sum^{n+1}_{j=1} w^{M, O}_{j} o^M_j = \vect{w}^{M, O} \cdot \vect{o}^M = 0
+        \end{equation}
+        という$n+1$次元の超平面を表わしていると考えると、認識することは入力パターンと対応する$\vect{o}^M$を超平面によって2つの集合にわけることと言いかえることができる。
+        認識することは、入力パターン$\vect{i}^I \in \{0, 1\}^m$を座標変換によって$\vect{o}^M \in \{0, 1\}^{n+1}$へと変換し$\vect{o}^M$を$n$次元の超平面によって2つの集合のどちらかに分類わけすることと言いかえることができる。
+
+        また、単純パーセプトロンにおいて学習するパラメータはシナプス結合荷重$\vect{w}^{M, O}$のみであるため、入力パターン$\vect{i}^I$から$\vect{o}^M$への座標変換のパラメータは変化せずに$n$次元の超平面の係数のみが変化することとなる。
+        したがって、単純パーセプトロンの学習は入力パターンを適切に識別可能な$n$次元超平面を求めることと同値となる。
+        問題によってはどのような超平面を用いても正しく識別することができないものが存在し、逆に正しく識別することができる超平面が存在するとき線形分離可能という。
+        \begin{dfn}[線形分離可能(linear separable)]
+          $F^+, F^- \in \{0, 1\}^n \; (n \in \N)$としたとき任意の$\vect{o}^+ \in F^+, \vect{o}^- \in F^-$に対して
+          \begin{gather}
+            \vect{w} \cdot \vect{o}^+  >  0 \\
+            \vect{w} \cdot \vect{o}^- \le 0
+          \end{gather}
+          となる$\vect{w} \in \R^n$が存在することを$F^+$と$F^-$は線形分離可能であるという。
+        \end{dfn}
+        パーセプトロンでは線形分離可能でない問題に対して適切な識別を行なうことはできない。
+        したがってパーセプトロンが扱うのは線形分離可能な問題である。
+        また線形分離可能な問題に対してであれば誤り訂正法を用いて必ず適切なパラメータを学習することができることが示される。
+        \begin{thm}[パーセプトロンの収束定理(perceptron convergence theorem)]
+          \label{thm:perceptron convergence theorem}
+          %TODO
+        \end{thm}
+        \begin{proof}[\cref{thm:perceptron convergence theorem}の証明]
+          正しい識別を与えるシナプス結合荷重のうち任意の$\vect{o} \in F^+ \cup F^-$に対して
+          \begin{equation}
+            \vect{o} \cdot \vect{w}^* \neq \vect{0}
+          \end{equation}
+          となる$\vect{w}^* \in \R^{n+1}, \vect{w}^* \neq \vect{0}$をひとつ選ぶ。
+          実数空間が連続であることから$\vect{w}^*$は必ず存在する。
+
+          また、シナプス結合荷重の初期値を$\vect{w}_0$、$t$回修正を繰り返したシナプス結合荷重を$\vect{w}_t$とすると\cref{eq:learning by error-correction one-step}から、ある$\vect{o}^M \in \{0, 1\}^{n+1}$が存在して
+          \begin{equation}
+            \vect{w}_{t+1} = \vect{w}_t + \eta \left( t^O - o^O \right) \vect{o}^M \label{eq:perceptron convergence theorem:aster}
+          \end{equation}
+          と書くことができる。
+          ここで$t^O$は$\vect{o}^M$と対応する教師信号であり、$o^O$は$\vect{o}^M$を連合ユニットのニューロンの出力値からなるベクトル、$\vect{w}_t$を連合ユニットと反応ユニット間のシナプス結合荷重として計算された反応ユニットの出力値である。
+
+          \cref{eq:perceptron convergence theorem:aster}の両辺と$\vect{w}*$の内積をとり、変形すると
+          \begin{align}
+            \vect{w}^* \cdot \vect{w}_{t+1} &= \vect{w}^* \cdot \left[ \vect{w}_t + \eta \left( t^O - o^O \right) \vect{o}^M \right] \\
+                                            &= \vect{w}^* \cdot \vect{w}_t + \eta \left( t^O - o^O \right) \vect{w}^* \cdot \vect{o}^M
+              \label{eq:perceptron convergence theorem:aster2}
+          \end{align}
+          となる。
+          \cref{eq:perceptron convergence theorem:aster2}は修正が発生したときの式であるため$t^O \neq o^O$であり$\left( \vect{w}* \cdot \vect{o}^M \right) \left( \vect{w}_t \cdot \vect{o}^M \right) \le 0$である。
+          したがって\cref{eq:simple-perceptron's output}から
+          \begin{equation}
+            o^O   = \begin{cases}
+              0, & \vect{w}* \cdot \vect{o}^M  >  0 \\
+              1, & \vect{w}* \cdot \vect{o}^M \le 0
+            \end{cases}
+          \end{equation}
+          \begin{equation}
+            t^O   = \begin{cases}
+              1, & \vect{w}* \cdot \vect{o}^M  >  0 \\
+              0, & \vect{w}* \cdot \vect{o}^M \le 0
+            \end{cases}
+          \end{equation}
+          であり、$\eta > 0$であることと$\vect{w}^*$の定義から
+          \begin{equation}
+            \eta \left( t^O - o^O \right) \vect{w}^* \cdot \vect{o}^M > 0
+          \end{equation}
+          が成立する。
+          ここで$\delta$を
+          \begin{equation}
+            \delta = \min_{\vect{o} \in F^+ \cup F^-} \vect{w}^* \cdot \vect{o}^M
+          \end{equation}
+          とすると$\delta$は非ゼロな実数となり、任意の$\vect{o} \in F^+ \cup F^-$に対して
+          \begin{equation}
+            \eta \left( t^O - o^O \right) \vect{w}^* \cdot \vect{o}^M \ge \eta\delta
+              \label{eq:perceptron convergence theorem:aster3}
+          \end{equation}
+          となる。
+          そして\cref{eq:perceptron convergence theorem:aster2}と\cref{eq:perceptron convergence theorem:aster3}から、任意の$t \; (t = 1, 2, \cdots)$に対して
+          \begin{align}
+            \vect{w}^* \cdot \vect{w}_t + \eta \left( t^O - o^O \right) \vect{w}^* \cdot \vect{o}^M \ge \vect{w}^* \cdot \vect{w}_t + \eta\delta \\
+            \rightleftharpoons \vect{w}^* \cdot \vect{w}_{t+1} \ge \vect{w}^* \cdot \vect{w}_t + \eta\delta
+              \label{eq:perceptron convergence theorem:aster4}
+          \end{align}
+          となる。
+          したがって、初期値$\vect{w}_0$に$n$回修正を行なった$\vect{w}_n$に対して
+          \begin{equation}
+            \vect{w}^* \cdot \vect{w}_{n} \ge \vect{w}^* \cdot \vect{w}_0 + n\eta\delta
+              \label{eq:perceptron convergence theorem:aster5}
+          \end{equation}
+          が成立する。
+
+          また\cref{eq:learning by error-correction one-step}から$\norm{\vect{w}_t}^2$は$\vect{w}_t$によって
+          \begin{align}
+            \norm{\vect{w}_{t+1}}^2 &= \norm{\vect{w}_t + \eta \left( t^O - o^O \right) \vect{o}^M}^2 \\
+                                    &= \norm{\vect{w}_t}^2 + 2 \eta \left( t^O - o^O \right) \vect{w}_t \cdot \vect{o}^M + \eta^2 \left( t^O - o^O \right)^2 \norm{\vect{o}^M}^2
+              \label{eq:perceptron convergence theorem:aster6}
+          \end{align}
+          と表わすことができ、\cref{eq:perceptron convergence theorem:aster2}と同様に\cref{eq:perceptron convergence theorem:aster6}は修正が発生したときの式であるため$t^O \neq o^O$であり$\left( \vect{w}^* \cdot \vect{o}^M \right) \left( \vect{w}_t \cdot \vect{o}^M \right) \le 0$である。
+          したがって\cref{eq:simple-perceptron's output}から
+          \begin{equation}
+            o^O   = \begin{cases}
+              1, & \vect{w}_t \cdot \vect{o}^M  >  0 \\
+              0, & \vect{w}_t \cdot \vect{o}^M \le 0
+            \end{cases}
+              \label{eq:perceptron convergence theorem:aster7}
+          \end{equation}
+          \begin{equation}
+            t^O   = \begin{cases}
+              0, & \vect{w}_t \cdot \vect{o}^M  >  0 \\
+              1, & \vect{w}_t \cdot \vect{o}^M \le 0
+            \end{cases}
+              \label{eq:perceptron convergence theorem:aster8}
+          \end{equation}
+          であり、$\eta > 0$であることとから
+          \begin{equation}
+            2 \eta \left( t^O - o^O \right) \vect{w}_t \cdot \vect{o}^M \le 0
+              \label{eq:perceptron convergence theorem:aster9}
+          \end{equation}
+          が成立する。
+          ここで$M$を
+          \begin{equation}
+            M = \max_{\vect{o} \in F^+ \cup F^-} \norm{\vect{o}^M}
+          \end{equation}
+          とすると$0 < \eta \le 1$と\cref{eq:perceptron convergence theorem:aster7}、\cref{eq:perceptron convergence theorem:aster8}、\cref{eq:perceptron convergence theorem:aster9}から、任意の$t \; (t = 1, 2, \cdots)$と$\vect{o}^M$に対して
+          \begin{align}
+            \norm{\vect{w}_t}^2 + 2 \eta \left( t^O - o^O \right) \vect{w}_t \cdot \vect{o}^M + \eta^2 \left( t^O - o^O \right)^2 \norm{\vect{o}^M}^2 \le \norm{\vect{w}_t}^2 + \eta^2 \left( t^O - o^O \right)^2 \norm{\vect{o}^M}^2 \\
+            \norm{\vect{w}_t}^2 + \eta^2 \left( t^O - o^O \right)^2 \norm{\vect{o}^M}^2 \le \norm{\vect{w}_t}^2 + \eta^2 \left( t^O - o^O \right)^2 M^2 = \norm{\vect{w}_t}^2 + \eta^2 M^2
+          \end{align}
+          となり、\cref{eq:perceptron convergence theorem:aster6}から
+          \begin{equation}
+            \norm{\vect{w}_{t+1}}^2 \le \norm{\vect{w}_t}^2 + \eta^2 M^2
+          \end{equation}
+          が得られる。
+          したがって、初期値$\vect{w}_0$に$n$回修正を行なった$\vect{w}_n$に対して
+          \begin{equation}
+            \norm{\vect{w}_{n}}^2 \le \norm{\vect{w}_0}^2 + n \eta^2 M^2
+              \label{eq:perceptron convergence theorem:aster10}
+          \end{equation}
+          が成立する。
+
+          さらに$\vect{w}^*$が非ゼロベクトルであることから、\cref{eq:perceptron convergence theorem:aster5}は$\vect{w}^*$と$\vect{w}_n$のなす角を$\theta$とすると
+          \begin{align}
+            \vect{w}^* \cdot \vect{w}_{n} \ge \vect{w}^* \cdot \vect{w}_0 + n\eta\delta \\
+            \rightleftharpoons \norm{\vect{w}^*} \norm{\vect{w}_n} \cos \theta \ge \vect{w}^* \cdot \vect{w}_0 + n\eta\delta \\
+            \rightleftharpoons \norm{\vect{w}^*} \norm{\vect{w}_n} \ge \vect{w}^* \cdot \vect{w}_0 + n\eta\delta \\
+            \rightleftharpoons \norm{\vect{w}_n} \ge \frac{\vect{w}^* \cdot \vect{w}_0 + n\eta\delta}{\norm{\vect{w}^*}}
+              \label{eq:perceptron convergence theorem:aster11}
+          \end{align}
+          と書きかえることができる。
+
+          \cref{eq:perceptron convergence theorem:aster10}と\cref{eq:perceptron convergence theorem:aster11}から
+          \begin{equation}
+            \frac{\left( \vect{w}^* \cdot \vect{w}_0 + n\eta\delta \right)^2}{\norm{\vect{w}^*}^2} \le \norm{\vect{w}_{n}}^2 \le \norm{\vect{w}_0}^2 + n \eta^2 M^2
+              \label{eq:perceptron convergence theorem:aster12}
+          \end{equation}
+          となる。
+          ここで\cref{eq:perceptron convergence theorem:aster12}を見たす$\norm{\vect{w}_n}^2$が存在するためには
+          \begin{align}
+            \frac{\left( \vect{w}^* \cdot \vect{w}_0 + n\eta\delta \right)^2}{\norm{\vect{w}^*}^2} \le \norm{\vect{w}_0}^2 + n \eta^2 M^2
+              \label{eq:perceptron convergence theorem:aster13}
+          \end{align}
+          が成立している必要があり、\cref{eq:perceptron convergence theorem:aster13}を変形すると
+          \begin{align}
+            \left( \vect{w}^* \cdot \vect{w}_0 + n\eta\delta \right)^2 \le \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 + n \eta^2 M^2 \norm{\vect{w}^*}^2 \\
+            \rightleftharpoons
+              n^2 \eta^2 \delta^2 + n \left[ 2 \eta \delta \left( \vect{w}^* \cdot \vect{w}_0 \right) - \eta^2 M^2 \norm{\vect{w}^*}^2 \right] + \left( \vect{w}^* \cdot \vect{w}_0 \right)^2 - \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 \le 0
+                \label{eq:perceptron convergence theorem:aster14}
+          \end{align}
+          となる。
+          また、\cref{eq:perceptron convergence theorem:aster14}の左辺は下に凸な放物線であるため
+          \begin{equation}
+            n^2 \eta^2 \delta^2 + n \left[ 2 \eta \delta \left( \vect{w}^* \cdot \vect{w}_0 \right) - \eta^2 M^2 \norm{\vect{w}^*}^2 \right] + \left( \vect{w}^* \cdot \vect{w}_0 \right)^2 - \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 = 0
+                \label{eq:perceptron convergence theorem:aster15}
+          \end{equation}
+          の解を$n_-, n_+ \; (n_- \le n_+)$とすると\cref{eq:perceptron convergence theorem:aster14}が成立することと
+          \begin{equation}
+            n_- \le n \le n_+
+              \label{eq:perceptron convergence theorem:aster16}
+          \end{equation}
+          が成立することは同値である。
+
+          ここで\cref{eq:perceptron convergence theorem:aster15}の判別式$D$は
+          \begin{align}
+            D &= \left[ 2 \eta \delta \left( \vect{w}^* \cdot \vect{w}_0 \right) - \eta^2 M^2 \norm{\vect{w}^*}^2 \right]^2 - 4 \eta^2 \delta^2 \left[ \left( \vect{w}^* \cdot \vect{w}_0 \right)^2 - \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 \right] \\
+              &= \eta^4 M^4 \norm{\vect{w}^*}^4 - 4 \eta^3 \delta M^2 \left( \vect{w}^* \cdot \vect{w}_0 \right) \norm{\vect{w}^*}^2 + 4 \eta^2 \delta^2 \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 \\
+              &= \left[ \eta^4 M^4 \norm{\vect{w}^*}^2 - 4 \eta^3 \delta M^2 \left( \vect{w}^* \cdot \vect{w}_0 \right) + 4 \eta^2 \delta^2 \norm{\vect{w}_0}^2 \right] \norm{\vect{w}^*}^2
+              \label{eq:perceptron convergence theorem:aster17}
+          \end{align}
+          となり、\cref{eq:perceptron convergence theorem:aster17}は$\vect{w}^* = \frac{2 \delta}{\eta M^2} \vect{w}_0$のときのみ$0$となり、それ以外の場合に正となることがわかる。
+          % 判別式Dを delta や eta 等の変数の2次式とみて、再度判別式を考えると解が存在するのが上記の場合のみとわかる
+          さらに$\left( \vect{w}^* \cdot \vect{w}_0 \right)^2 - \norm{\vect{w}^*}^2 \norm{\vect{w}_0}^2 \le 0$であるため
+          \begin{equation}
+            n_- \le 0 \le n_+
+          \end{equation}
+          が必ず成立し$\vect{w}^* = \frac{2 \delta}{\eta M^2} \vect{w}_0$でないとき$n$は有限の値$n_+$によってバウンドされる。
+          また、$\vect{w}^* = \frac{2 \delta}{\eta M^2} \vect{w}_0$であるとき$n_- = n_+ = 0$であり、$\vect{w}^*$の正の実数倍ベクトルは正しく分離するため$n = 0$となる。
+
+          以上より、シナプス結合荷重の初期値$\vect{w}_0$がゼロベクトルであるときに誤り訂正法によるパーセプトロンの学習が有限回の修正で収束することが示された。
+          % 振動しないのってシナプス結合荷重$\vect{w}_t$のノルムが増えることで修正による角度の変化量が相対的に小さくなるから....?
+        \end{proof}
+
+        線形分離可能な問題に対しては単純パーセプトロンは適切に学習することができることが示された。
+        実際に単純パーセプトロンを用いる場合、感覚ユニットと連合ユニット間のシナプス結合荷重は学習せずに固定する。
+        感覚ユニットへ線形分離可能でない入力群が与えられる場合でも、感覚ユニットと連合ユニット間でランダムに定められたシナプス結合荷重による座標変換によって、連合ユニットの出力ベクトルの空間上では線形分離可能な問題へ変換することができるようになる。
+        連合ユニットのニューロン数$n$が十分に大きいとき、入力パターン数が$2n$以下であるどのような問題であっても線形分離可能となることが示されている。
+        %TODO: p26最下行で書いてあるけど証明は?
+
+        また、パーセプトロンの学習則である誤り訂正法をデルタ則(delta rule)ということもある。
+        %TODO: 根拠等が薄い
+
+    \subsection{バックプロパゲーション}
+      \subsubsection{一般化デルタ則}
+        前節で示したデルタ則(誤り訂正法)を一般化した、一般化デルタ則を導出する。
+        まず入力から出力を計算する過程を一般化する。
+
+        入力層でない層のあるニューロン$j$は、そのニューロンよりも前の層の任意のニューロンの出力$o_i \; \text{($i$は$1$から前の層のニューロン数までの整数)}$を受けとる。
+        このとき、ニューロン$j$は前の層のニューロンとのシナプス結合荷重を前の層のニューロンに乗じ和をとっている。
+        よってニューロン$j$への入力$u_j$を
+        \begin{equation}
+          u_j = \sum_i w_{i, j} o_i \label{eq:pbp:neuron definition 1}
+        \end{equation}
+        と定める。
+        ここで$w_{i, j}$は前の層のニューロン$i$とニューロン$j$のシナプス結合荷重とした。
+        またしきい値を用いていないが、前節で用いたように前の層に出力値が$1$で固定されたニューロンを仮定することでしきい値を表現することはできる。
+        ニューロン$j$の出力値$o_j$は非線形な実数上の1変数関数$f$によって
+        \begin{equation}
+          o_j = f(u_j) \label{eq:pbp:neuron definition 2}
+        \end{equation}
+        として求められる。
+        この関数$f$は活性化関数もしくは入出力関数といわれる。
+        ここで$f$をステップ関数とすることで形式ニューロンの式と等価とすることができる。
+        また、
+        \begin{equation}
+          f(x) = \frac{1}{1 + e^{-\epsilon x}}
+        \end{equation}
+        と定義されるシグモイド関数は定義域が実数全体であり、終域が実数上の開区間$(0, 1)$かつ単調増加連続関数であるという性質からよく用いられる。
+
+        次に学習する過程を一般化する。
+        ここで、ある入力パターン$p \; \text{($p$は$1$から入力パターン数までの整数)}$に対してパーセプトロンの出力層のニューロン$j$が出力すべき値を$t_{p, j}$、実際のニューロン$j \; \text{($j$は$1$から出力層のニューロン数までの整数)}$の出力値を$o_{p, j}$とし、誤差関数$E$を二乗誤差によって
+        \begin{equation}
+          E = \frac{1}{2} \sum_{p, j} \left( o_{p, j} - t_{p, k} \right) ^2 \label{eq:pbp:error function 1}
+        \end{equation}
+        と定める。
+        % TODO: E = \frac{1}{2} \sum_{p, j} \norm{\vect{O} - \vect{T}} ^2 と書いてあるけど\vect{O}と\vect{T}の意味がわからない -> まぁただ並べただけのやつでしょうね
+        この誤差関数$E$の値が$0$となれば入力パターン全てを正しく識別できていることとなる。
+        したがって、誤差関数$E$の値を小さくすることを学習ということができる。
+
+        誤差関数$E$は出力層のニューロンの値$o_{p, j}$に関する関数である。
+        しかし出力層のニューロンの値$o_{p, j}$は出力層と前の層との間のシナプス結合荷重$w_{i, j}$の関数であるため、誤差関数$E$も$w_{i, j}$に関する(陰(implicit)に定義された)関数であるといえる。
+        したがって、各シナプス結合荷重$w_{i, j}$に適切な$\eta > 0$を用いた
+        \begin{equation}
+          \Delta w_{i, j} = -\eta \diffp{E}{w_{i, j}} \label{eq:pbp:delta rule 1}
+        \end{equation}
+        を加算することで誤差関数$E$の極小値(もしくは鞍点)へ近づくことができる。
+        これは最急降下法(steepest descent method もしくは gradient decent method)と呼ばれる。
+
+        また、\cref{eq:pbp:neuron definition 1}と\cref{eq:pbp:neuron definition 2}から連鎖律により
+        \begin{equation}
+          \diffp{E}{w_{i, j}} = \sum_p \diffp{E}{o_{p, j}} \diffp{o_{p, j}}{u_{p, j}} \diffp{u_{p, j}}{w_{i, j}}
+        \end{equation}
+        が得られる。
+        ここで$u_{p, j}$は入力パターン$p$に対して計算された出力層のニューロン$j$の入力値である。
+        さらに\cref{eq:pbp:neuron definition 1}と\cref{eq:pbp:neuron definition 2}と\cref{eq:pbp:error function 1}から
+        \begin{equation}
+          \diffp{E}{o_{p, j}} = o_{p, j} - t_{p, j}
+        \end{equation}
+        \begin{equation}
+          \diffp{o_{p, j}}{u_{p, j}} = \diff{f}{x}[x = u_{p, j}]
+        \end{equation}
+        となり、さらに$o_{p, i}$を出力層の前の中間層の入力パターン$p$に対するニューロン$i$の出力値とすると
+        \begin{equation}
+          \diffp{u_{p, j}}{w_{i, j}} = o_{p, i}
+        \end{equation}
+        となる。
+        よって\cref{eq:pbp:delta rule 1}の各因子へ代入することで
+        \begin{equation}
+          \Delta w_{i, j} = -\eta \sum_p \left( o_{p, j} - t_{p, j} \right) \diff{f}{x}[x = u_{p, j}] o_{p, i} \label{eq:pbp:delta rule 2}
+        \end{equation}
+        が得られる。
+
+        \cref{eq:pbp:delta rule 2}は一般化デルタ則と呼ばれる。
+        一般化デルタ則では全ての入力パターンに対する誤差を計算してから、シナプス結合荷重の修正量を決め修正している。
+        しかし、$\eta$が非常に小さい場合は入力パターン毎に修正量を決めて修正する方法でも、全体の修正量はほぼ等しくなる。
+
+      \subsubsection{誤差逆伝搬法}
+        誤差逆伝搬法はフィードフォワード型の階層型ニューラルネットワークの教師あり学習(supervised learning)の代表的な方法である。
+        入力パターンに対して計算された出力値と教師信号との誤差が小さくなるように、シナプス結合荷重を修正する。
+
+        誤差逆伝播法を用いることで入力層と中間層間での高次への写像も学習することができるため、線形分離可能でない問題に対しても適切なパラメータを学習することができる。
+
+        実際の学習は、まず入力パターンに対して各ニューロンの出力値を計算し、その後計算された誤差から逆向きにシナプス結合荷重の修正値を計算する。
+        生物のニューラルネットワークでは信号が逆向きに伝わることはないため、誤差逆伝搬法は実際の生物のモデルとしては適切でない。
+        しかし工学上の応用がききやすいため広く利用されている。
+
+        以下の表に誤り訂正法と誤差逆伝搬法の違いをまとめる。
+        \begin{tab}{H}{誤り訂正法と誤差逆伝搬法の違い}{|l|p{4cm}|p{4cm}|}{tab:pbp:difference of backpropagation} \hline
+           & 誤り訂正法 & 誤差逆伝搬法 \\ \hline
+          対象 & 単純パーセプトロン & フィードフォワード型の階層型ニューラルネットワーク \\
+          出力値 & 2値 & 実数上の開区間$(0, 1)$ \\
+          入出力関数 & ステップ関数 & シグモイド関数 \\
+          学習する値 & 中間層と出力層の間のシナプス結合荷重と出力層のしきい値 & 任意のシナプス結合荷重としきい値 \\
+          終了条件 & 一定回数繰り返しても収束しない場合 & 2乗誤差が一定値以下になること \\ \hline
+        \end{tab}
+        %TODO: 誤差逆伝搬法は誤り訂正法をより一般化したものであるといえる ...???
+
+        $m$層のフィードフォワード型の階層型ニューラルネットワークを学習する場合を考える。
+        学習に用いる入力パターンは$P$個のときを考える。
+        パターン$p$に対しての$k$層目の$j$番目のニューロンの出力値を$o^k_{p, j}$、入力値を$i^k_{p, j}$、$k-1$層目の$i$番目のニューロンと$k$層目の$j$番目のニューロンの間のシナプス結合荷重$w^{k-1,k}_{i, j}$、$k$層目の$j$番目のニューロンの入出力関数を$f^k_j$、しきい値を$\theta^k_j$、$k$層目のニューロン数を$n_k$とすると
+        \begin{equation}
+          o^k_{p, j} = f^k_j(i^k_{p, j})      \label{eq:bp:propagation-1}
+        \end{equation}
+        \begin{equation}
+          i^k_{p, j} = \sum^{n_{k-1}}_{i=1} w^{k-1, k}_{i, j} o^{k-1}_{p, i} - \theta^k_j   \label{eq:bp:propagation-2'}
+        \end{equation}
+        という関係式が成立する。
+        ここで$k$層目に出力値が常に$1$である$n_k + 1$番目のニューロンの存在を仮定することで\cref{eq:bp:propagation-2'}は
+        \begin{equation}
+          i^k_{p, j} = \sum^{n_{k-1} + 1}_{i=1} w^{k-1, k}_{i, j} o^{k-1}_{p, i}   \label{eq:bp:propagation-2}
+        \end{equation}
+        と書きかえることができる。
+
+        パターン$p$に対する$m$層目の$j$番目のニューロンの教師信号を$t^{m^k}_{p, i}$し、誤差関数$E$を
+        \begin{equation}
+          E = \sum_p E_p
+        \end{equation}
+        \begin{equation}
+          E_p = \frac{1}{2} \sum^{n_m}_{i=1} \left( t^m_{p, i} - o^m_{p, i} \right) ^2
+        \end{equation}
+        と定義する。
+        ここで$E_p$はパターン$p$に対する誤差ということができる。
+
+        最急降下法によってシナプス結合荷重に
+        \begin{equation}
+          \Delta_p w^{k-1, k}_{i, j} = -\eta \diffp{E_p}{w^{k-1}_{i, j}}  \label{eq:bp:delta weight org}
+        \end{equation}
+        を加算することで修正する。
+        $\eta$は半開区間$(0, 1]$上の実数である。
+
+        \cref{eq:bp:delta weight org}の右辺の偏微分は連鎖律によって
+        \begin{equation}
+          \diffp{E_p}{w^{k-1}_{i, j}} = \diffp{E_p}{i^k_{p, j}} \diffp{i^k_{p, j}}{w^{k-1}_{i, j}}
+        \end{equation}
+        と書くことができ、
+        \begin{equation}
+          \diffp{i^k_{p, j}}{w^{k-1}_{i, j}} = o^{k-1}_{p, i}
+        \end{equation}
+        であるため
+        \begin{equation}
+          \diffp{E_p}{w^{k-1}_{i, j}} = \diffp{E_p}{i^k_{p, j}} o^{k-1}_{p, i}
+        \end{equation}
+        となり、
+        \begin{equation}
+          \delta^k_{p, j} = -\diffp{E_p}{i^k_{p, j}}
+        \end{equation}
+        と置くことで
+        \begin{equation}
+          -\diffp{E_p}{w^{k-1}_{i, j}} = \delta^k_{p, j} o^{k-1}_{p, i}
+        \end{equation}
+        となる。
+        最急降下法を用いるために非ゼロな$1$以下の実数定数を学習率$\eta$として、$w^{k-1, k}_{i, j}$のパターン$p$に対する修正量$\Delta_p w^{k-1, k}_{i, j}$は
+        \begin{equation}
+          \Delta_p w^{k-1, k}_{i, j} = \eta \delta^k_{p, j} o^{k-1}_{p, i}
+        \end{equation}
+        と表わすことができる。
+
+        また、$\delta^k_{p, j}$は連鎖律と\cref{eq:bp:propagation-1}によって
+        \begin{align}
+          \delta^k_{p, j} &= -\diffp{E_p}{i^k_{p, j}} \\
+                          &= -\diffp{E_p}{o^k_{p, j}} \diffp{o^k_{p, j}}{i^k_{p, j}} \\
+                          &= -\diffp{E_p}{o^k_{p, j}} \diff{f^k_j(x)}{i^k_{p, j}}[x=i^k_{p, j}]
+        \end{align}
+        と書くことができる。
+        ここで
+        \begin{equation}
+          \diffp{E_p}{o^k_{p, j}} = \begin{cases}
+            o^m_{p, j} - t^m_{p, j} & k = m \\
+            \sum^{n_k+1}_{l=1} \left( \diffp{E_p}{i^{k+1}_{p, l}} \diffp{i^{k+1}_{p, j}}{o^k_{p, j}} \right) = -\sum^{n_k+1}_{l=1} \left( \delta^{k+1}_{p, l} w^{k, k+1}_{j, l} \right) & \text{otherwise}
+          \end{cases}
+        \end{equation}
+        となり、まとめると層数$m$の階層型ニューラルネットワークの学習は
+        \begin{equation}
+          \Delta_p w^{k-1, k}_{i, j} = \eta \delta^k_{p, j} o^{k-1}_{p, i}
+        \end{equation}
+        \begin{equation}
+          i = 1, 2, \cdots, n_k + 1, \quad j = 1, 2, \cdots, n_k, \quad k = 2, 3, \cdots, m
+        \end{equation}
+        \begin{equation}
+          \delta^k_{p, j} = -\diffp{E_p}{o^k_{p, j}} \diff{f^k_j(x)}{i^k_{p, j}}[x=i^k_{p, j}]
+        \end{equation}
+        \begin{equation}
+          \diffp{E_p}{o^k_{p, j}} = \begin{cases}
+            o^m_{p, j} - t^m_{p, j} & k = m \\
+            \sum^{n_k+1}_{l=1} \left( \diffp{E_p}{i^{k+1}_{p, l}} \diffp{i^{k+1}_{p, j}}{o^k_{p, j}} \right) = -\sum^{n_k+1}_{l=1} \left( \delta^{k+1}_{p, l} w^{k, k+1}_{j, l} \right) & \text{otherwise}
+          \end{cases}
+        \end{equation}
+        として表わされる$\Delta_p w^{k-1, k}_{i, j}$を$w^{k-1, k}_{i, j}$に各パターンに対して加算することで行われる。
+
+        したがって、誤差逆伝搬法において入出力関数は$C^1$級関数である必要がある。
+        誤差逆伝搬法で一般に用いられるシグモイド関数は
+        \begin{equation}
+          f(x) = \frac{1}{1 + e^{-\epsilon x}}
+        \end{equation}
+        と定められる実数全体から実数区間$(0, 1)$への単調増加連続関数である。
+        また、シグモイド関数の1階導関数は
+        \begin{equation}
+          \diff{f(x)}{x} = \epsilon f(x) \left(1 - f(x) \right)
+        \end{equation}
+        である。
+
+        学習の際に修正するとき、各パターン毎に修正する方法と全パターンの修正量をまとめて後から修正する方法の2つがある。
+        前者を逐次修正法(またはオンライン学習)、後者を一括修正法(またはバッチ学習もしくはフルバッチ学習)という。
+        また、逐次修正法と一括修正法を合わせて、いくつかのパターン分の修正をまとめて行なうミニバッチ学習という方法も用いられる。
+        厳密に逐次修正法は全パターンに対する誤差の極小値を得るわけではないが学習率$\eta$を小さくすることで全パターンに対する誤差の極小値を得ることができる。%TODO: 確率的勾配降下法
+
+      \subsubsection{応用例}
+        誤差逆伝搬法は広く応用に使われている。
+        応用されている事例をいくつか示す。
+        \begin{description}
+          \descitem{英語の発音学習システム}{} \par
+            a
+            % TODO:
+            % 作ったヤツと時
+            % ニューラルネットワークの構成
+            % 特徴量
+            % 出力
+            % 正答率
+        \end{description}
+
+      \subsubsection{ニューラルネットワークの構造とパラメータの与え方}
+        % TODO:
+        % 学習データが少ない状態で次元を上げると学習データが高次空間上で疎に分布することになる
+        % この状態で学習によって得られる境界は大く存在し、意味があまりない
+        % この場所にしか引くことができない境界の方が意味がある
+        % よって学習データを増やすことが大切であり、境界を引くことができるできるだけ小さい次元を選択することが重要となる
+        % 学習が収束しないからと無闇矢鱈に層数やニューロン数を上げるのではなく、できるだけ小さくすむようにする方がよい
+
+        % TODO: 教師信号に0.1や0.9を使うのは、入出力関数がシグモイドやtanhのときだけやで
+
+      \subsubsection{誤差逆伝搬法の改良}
+        % TODO:
+        % 根本的な解決じゃない -> 大域的最小値が得られないという問題に対して、局所的最小値になりにくくするのはちがうじゃん？ってこと
+        % 慣性項を使う場合 alpha = 0.9 等のことが多いが、学習率は0.1、場合によっては0.01等とすることがおおい
+        % なんならetaを時間で変動させたりもする
+\end{document}
+

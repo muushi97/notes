@@ -1,0 +1,279 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx, class=ujarticle, crop=false]{standalone}
+
+\usepackage{./preambles/ownpack}
+
+\usepackage{standalone}
+\usepackage{import}
+
+% ベクトルコマンド
+\newcommand{\vect}[1]{\mathbf{#1}}
+% ノルムコマンド
+\newcommand{\norm}[1]{{\left\lVert#1\right\rVert}}
+% 絶対値
+\newcommand{\abs}[1]{{\left\lvert#1\right\rvert}}
+
+% description の各アイテムへのラベル付け
+\makeatletter
+\def\namedlabel#1#2{\begingroup
+   \def\@currentlabel{#2}%
+   \label{#1}\endgroup
+}
+\makeatother
+\newcommand{\descitem}[2]{\item[#1\namedlabel{#2}{#1}]}
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+
+\begin{document}
+  \section{相互結合型ニューラルネットワーク}\label{sec:interconnected-neural-network}
+    \subsection{相互結合型ニューラルネットワークの形態}
+      相互結合型ニューラルネットワークは任意のニューロン同士が結合しているネットワークである。
+      階層型ニューラルネットワークは一般に結合の向きで各ニューロンに順序関係が定まるのに対して、相互結合型ニューラルネットワークにおいては順序関係が定まらない。
+      また、階層型ニューラルネットワークは一般に時系列を扱わないのに対して、相互結合型ニューラルネットワークは時刻の経過によって出力を計算する。
+
+      相互結合型ニューラルネットワークには外界から入力を受け取るユニット$I$、外界へ出力を出すユニット$O$、それ以外のユニット$H$が存在する。
+      また必ずしも$I \cup O = \phi$であるとは限らない。
+
+    \subsection{連想記憶}
+      人間における記憶の検索は連想によって行なわれているとされる。
+      この連想による検索を再現するニューラルネットワークが相互結合型ニューラルネットワークである。
+      ここで、ニューラルネットワークにおける連想記憶の定義を示す。
+      \begin{dfn}[連想記憶(associative memory)]
+        入力パターンの集合$I$、出力パターンの集合$O$に対してニューラルネットワーク$n$が写像$n \colon I \to O$として定まることである。
+        また$I = O$であるような連想記憶を自己相関連想記憶(autoassociative memory)、$I \neq O$であるような連想記憶を相互相関連想記憶(heteroassociative memory)という。
+        % TODO: ほんま? 確率は?
+      \end{dfn}
+      代表的な相互結合型ニューラルネットワークであるホップフィールドモデルは最適化問題にも用いられている。
+
+    \subsection{ホップフィールドモデル}
+      %TODO: イジングモデルとの関係
+      \subsubsection{ホップフィールドモデル(Hopfield model)}
+        ホップフィールドモデルはアメリカの物理学者 J.J. Hopfield が導入したニューラルネットワークである。
+        以下にホップフィールドモデルの特徴を示す。
+        \begin{itemize}
+          \item 複数のニューロンで構成され、各ニューロンは自分以外の全てのニューロンから出力を受け取る
+          \item エネルギー関数の極小化するように各ニューロンの内部状態が変化する
+          \item ニューロン間のシナプス結合荷重が対称である
+          \item ニューロンの出力は各ニューロンの内部状態に依存する
+          \item ある時刻において、1つのニューロンのみが他のニューロンからの出力を受け内部状態変化を起こす
+        \end{itemize}
+
+        ホップフィールドモデルは当初2値の出力値を扱うものとして提案されたが、その後連続値へと拡張された。
+        このモデルは物理モデルから発展したものであり、脳のモデル化と言い難いものである。
+        したがって、あくまでニューラルネットワークの特徴の解析から発生した1つの数理モデルであるととらえるべきである。
+
+        ニューラルネットワークの状態は各ニューロンの出力を並べてベクトルとすることで表わすことができる。
+
+        % TODO: p53の下から12から11行目の
+        % この場合、平衡状態のシナプス結合荷重だけが記憶される。平衡に至るまでの
+        % シナプス結合荷重を求める方法は複数あるが、以下では、記憶される状態で極
+        % の意味がわからん
+
+      \subsubsection{2値ホップフィールドモデル}
+        本節では$n \in \N$個の2値出力のニューロンからなるホップフィールドモデルを考える。
+        離散時間$t \; (t = 0, 1, 2, \cdots)$のときにニューロン$i \; (i = 1, 2, \cdot, n)$の内部状態$u_i(t)$、出力値$x_i(t)$を
+        \begin{gather}
+          x_i(t + 1) = \begin{cases}
+            1, & u_i(t) > 0 \\
+            x_i(t), & u_i(t) = 0 \\
+            0, & u_i(t) < 0
+          \end{cases} \label{eq:binary hopfield model 1} \\
+          u_i(t) = \sum_{j=1}^n w_{i, j} x_j(t) - \theta_i \label{eq:binary hopfield model 2}
+        \end{gather} 
+        と定義する。
+        ここで$w_{i, j}$はニューロン$i$とニューロン$j$間のシナプス結合荷重、$\theta_i$はニューロン$i$の時刻$t$におけるしきい値である。
+        また$w_{i, j} = w_{j, i}, w_{i, i} = 0$である。
+
+        \cref{eq:binary hopfield model 2}は神経細胞モデルにおいて膜電位の計算式と同等であるため、\cref{eq:binary hopfield model 1}とあわせてみると、膜電位を越えたら出力は$1$となり膜電位を越えない場合は出力は$0$となるととらえることができる。
+        ホップフィールドモデルにおいてニューロンの内部状態とは階層型ニューラルネットワークでの膜電位と同じ意味の単語である。
+        膜電位ではなく内部状態という単語を用いているのは、ホップフィールドモデルが物理から発展したモデルであるためである。
+
+        ニューラルネットワークの状態は各ニューロンの出力を並べたものであるため、$n$個のニューロンによる2値ホップフィールドモデルならば$2^n$の状態を持つ。
+
+        このニューラルネットワークのエネルギー関数$E$は
+        \begin{equation}
+          E = -\frac{1}{2} \sum_{i=1}^n \sum_{j=1}^n w_{i, j} x_i x_j + \sum_{i=1}^n \theta_i x_i \label{eq:binary hopfield energy}
+        \end{equation}
+        として定義される。
+        % TODO: イジングモデルのハミルトニアンと一緒?
+        \cref{eq:binary hopfield energy}の値は任意の状態から\cref{eq:binary hopfield model 1}と\cref{eq:binary hopfield model 2}に従って内部状態変化を繰り返すことで必ず平衡状態へと遷移する。
+        \begin{proof}
+          ホップフィールドモデルにおいて1度の内部状態変化では1つのニューロンの内部状態のみが変化する。
+          よって1度の内部状態変化でエネルギー関数の値が減少もしくは変らないことを示せばよい。
+
+          まず\cref{eq:binary hopfield energy}をある$k \; (k = 1, 2, \cdots, n)$を用いて
+          \begin{align}
+            E &= -\frac{1}{2} \sum_{i=1}^n \sum_{j=1}^n w_{i, j} x_i x_j + \sum_{i=1}^n \theta_i x_i \\
+              &= -\frac{1}{2} \sum_{i \neq k} \sum_{j \neq k} w_{i, j} x_i x_j + \sum_{i \neq k} \theta_i x_i
+                -\frac{1}{2} x_k \sum_{i=1}^n w_{i, k} x_i - \frac{1}{2} x_k \sum_{j=1}^n w_{k, j} x_j + \theta_k x_k
+          \end{align}
+          % TODO: ここで w_ii = 0 を利用
+          と変形すると$w_{i, j} = w_{j, i}$であるため
+          \begin{equation}
+            E = -\frac{1}{2} \sum_{i \neq k} \sum_{j \neq k} w_{i, j} x_i x_j + \sum_{i \neq k} \theta_i x_i
+                - x_k \sum_{i=1}^n w_{i, k} x_i + \theta_k x_k \label{eq:proof:hopfield aster 1}
+          \end{equation}
+          となる。
+
+          ここである$t \; (t = 0, 1, 2, \cdots)$においてニューロン$k$が\cref{eq:binary hopfield model 1}と\cref{eq:binary hopfield model 2}に従って内部状態変化を起こしたとすると、 $k$でない任意の$i \; (i = 1, 2, \cdots, n)$に対して
+          \begin{gather}
+            x_k(t+1) = x_k(t) + \Delta x_k \\
+            x_i(t+1) = x_i(t)
+          \end{gather}
+          が成立する。
+          ここで$\Delta x_k \in \{ -1, 0, 1 \}$である。
+          \cref{eq:proof:hopfield aster 1}から時刻$t$と$t+1$のエネルギー$E(t), E(t+1)$を計算するとそれぞれ
+          \begin{gather}
+            E(t) = -\frac{1}{2} \sum_{i \neq k} \sum_{j \neq k} w_{i, j} x_i(t) x_j(t) + \sum_{i \neq k} \theta_i x_i(t) - x_k(t) \sum_{i=1}^n w_{i, k} x_i(t) + \theta_k x_k(t) \\
+            E(t+1) = -\frac{1}{2} \sum_{i \neq k} \sum_{j \neq k} w_{i, j} x_i(t) x_j(t) + \sum_{i \neq k} \theta_i x_i(t) - x_k(t+1) \sum_{i=1}^n w_{i, k} x_i(t) + \theta_k x_k(t+1)
+          \end{gather}
+          となり、エネルギー関数の差分$\Delta E$は
+          \begin{align}
+            \Delta E &= E(t+1) - E(t) \\
+                     &= - \left[ x_k(t+1) - x_k(t) \right] \sum_{i=1}^n w_{i, k} x_i(t) + \left[ x_k(t+1) - x_k(t) \right] \theta_k x_k(t+1) \\
+                     &= - \left[ \sum_{i=1}^n w_{i, k} x_i(t) - \theta_k \right] \Delta x_k
+          \end{align}
+          と書くことができ、\cref{eq:binary hopfield model 2}から
+          \begin{equation}
+            \Delta E = - u_k(t) \Delta x_k
+          \end{equation}
+          が得られる。
+          時刻$t$から$t+1$にかけてニューロン$k$の内部状態が変化しなかった場合は$\Delta x_k = 0$であるため$\Delta E = 0$となる。
+          内部状態が変化した場合を考えると$u_k(t) > 0$かつ$x_k(t) = 0$というパターンと$u_k(t) < 0$かつ$x_k(t) = 1$というパターンが考えられる。
+          $u_k(t) > 0$かつ$x_k(t) = 0$である場合、\cref{eq:binary hopfield model 1}から$x_k(t+1) = 1$であることため$\Delta x_k = 1$となり$\Delta E < 0$となる。
+          $u_k(t) < 0$かつ$x_k(t) = 1$である場合も、\cref{eq:binary hopfield model 1}から$x_k(t+1) = 0$であることため$\Delta x_k = -1$となり$\Delta E < 0$となる。
+          よってどのような場合であっても$\Delta E \le 0$が成立する。
+          したがって任意の$t \; (t = 0, 1, 2, \cdots)$に対してエネルギーの差分$\Delta E = E(t+1) - E(t)$は$\Delta E \le 0$となり、$E(t)$を時間の関数とみると単調減少であることが言える。
+
+          また、エネルギー関数の値はニューラルネットワークの状態に対して一意に定まるため同じニューラルネットワークの状態に遷移することなない。
+          さらにニューラルネットワークの状態が有限であることから、必ずエネルギー関数の値に平衡点が存在し、エネルギー関数の値は時間の増加に対して収束する。
+        \end{proof}
+
+      \subsubsection{連想記憶への応用}
+        2値ホップフィールドモデルは連想記憶に適用された。
+        これを実現する方法として、不正確なパターンを入力とし、ニューラルネットワークの状態遷移を発生させ、最終的に到達したニューラルネットワークの状態を想起パターンとすることである。
+        また以降2値ホップフィールドの出力値は$0, 1$でなく$-1, 1$を用いる。
+
+        パターンをベクトルで表現し各成分を各ニューロンの出力値とすれば、パターンのベクトル表記はニューラルネットワークの状態とみることができる。
+        この記憶させることを記銘させるという。
+        $P$個のパターンを記銘させようとし、記銘させたい$s \; (s = 1, 2, \cdots, P)$個目のパターンを$\vect{x}^s \in \{-1, 1\}^n$と表わすと、ニューラルネットワークにパターン$\vect{x}^s$を記銘させるということは、エネルギー関数が$\vect{x}^s$で極小値をとるようにシナプス結合荷重を与えることと等しくなる。
+        ここで、各ニューロンのしきい値が$0$である場合のシナプス結合荷重の設計を考える。
+
+        各ニューロンのしきい値を$0$とするとエネルギー関数(\cref{eq:binary hopfield energy})は
+        \begin{equation}
+          E = -\frac{1}{2} \sum_{i=1}^n \sum_{j=1}^n w_{i, j} x_i x_j
+        \end{equation}
+        となる。
+        ここで、$P$個のパターン$\vect{x}^s = \left( x^s_1, x^s_2, \cdots, x^s_n \right) \in \{-1, 1\}^n$を極小値とするシナプス結合荷重の一つは
+        \begin{equation}
+          w_{i, j} = \sum^P_{s=1} x^s_i x^s_j \qquad i, j = 1, 2, \cdots, n
+        \end{equation}
+        である。
+        これは、この式をエネルギー関数に代入することで
+        \begin{align}
+          E &= -\frac{1}{2} \sum_{i=1}^n \sum_{j=1}^n \sum^P_{s=1} x^s_i x^s_j x_i x_j \\
+            &= -\frac{1}{2} \sum^P_{s=1} \sum_{i=1}^n \sum_{j=1}^n x^s_i x_i x^s_j x_j \\
+            &= -\frac{1}{2} \sum^P_{s=1} \sum_{i=1}^n x^s_i x_i \sum_{j=1}^n x^s_j x_j \\
+            &= -\frac{1}{2} \sum^P_{s=1} \left( \sum_{i=1}^n x^s_i x_i \right)^2 \\
+            &= \frac{1}{2} \sum^P_{s=1} \left[ -\left( \sum_{i=1}^n x^s_i x_i \right)^2 \right]
+        \end{align}
+        となり、$x^s_i$や$x_i$が$-1$か$1$しかとらないことから、エネルギー関数が各$\vect{x}^s$を極小値とする2次関数の和となっていることがわかる。
+        パターンの数$P$が少ない等いくつかの制約の上ではこのエネルギー関数が任意の$\vect{x}^s$を極小値とすることが直感的にわかる。
+        また、$\vect{x}^s$と$-\vect{x}^s$はエネルギーの値が同じであるため$\vect{x}^s$を記銘することと$-\vect{x}^s$を記銘することは同じ意味を持つ。
+
+        なお、大きな$n$似たいして記銘ベクトルをランダムに選ぶことで$\{-1, 1\}$の2値ホップフィールドモデルの記憶容量は
+        \begin{equation}
+          \frac{n}{2 \log_2 n}
+        \end{equation}
+        で近似できることが示されている。
+
+      \subsubsection{連続値ホップフィールドモデル}
+        本節では連続値ホップフィールドモデルについて考える。
+        連続値ホップフィールドモデルと2値ホップフィールドモデルとの違いは、出力値がとりうる値の区間が$[0, 1]$であることである。
+        また、出力値の変化に共なってニューロン$i$の内部状態$u_i(t)$の変化は微分方程式
+        \begin{gather}
+          \diff{u_i(t)}{t} = -\frac{u_i(t)}{\tau} + \sum_{j=1}^n w_{i, j} x_j(t) - \theta_i \label{eq:continuous hopfield model 1} \\
+          x_i(t) = f_i(u_i(t)) \label{eq:continuous hopfield model 2}
+        \end{gather}
+        で表わされる。
+        ここで$i = 1, 2, \cdots, n$であり、$f_i(u)$は非線形な連続単調増加関数である。
+        また、$\tau$はニューロンの内部状態における時定数である。 % TODO: 時定数ってなんじゃい
+
+        \cref{eq:continuous hopfield model 1}の第1項目は$u_i(t)$を指数関数的に減少させることで、$u_i(t)$の発散を抑制し平衡値へと近づける効果がある。
+        第1項を除けば\cref{eq:continuous hopfield model 1}は\cref{eq:binary hopfield model 1}と同等の式とみることができ、膜電位に対応する値が正であれば$u_i(t)$は時間的に増加させる、負であれば$u_i(t)$は時間的に減少させる、$0$であれば$u_i(t)$の変化に寄与しないという効果がある。
+        また
+        \begin{equation}
+          u_i(t) = \tau \left( \sum_{j=1}^n w_{i, j} x_j(t) - \theta_i \right)
+        \end{equation}
+        のとき\cref{eq:continuous hopfield model 1}は$0$となり平衡状態となり、$\tau = 1$のとすると2値ホップフィールドモデルの\cref{eq:binary hopfield model 2}と一致する。
+        % TODO: これマジ?
+
+        このネットワークに対してエネルギー関数は
+        \begin{equation}
+          E = -\frac{1}{2} \sum_{i=1}^n \sum_{j=1}^n w_{i, j} x_i x_j + \sum_{i=1}^n \theta_i x_i + \frac{1}{\tau} \sum_{i=1}^n \int_0^{x_i} f^{-1}_i (x) dx
+            \label{eq:continuous hopfield energy}
+        \end{equation}
+        と定義される。
+        ここで$f^{-1}_i(x)$は$f_i(x)$の逆関数である。
+        \cref{eq:continuous hopfield energy}は2値ホップフィールドモデルのエネルギー関数(\cref{eq:binary hopfield energy})に項を追加したものである。
+        これはエネルギー関数が時間$t$に対して単調減少関数であるために追加された項である。
+
+        2値ホップフィールドモデルと同様に時間変化によるエネルギーの変化を考える。
+        エネルギー関数(\cref{eq:continuous hopfield energy})を時間$t$によって微分すると\cref{eq:proof:hopfield aster 1}によって
+        \begin{align}
+          \diff{E}{t} &= \sum_{i=1}^n \diffp{E}{x_i} \diff{x_i}{t} \\
+                      &= \sum_{i=1}^n \left( -\sum_{j=1}^n w_{i, j} x_j + \theta_i - \frac{1}{\tau} f^{-1}_i(x_i) \right) \diff{x_i}{t} \\
+                      &= -\sum_{i=1}^n \left( \sum_{j=1}^n w_{i, j} x_j - \theta_i + \frac{1}{\tau} f^{-1}_i(x_i) \right) \diff{x_i}{t}
+        \end{align}
+        となり、$f^{-1}_i$が$f_i$の逆関数であることと\cref{eq:continuous hopfield model 1}と\cref{eq:continuous hopfield model 2}から
+        \begin{equation}
+          \diff{E}{t} = \sum_{i=1}^n \diff{u_i}{t} \diff{x_i}{t}
+        \end{equation}
+        となり、また
+        \begin{equation}
+          \diff{x_i}{t} = \diff{f_i}{u_i} \diff{u_i}{t}
+        \end{equation}
+        であるため
+        \begin{equation}
+          \diff{E}{t} = \sum_{i=1}^n \diff{f_i}{u_i} \left( \diff{u_i}{t} \right)^2
+        \end{equation}
+        が得られる。
+        よって$\diff{f_i}{u_i} > 0$であることから
+        \begin{equation}
+          \diff{E}{t} \le 0
+        \end{equation}
+        となり、エネルギー関数(\cref{eq:continuous hopfield energy})が時間に対して単調減少であることが示された。
+        エネルギー関数が単調減少であるため、連続値ホップフィールドモデルのエネルギーは時間$t \to \infty$によって極小値となる。
+        % TODO: 極小値になんでなるの? -\inftyになったりせんの? => 少し前に書いた平衡状態がどうのってとこに答えがある感じかな
+
+        ホップフィールドは単調増加関数としてシグモイド関数
+        \begin{equation}
+          f_i(u_i) = \frac{1}{1 + e^{-\frac{2u_i}{\mu_0}}}
+        \end{equation}
+        を用いており、ここで$\mu_0$は基準活性化レベル(reference activation level)と呼ばれる。
+
+      \subsubsection{最適化問題への応用}
+        組み合わせ最適化問題(combinatorial optimization problem)は、目的関数を最小化する組み合わせを探す問題である。
+        ここで組み合わせ最適化問題の変数列をベクトル$\vect{x} \in \{0, 1\}^n$へ変換し、また目的関数と\cref{eq:binary hopfield energy}が一致するような$w_{i, j}$を求めることができれば、2値ホップフィールドモデルの平衡状態は組み合わせ最適化問題の目的関数の極小値と同等である。
+        よって2値ホップフィールドモデルは組み合わせ最適化問題を解きうるモデルであるといえる。
+        本節ではNP困難である組み合わせ最適化問題の中で代表的な問題であるTSPを解くことを考える。
+        % TODO: p62-p65
+
+      \subsubsection{連続値ホップフィールドモデルの改良}
+        % TODO: p65-p66
+
+    \subsection{ボルツマンマシン}
+      % 担当3始め
+      \subsubsection{ボルツマンマシンの動作}
+        % TODO: p66-p73
+
+      % TODO: 担当3終り
+      \subsubsection{ボルツマンマシンの学習}
+        % TODO: p73-p78
+
+      \subsubsection{ボルツマンマシンの特徴}
+        % TODO: p78-p79
+
+\end{document}
+

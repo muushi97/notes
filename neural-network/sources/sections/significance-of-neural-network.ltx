@@ -1,0 +1,65 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx, class=ujarticle, crop=false]{standalone}
+
+\usepackage{./preambles/ownpack}
+
+\usepackage{standalone}
+\usepackage{import}
+
+% ベクトルコマンド
+\newcommand{\vect}[1]{\mathbf{#1}}
+% ノルムコマンド
+\newcommand{\norm}[1]{{\left\lVert#1\right\rVert}}
+% 絶対値
+\newcommand{\abs}[1]{{\left\lvert#1\right\rvert}}
+
+% description の各アイテムへのラベル付け
+\makeatletter
+\def\namedlabel#1#2{\begingroup
+   \def\@currentlabel{#2}%
+   \label{#1}\endgroup
+}
+\makeatother
+\newcommand{\descitem}[2]{\item[#1\namedlabel{#2}{#1}]}
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+
+\begin{document}
+  \section{ニューラルネットワーク研究の意義}\label{sec:significance-of-neural-networks}
+    % TODO: p130-p
+    \subsection{特徴を生かす}
+      % TODO: p130-p143
+      \subsubsection{研究の歴史}
+        % TODO: p131-p135
+
+      \subsubsection{生物内のニューラルネットワークと人工ニューラルネットワーク}
+        % TODO: p135-p135
+
+      \subsubsection{シナプスの可塑性と脳・神経系の可塑性}
+        % TODO: p136-p136
+
+      \subsubsection{教師あり学習と教師なし学習}
+        % TODO: p136-p137
+
+      \subsubsection{ニューロンコンピュータ}
+        % TODO: p137-p140
+
+      \subsubsection{融合化技術}
+        % TODO: p140-p143
+
+    \subsection{応用}
+      % TODO: p143-p146
+      \subsubsection{応用されてきた分野}
+        % TODO: p143-p144
+
+      \subsubsection{事例の完備性と適用有効範囲}
+        % TODO: p144-p144
+
+      \subsubsection{ブラックボックスモデルの利用環境への適合性}
+        % TODO: p144-p145
+
+    \subsection{脳科学への貢献}
+      % TODO: p145-p146
+\end{document}
+
