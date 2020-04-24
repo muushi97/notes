@@ -1,0 +1,20 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx, class=ujarticle, crop=false]{standalone}
+
+\usepackage{./preambles/ownpack}
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+
+% https://mathtrain.jp/jensen_proof (2020/04/24 19:44)
+
+\begin{document}
+  \begin{definition}[凸関数(convex function)]\label{thm:convex-function}
+    ある関数$f(x)$が以下の2つのいずれかを満たすとき、$f(x)$を凸関数という。
+    \begin{itemize}
+      \item 任意の$x_1, x_2, \lambda\;(0 \le \lambda \le 1)$に対し、$\lambda f(x_1) + (1-\lambda) f(x_2) \ge f(\lambda x_1 + (1-\lambda x_2)$が成立する。
+      \item $f(x)$に二階微分$f''(x)$が存在し、任意の$x$に対し$f(x) \ge 0$である。
+    \end{itemize}
+  \end{definition}
+\end{document}
+

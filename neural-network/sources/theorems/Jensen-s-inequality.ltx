@@ -1,0 +1,48 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx, class=ujarticle, crop=false]{standalone}
+
+\usepackage{./preambles/ownpack}
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+
+% https://mathtrain.jp/jensen_proof (2020/04/24 19:44)
+
+\begin{document}
+  \begin{theorem}[イェンゼンの不等式(Jensen-s-inequality)]\label{thm:Jensen-s-inequality}
+    ある関数$f(x)$が凸関数であったとき
+    \begin{equation}
+      \forall \lambda_i \ge 0, \; x_i \; (i = 1, \cdots, n), \; \sum_{i=1}^n \lambda_i = 1, \;
+        \text{s.t.} \sum_{i=1}^n \lambda_i f(x_i) \ge f\left( \sum_{i=1}^n \lambda_i x_i \right)
+    \end{equation}
+    が成立する。
+  \end{theorem}
+  \begin{proof}[イェンゼンの不等式の証明]
+    数学的帰納法によって示す。
+    \begin{itemize}
+      \item $n = 2$のとき、イェインゼンの不等式は凸関数の定義そのものである。
+      \item $n = k$のときにイェンゼンの不等式が成立すると仮定する。
+        ここで$A = \sum_{i=1}^k \lambda_i$と置くと
+        \begin{align}
+          \sum_{i=1}^{k+1} \lambda_i f(x_i) &= \sum_{i=1}^k \lambda_i f(x_i) + \lambda_{k+1} f(x_{k+1}) \\
+                                            &= A \sum_{i=1}^k \frac{\lambda_i}{A} f(x_i) + \lambda_{k+1} f(x_{k+1})
+        \end{align}
+        と書くことができる。
+        $\sum_{i=1}^k \frac{\lambda_i}{A} = 1$であり、帰納法の仮定から
+        \begin{equation}
+          A \sum_{i=1}^k \frac{\lambda_i}{A} f(x_i) + \lambda_{k+1} f(x_{k+1}) \ge A f(\sum_{i=1}^k \frac{\lambda_i}{A} x_i) + \lambda_{k+1} f(x_{k+1})
+        \end{equation}
+        が成り立つ。
+        $A + \lambda_{k+1} = 1$が成立するため、上式は$n = 2$のときのイェゼンの不等式と見ることができるため
+        \begin{equation}
+          A \sum_{i=1}^k \frac{\lambda_i}{A} f(x_i) + \lambda_{k+1} f(x_{k+1}) \ge f(\sum_{i=1}^k A \frac{\lambda_i}{A} x_i + \lambda_{k+1} x_{k+1})
+        \end{equation}
+        が成立し
+        \begin{equation}
+          \sum_{i=1}^{k+1} \lambda_i f(x_i) \ge f(\sum_{i=1}^{k+1} \lambda_i x_i)
+        \end{equation}
+        が得られる。
+    \end{itemize}
+  \end{proof}
+\end{document}
+

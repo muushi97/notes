@@ -1,0 +1,58 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx, class=ujarticle, crop=false]{standalone}
+
+\usepackage{./preambles/ownpack}
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+
+% https://en.wikipedia.org/wiki/Gibbs'_inequality (2020/04/24 21:32)
+% https://ja.wikipedia.org/wiki/カルバック・ライブラー情報量 (2020/04/24 19:44)
+% https://ja.wikipedia.org/wiki/ギブスの不等式 (2020/04/24 19:44)
+
+\begin{document}
+  \begin{definition}[Kullback Leibler divergence]\label{thm:Kullback-Leibler-divergence}
+    離散確率分布$P, Q$に対する Kullback Leibler divergence $D_{KL}(P || Q)$は
+    \begin{equation}
+      D_{KL}(P || Q) = \sum_{i=1}^n P(i) \log \frac{P(i)}{Q(i)}
+    \end{equation}
+    と定義される。
+
+    ギブスの不等式から$D_{KL}(P || Q) \ge 0$である。
+    また一般に$D_{KL}(P || Q) = D_{KL}(Q || P)$は成立せず、$D_{KL}(P || Q)$は距離の公理を満たさない。
+  \end{definition}
+
+  \begin{theorem}[ギブスの不等式(Gibbs's inequality)]\label{thm:Gibbs-s-inequality}
+    ある離散確率分布$P, Q$に対して
+    \begin{equation}
+      -\sum_{i=1}^n P(i) \log_2 P(i) \le -\sum_{i=1}^n \log_2 Q(i)
+    \end{equation}
+    が成立する。
+  \end{theorem}
+  \begin{proof}[ギブスの不等式の証明]
+    ある式$\sum_{i=1}^n P(i) \log_2 \frac{Q(i)}{P(i)}$を考える。
+    ここで$\log_2 x$は下に凸な関数であるため Jensen's inequality から
+    \begin{align}
+      \sum_{i=1}^n P(i) \log_2 \frac{Q(i)}{P(i)} \le \log_2 \sum_{i=1}^n P(i) \frac{Q(i)}{P(i)} \\
+      \rightleftharpoons
+        \sum_{i=1}^n P(i) \log_2 \frac{Q(i)}{P(i)} \le \log_2 \sum_{i=1}^n Q(i) \\
+      \rightleftharpoons
+        \sum_{i=1}^n P(i) \log_2 \frac{Q(i)}{P(i)} \le 0 \\
+      \rightleftharpoons
+        \sum_{i=1}^n P(i) \log_2 \frac{P(i)}{Q(i)} \ge 0
+    \end{align}
+    となる。
+    また、上式は
+    \begin{align}
+      \sum_{i=1}^n P(i) \log_2 \frac{P(i)}{Q(i)} \ge 0 \\
+      \rightleftharpoons
+        \sum_{i=1}^n P(i) \log_2 P(i) - \sum_{i=1}^n P(i) \log_2 Q(i) \ge 0 \\
+      \rightleftharpoons
+        \sum_{i=1}^n P(i) \log_2 P(i) - \sum_{i=1}^n P(i) \log_2 Q(i) \ge 0 \\
+      \rightleftharpoons
+        -\sum_{i=1}^n P(i) \log_2 P(i) \le -\sum_{i=1}^n P(i) \log_2 Q(i) \\
+    \end{align}
+    と変形でき与式が示された。
+  \end{proof}
+\end{document}
+
