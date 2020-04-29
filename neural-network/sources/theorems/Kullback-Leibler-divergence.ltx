@@ -31,7 +31,7 @@
   \end{theorem}
   \begin{proof}[ギブスの不等式の証明]
     ある式$\sum_{i=1}^n P(i) \log_2 \frac{Q(i)}{P(i)}$を考える。
-    ここで$\log_2 x$は下に凸な関数であるため Jensen's inequality から
+    ここで$\log_2 x$は上に凸な関数であるため Jensen's inequality から
     \begin{align}
       \sum_{i=1}^n P(i) \log_2 \frac{Q(i)}{P(i)} \le \log_2 \sum_{i=1}^n P(i) \frac{Q(i)}{P(i)} \\
       \rightleftharpoons
