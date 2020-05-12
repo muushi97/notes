@@ -3,11 +3,11 @@
 %------------------------------------------------------------------------
 % プリアンブル読み込み
 %------------------------------------------------------------------------
-\input{./preambles/all.tex}
+\usepackage{./preambles/ownpack}
 
 
-\title{title}
-\author{muushi97}
+\title{リアプノフの安定性理論(Lyapunov stability theory)}
+\author{}
 \date{}
 
 % -----------------------------------------------------------------------
@@ -16,11 +16,34 @@
 
 \begin{document}
 
-\maketitle
+  \maketitle
 
-\tableofcontents
+  \begin{definition}[安定]
+    あるシステム$f(x)$に対して以下が成立するとき、システム$f(x)$は原点において安定であるという。
+    \begin{itemize}
+      \item $\forall \epsilon > 0, \exists \delta > 0, \forall t \ge 0, \norm{x(0)} < \delta \Rightarrow \norm{x(t)} < \epsilon$
+    \end{itemize}
+    ここで$x(t) = f(x(t-1))$である。
+  \end{definition}
 
+  \begin{definition}[漸近安定]
+    あるシステム$f(x)$に対して以下が成立するとき、システム$f(x)$は原点において安定であるという。
+    \begin{itemize}
+      \item システム$f(x)$が安定である
+      \item $\exists \delta' > 0, \norm{x(0)} < \delta \Rightarrow \lim_{t \to \infty} x(t) = 0$
+    \end{itemize}
+    ここで$x(t) = f(x(t-1))$である。
+  \end{definition}
 
+  上述の安定性と漸近安定性の定義は原点に対するものしか与えていないが、ある原点で安定(漸近安定)なシステム$f(x)$に対して
+  \begin{equation}
+    f'(x) = f(x - x')
+  \end{equation}
+  というシステム$f'(x)$を考えることで任意の平衡点をもつシステムについて安定(漸近安定)性の議論を行うことができる。
+
+  %\begin{thebibliography}{99}
+  %  \bibtem{bib:d} \url{http://www.gifu-nct.ac.jp/elcon/labo/endo-n/endo/lecture/syscon/node24.html}
+  %\end{thebibliography}
 
 \end{document}
 
