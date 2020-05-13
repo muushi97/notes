@@ -1,0 +1,56 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx]{jsarticle}
+
+%------------------------------------------------------------------------
+% プリアンブル読み込み
+%------------------------------------------------------------------------
+\usepackage{./preambles/ownpack}
+
+
+\title{リーマン積分(Riemann integral)}
+\author{}
+\date{}
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+
+\begin{document}
+
+  \maketitle
+
+  \begin{definition}[分割]
+    実数上のある有界閉区間$I = [a, b]$に対して数列$\{a_i\}_{i=0}^n$が
+    \begin{equation}
+      a = a_0 < a_1 < \cdots < a_n = b
+    \end{equation}
+    を満たすとき、数列$\{a_i\}_{i=0}^n$を$I$の分割という。
+    とくに数列$\{a_i\}_{i=0}^n$の項が一般に$a_k = a + \frac{k}{n}(b-a)$であるとき、$I$の$n$等分の分割という。
+    また、$I$の分割$\Delta = \{a_i\}_{i=0}^n$に対して$\abs{\Delta} = \max_{1\le i \le n} (a_i - a_{i-1})$とする。
+  \end{definition}
+
+  \begin{definition}[過剰和・不足和]
+    $I$上の有界関数$f(x)$と$I$の分割$\Delta = \{a_i\}_{i=0}^n$に対して、過剰和$S(f, \Delta)$と不足和$s(f, \Delta)$を
+    \begin{align}
+      S(f, \Delta) = \sum_{i=1}^n \sup \Set{f(x) | x \in [a_{i-1}, a_i]} (a_i - a_{i-1}) \\
+      s(f, \Delta) = \sum_{i=1}^n \inf \Set{f(x) | x \in [a_{i-1}, a_i]} (a_i - a_{i-1})
+    \end{align}
+    と定める。
+  \end{definition}
+
+  \begin{definition}[上積分・下積分]
+    $I$上の有界関数$f(x)$に対して、$f$の区間$I$での上積分$S(f)$、下積分$s(f)$を
+    \begin{align}
+      S(f) = \inf \Set{S(f, \Delta) | \text{$\Delta$は$I$の任意の分割} } \\
+      s(f) = \sup \Set{s(f, \Delta) | \text{$\Delta$は$I$の任意の分割} }
+    \end{align}
+    と定める。
+  \end{definition}
+
+  \begin{thebibliography}{99}
+    %TODO:\bibtem{bib:d} \url{https://www.ms.u-tokyo.ac.jp/~aida/lecture/20/10-7.pdf}
+    %TODO:\bibtem{bib:d} \url{https://en.wikipedia.org/wiki/Darboux_integral}
+  \end{thebibliography}
+
+
+\end{document}
+

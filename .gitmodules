@@ -25,3 +25,6 @@
 [submodule "lyapunov-stability-theory/.template"]
 	path = lyapunov-stability-theory/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "riemann-integral/.template"]
+	path = riemann-integral/.template
+	url = https://github.com/muushi97/tex-project-template
