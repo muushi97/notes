@@ -18,32 +18,107 @@
 
   \maketitle
 
-  \begin{definition}[安定]
-    あるシステム$f(x)$に対して以下が成立するとき、システム$f(x)$は原点において安定であるという。
-    \begin{itemize}
-      \item $\forall \epsilon > 0, \exists \delta > 0, \forall t \ge 0, \norm{x(0)} < \delta \Rightarrow \norm{x(t)} < \epsilon$
-    \end{itemize}
-    ここで$x(t) = f(x(t-1))$である。
-  \end{definition}
+  \section{定義}
+    \begin{definition}[安定]
+      あるシステム$f(x)$に対して以下が成立するとき、システム$f(x)$は原点において安定であるという。
+      \begin{itemize}
+        \item $\forall \epsilon > 0, \exists \delta > 0, \forall t \ge 0, \norm{x(0)} < \delta \Rightarrow \norm{x(t)} < \epsilon$
+      \end{itemize}
+      ここで$x(t) = f(x(t-1))$である。
+    \end{definition}
 
-  \begin{definition}[漸近安定]
-    あるシステム$f(x)$に対して以下が成立するとき、システム$f(x)$は原点において安定であるという。
-    \begin{itemize}
-      \item システム$f(x)$が安定である
-      \item $\exists \delta' > 0, \norm{x(0)} < \delta \Rightarrow \lim_{t \to \infty} x(t) = 0$
-    \end{itemize}
-    ここで$x(t) = f(x(t-1))$である。
-  \end{definition}
+    \begin{definition}[漸近安定]
+      あるシステム$f(x)$に対して以下が成立するとき、システム$f(x)$は原点において安定であるという。
+      \begin{itemize}
+        \item システム$f(x)$が安定である
+        \item $\exists \delta' > 0, \norm{x(0)} < \delta \Rightarrow \lim_{t \to \infty} x(t) = 0$
+      \end{itemize}
+      ここで$x(t) = f(x(t-1))$である。
+    \end{definition}
 
-  上述の安定性と漸近安定性の定義は原点に対するものしか与えていないが、ある原点で安定(漸近安定)なシステム$f(x)$に対して
-  \begin{equation}
-    f'(x) = f(x - x')
-  \end{equation}
-  というシステム$f'(x)$を考えることで任意の平衡点をもつシステムについて安定(漸近安定)性の議論を行うことができる。
+    上述の安定性と漸近安定性の定義は原点に対するものしか与えていないが、ある原点で安定(漸近安定)なシステム$f(x)$に対して
+    \begin{equation}
+      f'(x) = f(x - x')
+    \end{equation}
+    というシステム$f'(x)$を考えることで任意の平衡点をもつシステムについて安定(漸近安定)性の議論を行うことができる。
+
+  \section{線形時不変システム(lineary time-incariant system)}
+    \begin{theorem}
+      ある入力列$x[n]$とある数列$h[n]$によって出力列$y[n]$が
+      \begin{equation}
+        y[m] = h[m] * x[m] = \sum_{n=-\infty}^{\infty} h[n] x[m - n]
+      \end{equation}
+      と書かれるとき、このシステムは線形かつ時不変となる。
+      また、この$h[n]$をこのシステムのインパルス応答(impulse response)という。
+    \end{theorem}
+    \begin{proof}
+      まず線形性を示す。
+      2つの入力$x_1[n], x_2[n]$に対する出力$y_1[n], y_2[n]$はそれぞれ
+      \begin{align}
+        y_1[m] = h[m] * x_1[m] = \sum_{n=-\infty}^{\infty} h[n] x_1[m - n] \\
+        y_2[m] = h[m] * x_2[m] = \sum_{n=-\infty}^{\infty} h[n] x_2[m - n]
+      \end{align}
+      である
+      ここで、ある定数$\alpha$と$\beta$による別の入力$x_3[n] = \alpha x_1[n] + \beta x_2[n]$に対する出力$y_3[n]$は
+      \begin{align}
+        y_3[m] = h[m] * x_3[m] &= \sum_{n=-\infty}^{\infty} h[n] x_3[m - n] \\
+                               &= \sum_{n=-\infty}^{\infty} h[n] (\alpha x_1[m - n] + \beta x_2[m - n]) \\
+                               &= \alpha \sum_{n=-\infty}^{\infty} h[n] x_1[m - n] + \beta \sum_{n=-\infty}^{\infty} h[n] x_2[m - n] \\
+                               &= \alpha y_1[m] + \beta y_2[m] \\
+      \end{align}
+      となり線形性が示された。
+
+      次に時不変性を示す。
+      ある入力$x[n]$に対する出力$y[n]$は
+      \begin{equation}
+        y[m] = h[m] * x[m] = \sum_{n=-\infty}^{\infty} h[n] x[m - n]
+      \end{equation}
+      であり、$x[n]$を$t$だけ進めた別の入力$x'[n] = x[n - t]$に対する出力$y'[n]$は
+      \begin{align}
+        y'[m] = h[m] * x'[m] &= \sum_{n=-\infty}^{\infty} h[n] x'[m - n] \\
+                             &= \sum_{n=-\infty}^{\infty} h[n] x[m - n - t] \\
+                             &= y[m - t]
+      \end{align}
+      となり時不変性が示された。
+    \end{proof}
+
+    この線形時不変システムに対してはインパルス応答によって出力が有界となるかを知ることができる。
+    \begin{theorem}[BIBO stability (bounded-input bounded-output stability)]
+      インパルス応答$h[n]$を持つシステムに対して
+      \begin{equation}
+        \sum_{n=-\infty}^{\infty} \abs{h[n]} < \infty
+      \end{equation}
+      であるならば、このシステムは任意の有界な入力に対して有界な出力を返す。
+    \end{theorem}
+    \begin{proof}
+      システムのインパルス応答$h[n]$が与えられているため入力$x[n]$と出力$y[n]$に対して
+      \begin{equation}
+        y[m] = h[m] * x[m] = \sum_{n=-\infty}^{\infty} h[n] x[m - n]
+      \end{equation}
+      が成立する。
+      この関係式の両辺の絶対値をとることで
+      \begin{equation}
+        \abs{y[m]} = \abs{\sum_{n=-\infty}^{\infty} h[n] x[m - n]}
+      \end{equation}
+      となり、三角不等式から
+      \begin{equation}
+        \abs{y[m]} = \abs{\sum_{n=-\infty}^{\infty} h[n] x[m - n]} \le \sum_{n=-\infty}^{\infty} \abs{h[n]} \abs{x[m - n]}
+      \end{equation}
+      が得られる。
+      また$\norm{x}_{\infty}$を任意の$n$に対する$x[n]$の最大値とすると
+      \begin{align}
+        \sum_{n=-\infty}^{\infty} \abs{h[n]} \abs{x[m - n]} \le \sum_{n=-\infty}^{\infty} \abs{h[n]} \norm{x}_{\infty} \\
+              = \norm{x}_{\infty} \sum_{n=-\infty}^{\infty} \abs{h[n]}
+      \end{align}
+      と変形できる。
+      前提より$\sum_{n=-\infty}^{\infty} \abs{h[n]}$は有界であるため、$\norm{x}_{\infty}$が有界であれば$\abs{y[m]}$も有界となることが示された。
+    \end{proof}
 
   %\begin{thebibliography}{99}
   %  \bibtem{bib:d} \url{http://www.gifu-nct.ac.jp/elcon/labo/endo-n/endo/lecture/syscon/node24.html}
   %  \bibtem{bib:d} \url{https://en.wikipedia.org/wiki/Lyapunov_stability}
+  %  \bibtem{bib:d} \url{https://en.wikipedia.org/wiki/BIBO_stability}
+  %  \bibtem{bib:d} \url{http://www.ic.is.tohoku.ac.jp/~swk/lecture/yaruodsp/dfbasic.html}
   %\end{thebibliography}
 
 \end{document}
