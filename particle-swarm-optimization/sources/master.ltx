@@ -1,0 +1,135 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx]{jsarticle}
+
+%------------------------------------------------------------------------
+% パッケージ
+%------------------------------------------------------------------------
+\usepackage{./preambles/ownpack}
+
+
+\title{Particle Swarm Optimization}
+\author{}
+\date{}
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+
+\begin{document}
+
+  \maketitle
+  \tableofcontents
+
+
+  Particle Swarm Optimization
+
+  入力$p^{(k)}$をとるシステム
+  \begin{equation}
+    \vect{x}^{(k+1)} = M \vect{x}^{(k)} + N p^{(k)}
+  \end{equation}
+  を考える。
+  ある$\vect{h}^{(k)}$を
+  \begin{equation}
+    \vect{h}^{(k)} = \begin{cases}
+      M^k N & k \ge 0 \\
+      0     & \text{otherwise}
+    \end{cases}
+  \end{equation}
+  とし、$p^{(k)}$との畳み込みを計算すると
+  \begin{align}
+    \sum_{m=-\infty}^{\infty} \vect{h}^{(m)} p^{(k - m - 1)}
+      &= \sum_{m=0}^{\infty} \vect{h}^{(m)} p^{(k - m - 1)} \\
+      &= \sum_{m=1}^{\infty} \vect{h}^{(m)} p^{(k - m - 1)} + \vect{h}^{(0)} p^{(k - 1)}
+  \end{align}
+  と書くことができる。
+  ここで$m' = m - 1$とすると
+  \begin{align}
+    \sum_{m=-\infty}^{\infty} \vect{h}^{(m)} p^{(k - m - 1)}
+      &= \sum_{m=1}^{\infty} \vect{h}^{(m)} p^{(k - m - 1)} + \vect{h}^{(0)} p^{(k - 1)} \\
+      &= \sum_{m'=0}^{\infty} \vect{h}^{(m' + 1)} p^{(k - (m' + 1) - 1)} + \vect{h}^{(0)} p^{(k - 1)} \\
+      &= \sum_{m'=0}^{\infty} M^{m' + 1} N p^{(k - m' - 2)} + N p^{(k - 1)} \\
+      &= M \sum_{m'=0}^{\infty} M^{m'} N p^{((k-1) - m' - 1)} + N p^{(k - 1)}
+  \end{align}
+  となる。
+  ここで
+  \begin{equation}
+    \vect{x}^{(k)} = \sum_{m=-\infty}^{\infty} \vect{h}^{(m)} p^{(k - m - 1)}
+  \end{equation}
+  とすれば
+  \begin{align}
+    \vect{x}^{(k)} &= \sum_{m=-\infty}^{\infty} \vect{h}^{(m)} p^{(k - m - 1)} \\
+                   &= M \sum_{m'=0}^{\infty} M^{m'} N p^{((k-1) - m' - 1)} + N p^{(k - 1)} \\
+                   &= M \sum_{m'=0}^{\infty} \vect{h}^{(m')} p^{((k-1) - m' - 1)} + N p^{(k - 1)} \\
+                   &= M \vect{x}^{(k-1)} + N p^{(k - 1)}
+  \end{align}
+  となるため、このシステムはインパルス応答$\vect{h}^{(k)}$が
+  \begin{equation}
+    \vect{h}^{(k)} = \begin{cases}
+      M^k N & k \ge 0 \\
+      0     & \text{otherwise}
+    \end{cases}
+  \end{equation}
+  である線形時不変システムである。
+  また、
+  \begin{equation}
+    \sum_{k=-\infty}^{\infty} \vect{h}^{(k)} = \sum_{k=0}^{\infty} M^k N = \left( \sum_{k=0}^{\infty} M^k \right) N
+  \end{equation}
+  となるため$\sum_{k=0}^{\infty} M^k$が収束すればこのシステムは有界な入力に対して有界な出力を返す。
+
+  $M$が$2\times2$の行列で非負実数$w, \phi$によって
+  \begin{equation}
+    M = \begin{pmatrix}
+       w &     \phi \\
+      -w & 1 - \phi
+    \end{pmatrix}
+  \end{equation}
+  と書かれる場合を考える。
+  まず、$M$の固有値を求める。
+  特性方程式
+  \begin{equation}
+    \det({M - \lambda I}) = \begin{vmatrix}
+       w - \lambda &     \phi \\
+      -w           & 1 - \phi - \lambda
+    \end{vmatrix} = 0
+  \end{equation}
+  を解くと$M$の固有値$\lambda_1, \lambda_2$は
+  \begin{align}
+    \lambda_1 = \frac{w - \phi + 1 + \sqrt{(w - \phi + 1)^2 - 4w}}{2} \\
+    \lambda_2 = \frac{w - \phi + 1 - \sqrt{(w - \phi + 1)^2 - 4w}}{2}
+  \end{align}
+  となる。
+  固有値$\lambda_1, \lambda_2$それぞれに対する固有ベクトル$\vect{v}_1, \vect{v}_2$は
+  \begin{align}
+    \vect{v}_1 = \begin{pmatrix}
+      -\frac{w + \phi - 1 + \sqrt{(w - \phi + 1)^2 - 4w}}{2w} \\
+      1
+    \end{pmatrix} \\
+    \vect{v}_2 = \begin{pmatrix}
+      -\frac{w + \phi - 1 - \sqrt{(w - \phi + 1)^2 - 4w}}{2w} \\
+      1
+    \end{pmatrix}
+  \end{align}
+  である。
+  よって固有ベクトルが存在するためある行列$P$を用いて
+  \begin{equation}
+    M = P^{-1} \begin{pmatrix}
+      \lambda_1 &         0 \\
+              0 & \lambda_2
+    \end{pmatrix} P
+  \end{equation}
+  と書くことができ、
+  \begin{equation}
+    M^k = P^{-1} \begin{pmatrix}
+      \lambda_1 &         0 \\
+              0 & \lambda_2
+    \end{pmatrix}^k P
+  \end{equation}
+  が成立する。
+  したがって、$\abs{\lambda_1} \le 1, \abs{\lambda_2} \le 1$であれば$\lim_{k \to \infty} M^k$は収束する。
+  $\lambda_1, \lambda_2$が前述の条件を満たすのは
+  \begin{gather}
+    0 \le w < 1, \; 0 \le \phi < 2 w + 2
+  \end{gather}
+  であるため、この条件を満たせば$\sum_{k=0}^{\infty} M^k$は収束し、システムが有界な入力に対して有界な出力を返す。
+
+\end{document}
+

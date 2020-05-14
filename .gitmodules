@@ -31,3 +31,21 @@
 [submodule "simulated-annealing/.template"]
 	path = simulated-annealing/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "tabu-search/.template"]
+	path = tabu-search/.template
+	url = https://github.com/muushi97/tex-project-template
+[submodule "tunneling-algorithm/.template"]
+	path = tunneling-algorithm/.template
+	url = https://github.com/muushi97/tex-project-template
+[submodule "ant-colony-optimization/.template"]
+	path = ant-colony-optimization/.template
+	url = https://github.com/muushi97/tex-project-template
+[submodule "genetic-algorithm/.template"]
+	path = genetic-algorithm/.template
+	url = https://github.com/muushi97/tex-project-template
+[submodule "memetic-algorithm/.template"]
+	path = memetic-algorithm/.template
+	url = https://github.com/muushi97/tex-project-template
+[submodule "particle-swarm-optimization/.template"]
+	path = particle-swarm-optimization/.template
+	url = https://github.com/muushi97/tex-project-template
