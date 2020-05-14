@@ -34,9 +34,6 @@
 [submodule "tabu-search/.template"]
 	path = tabu-search/.template
 	url = https://github.com/muushi97/tex-project-template
-[submodule "tunneling-algorithm/.template"]
-	path = tunneling-algorithm/.template
-	url = https://github.com/muushi97/tex-project-template
 [submodule "ant-colony-optimization/.template"]
 	path = ant-colony-optimization/.template
 	url = https://github.com/muushi97/tex-project-template
