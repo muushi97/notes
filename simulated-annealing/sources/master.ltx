@@ -104,6 +104,15 @@
     \begin{align}
       \lim_{T \to 0} \omega_{i_{opt}}(T) &= \lim_{T \to 0} \frac{\exp{\left( -\frac{f(i_{opt})}{T} \right)}}{\sum_{j \in X} \exp{\left( -\frac{f(j)}{T} \right)}} \\
                                          &= \lim_{T \to 0} \frac{\exp{\left( \frac{f_{opt} - f(i_{opt})}{T} \right)}}{\sum_{j \in X} \exp{\left( \frac{f_{opt} - f(j)}{T} \right)}} \\
+                                         &= \lim_{T \to 0} \frac{\exp{\left( \frac{0}{T} \right)}}{\sum_{j \in X - X_{opt}} \exp{\left( \frac{f_{opt} - f(j)}{T} \right)} + \sum_{j \in X_{opt}} \exp{\left( \frac{f_{opt} - f(j)}{T} \right)}} \\
+                                         &= \lim_{T \to 0} \frac{\exp{\left( 0 \right)}}{\sum_{j \in X - X_{opt}} \exp{\left( \frac{f_{opt} - f(j)}{T} \right)} + \sum_{j \in X_{opt}} \exp{\left( 0 \right)}} \\
+                                         &= \lim_{T \to 0} \frac{1}{\sum_{j \in X - X_{opt}} \exp{\left( \frac{f_{opt} - f(j)}{T} \right)} + \sum_{j \in X_{opt}} 1} \\
+                                         &= \lim_{T \to 0} \frac{1}{\sum_{j \in X - X_{opt}} \exp{\left( \frac{f_{opt} - f(j)}{T} \right)} + \card{X_{opt}}}
+    \end{align}
+    任意の$j \in X - X_{opt}$に対して$f_{opt} - f(j)$は負なので
+    \begin{align}
+      \lim_{T \to 0} \omega_{i_{opt}}(T) &= \lim_{T \to 0} \frac{1}{\sum_{j \in X - X_{opt}} \exp{\left( \frac{f_{opt} - f(j)}{T} \right)} + \card{X_{opt}}} \\
+                                         &= \frac{1}{\sum_{j \in X - X_{opt}} 0 + \card{X_{opt}}} \\
                                          &= \frac{1}{\card{X_{opt}}}
     \end{align}
     となり、また最適解でない解$i \in X - X_{opt}$に対しては
@@ -119,7 +128,7 @@
     この仮定において斉次なモデルに対して温度$T$を序々に下げている。
     しかし、平衡状態の確率分布を導出した仮定は最適解への収束するための十分条件ではない。
     そこで、ある温度での反復回数に制限を与えたうえで序々に温度を下げていくモデル、つまり非斉次なマルコフ連鎖のモデルが示されている。
-    特に Hajec に必要十分性が保証されており、厳密な証明も示されている。
+    特に Hajek に必要十分性が保証されており、厳密な証明も示されている。
     その証明では、ある仮定のもとで、ある定数$\Gamma$に対して温度パラメータの系列$T_k \; (k = 0, 1, \cdots)$が
     \begin{equation}
       T_k = \frac{\Gamma}{\log (k + 2)}
