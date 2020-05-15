@@ -6,8 +6,8 @@
 \usepackage{./preambles/ownpack}
 
 
-\title{title}
-\author{muushi97}
+\title{誤差逆伝播法(Backpropagation)}
+\author{}
 \date{}
 
 % -----------------------------------------------------------------------
@@ -18,6 +18,96 @@
 
   \maketitle
   \tableofcontents
+
+  \section{概要(abstract)}
+    誤差逆伝播法(Backpropagation)はフィードフォワード型のニューラルネットワークの学習に用いられる方法である。
+    確率的勾配法(stochastic gradient descent)と呼ばれる方法の一つであり、広い意味では最小値を探索するアルゴリズムである。
+    ニューラルネットワークの学習は、損失関数をパラメータの関数と考えたときに、損失関数を目的関数とした最小化問題であるということができる。
+    最小化問題としてのニューラルネットワークに対して確率的勾配法を適用したのが誤差逆伝播法ということができる。
+
+  \section{アルゴリズム(algorithm)}
+    まず使用するニューラルネットワークを定義する。
+    対象とするニューラルネットワークの層数を$N$とする。
+    $k \; (k = 1, 2, \cdots, N)$層目のニューロン$k \; (i = 1, 2, \cdots, n_k)$の出力値を$x^{(k)}_i$、$k+1$層目のニューロンの計算に用いられるパラメータを$w^{(k)}_i \; i = 1, 2, \cdots, m_k$とする。
+    ここで$n_k$は$k$層目のニューロン数、$m_k$は$k+1$層目のニューロンの出力値の計算に用いられるパラメータの数である。
+    また、$k+1$層目のニューロン$i$の出力値を計算する関数を$f^{(k)}_i$とする。
+    これらによって順伝播の計算は
+    \begin{equation}
+      x^{(k+1)}_i = \func{f^{(k)}_i}{x^{(k)}, w^{(k)}}
+    \end{equation}
+    として書かれる。
+    また、損失関数を$L$とすると、$p$個目の教師パターン$t^{(p)}_i \; (i = 1, 2, \cdots, n_{N})$とネットワークの出力$x^{(N)}_i$との誤差は
+    \begin{equation}
+      \func{L}{t^{(p)}, x^{(N)}}
+    \end{equation}
+    となる。
+    よって教師パターン$t^{(p)}$に対する各重みの更新量$\Delta w^{(k)}_i$は
+    \begin{equation}
+      \Delta w^{(k)}_i = -\eta \diffp{L}{w^{(k)}_i}
+    \end{equation}
+    として書かれる。
+    更新量は連鎖律によって
+    \begin{equation}
+      \Delta w^{(k)}_i = -\eta \partial^{(p)} x^{(k)}_j \partial^{(p)} w^{(k)}_i
+    \end{equation}
+    と変形できる。
+    ここで
+    \begin{align}
+      \partial^{(p)} x^{(k)}_i &= \begin{cases}
+        \diffp{L}{x^{(N)}_i} = \partial_{x_i} \func{L}{t^{(p)}, x^{(N)}}, & k = N \\
+        \diffp{L}{x^{(k+1)}_j} \diffp{x^{(k+1)}_j}{x^{(k)}_i} = \partial^{(p)} x^{(k+1)}_j \cdot \partial_{x_i} \func{f^{(k)}_j}{t^{(p)}, x^{(N)}}, & \text{otherwise}
+      \end{cases} \\
+      \partial^{(p)} w^{(k)}_i &= \partial^{(p)} x^{(k+1)}_j \cdot \partial_{w_i} \func{f^{(k)}_j}{t^{(p)}, x^{(N)}} \\
+      \partial_{x_i} f^{(k)}_j &= \diffp{f^{(k)}_j}{x^{(k)}_i} = \diffp{x^{(k+1)}_j}{x^{(k)}_i} \\
+      \partial_{w_i} f^{(k)}_j &= \diffp{f^{(k)}_j}{w^{(k)}_i} = \diffp{x^{(k+1)}_j}{w^{(k)}_i}
+    \end{align}
+    である。
+
+    誤差逆伝播法の具体的な手順は以下の通りである。
+    \begin{description}
+      \descitem{Step1}{itm:BP:algorithm:step1}
+        教師パターンの組$(x'^{(p)}, t^{(p)})$を$P$個用意する。
+        学習率$\eta$を定める。
+
+      \descitem{Step2}{itm:BP:algorithm:step2}
+        ある$p$に対して
+        \begin{equation}
+          x^{(1)}_i = x'^{(p)}_i
+        \end{equation}
+        とし、$k$を$2$から$N$まで増やしながら
+        \begin{equation}
+          x^{(k)}_i = \func{f^{(k-1)}_i}{x^{(k-1)}, w^{(k-1)}}
+        \end{equation}
+        を計算する。
+
+      \descitem{Step3}{itm:BP:algorithm:step3}
+        ネットワークの出力と教師パターンとの誤差から
+        \begin{equation}
+          \partial^{(p)} x^{(N)}_i = \partial_{x_i} \func{L}{t^{(p)}, x^{(N)}}
+        \end{equation}
+        を計算し、$k$を$N-1$から$1$まで減らしながら
+        \begin{align}
+          \partial^{(p)} x^{(k)}_i = \partial^{(p)} x^{(k+1)}_j \cdot \partial_{x_i} \func{f^{(k)}_j}{t^{(p)}, x^{(N)}} \\
+          \partial^{(p)} w^{(k)}_i = \partial^{(p)} x^{(k+1)}_j \cdot \partial_{w_i} \func{f^{(k)}_j}{t^{(p)}, x^{(N)}}
+        \end{align}
+        を計算する。
+
+      \descitem{Step4}{itm:BP:algorithm:step4}
+        いくつかの$p$に対して\ref{itm:BP:algorithm:step2}から\ref{itm:BP:algorithm:step3}を繰り返し行い、重みの更新量
+        \begin{equation}
+          \Delta w^{(k)}_i = -\eta \sum_p \partial^{(p)} w^{(k)}_i
+        \end{equation}
+        を計算し重みを更新する。
+
+      \descitem{Step5}{itm:BP:algorithm:step5}
+        繰り返し回数の上限を越えた場合やネットワークの出力と教師パターンの誤差
+        \begin{equation}
+          E = \sum_p \func{L}{t^{(p)}, x^{(N)}}
+        \end{equation}
+        が一定の値以下になった場合に終了する。
+        そうでない場合\ref{itm:BP:algorithm:step2}へ戻る。
+
+    \end{description}
 
 
 
