@@ -46,3 +46,6 @@
 [submodule "particle-swarm-optimization/.template"]
 	path = particle-swarm-optimization/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "backpropagation/.template"]
+	path = backpropagation/.template
+	url = https://github.com/muushi97/tex-project-template
