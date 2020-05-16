@@ -49,3 +49,6 @@
 [submodule "backpropagation/.template"]
 	path = backpropagation/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "markov-chain/.template"]
+	path = markov-chain/.template
+	url = https://github.com/muushi97/tex-project-template
