@@ -52,3 +52,6 @@
 [submodule "markov-chain/.template"]
 	path = markov-chain/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "jordan-normal-form/.template"]
+	path = jordan-normal-form/.template
+	url = https://github.com/muushi97/tex-project-template
