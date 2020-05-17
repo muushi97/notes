@@ -5,6 +5,8 @@
 %------------------------------------------------------------------------
 \usepackage{./preambles/ownpack}
 
+% aut
+\DeclareMathOperator{\Aut}{Aut}
 
 \title{ジョルダン標準形(Jordan normal form)}
 \author{}
@@ -19,18 +21,62 @@
   \maketitle
   \tableofcontents
 
-  \begin{definition}[一般固有ベクトル{generalized eigenvector}]
-    ある$n$次正方行列$A$と、$A$の固有値$\lambda$に対して
+  \begin{definition}[行列式(determinant)]
+    $(i, j)$成分が$a_{ij}$と表わされる行列$A$の行列式$\det{A}$は
     \begin{equation}
-      (A - \lambda I)^m \vect{v} = \vect{0}
+      \det{A} = \sum_{\sigma \in Aut(n)} \sgn(\sigma) \Pi_{i=1}^n a_{i \sigma(i)}
     \end{equation}
-    であり
-    \begin{equation}
-      (A - \lambda I)^{m-1} \vect{v} \neq \vect{0}
-    \end{equation}
-    であるようなベクトル$\vect{v}$を固有値$\lambda$に対する行列$A$の階数(rank)$m$の一般(広義)固有ベクトルという。
-    ここで$I$は単位行列、$\vect{0}$をゼロベクトルとした。
+    として書かれる。
+    ここで、$\Aut(n)$は$n$次の置換全体の集合である。
   \end{definition}
+  \begin{definition}[固有値(eigenvalue)・一般固有ベクトル{generalized eigenvector}]
+    ある$n$次正方行列$A$と非自明なベクトル$\vect{v} \neq \vect{0}$に対して
+    \begin{align}
+      (A - \lambda I)^m \vect{v} = \vect{0} \\
+      (A - \lambda I)^{m-1} \vect{v} \neq \vect{0}
+    \end{align}
+    であるとき、ベクトル$\vect{v}$を行列$A$の階数(rank)$m$の一般(広義)固有ベクトル、$\lambda$を一般固有ベクトル$\vect{x}$に対応する固有値という。
+    ここで$I$は単位行列、$\vect{0}$をゼロベクトルとした。
+    また、階数が$1$の一般固有ベクトルを固有ベクトルという。
+  \end{definition}
+  \begin{theorem}
+    ある行列$A$に固有値$\lambda$と対応する階数$m$の一般固有ベクトルが存在するならば、固有値$\lambda$に対応する固有ベクトルも存在する。
+  \end{theorem}
+  \begin{proof}
+    $\vect{v}_1$を
+    \begin{equation}
+      \vect{v}_1 = (A - \lambda I)^{m-1} \vect{v}_m
+    \end{equation}
+    とすると$\vect{v}_1 \neq \vect{0}$であり
+    \begin{equation}
+      (A - \lambda I) \vect{v}_1 = (A - \lambda I) (A - \lambda I)^{m-1} \vect{v}_m = \vect{0}
+    \end{equation}
+    となるため$\vect{v}_1$は固有ベクトルとなる。
+    したがって、階数$m$の一般固有ベクトルが存在するならば、固有ベクトルも存在する。
+  \end{proof}
+  \begin{corollary}
+    ある行列$A$の固有値$\lambda$に対応する一般固有ベクトルが存在することと、$Ker (A - \lambda I) \neq \{ \vect{0} \}$であることは同値である。
+  \end{corollary}
+  $Ker (A - \lambda I) \neq \{\vect{0}\}$であることと$\det{(A - \lambda I)} = 0$であることは同値であるため固有値の存在に関して以下の定理が成立する。
+  \begin{theorem}
+    ある行列$A$に対して$\lambda$が固有値であることと$\det{(A - \lambda I)} = 0$でることは同値である。
+  \end{theorem}
+  \begin{proof}
+    $\lambda$が固有値であれば固有ベクトルが存在することから示される。
+  \end{proof}
+
+  \begin{definition}[重複度]
+    $\det{(A - \lambda I)}$が$(\lambda - \lambda_1)^{m_1} (\lambda - \lambda_2)^{m_2} \cdots (\lambda - \lambda_k)^{m_k}$と書けるとき、行列$A$の固有値は
+    \begin{equation}
+      \lambda_1, \lambda_2, \cdots, \lambda_k
+    \end{equation}
+    の$k$個であり、固有値$\lambda_i$に対して$m_i$を$\lambda_i$の重複度という。
+    また$\det{(A - \lambda I)}$を固有多項式(特性多項式)といい、$\det{(A - \lambda I)} = 0$を固有方程式(特性方程式)という。
+  \end{definition}
+  \begin{corollary}
+    行列式の定義から$n$次正方行列の固有多項式は$n$次の多項式であり、固有多項式の根が固有値となる。
+    また$n$次行列$A$の全ての固有値の重複度の和は$n$と一致する。
+  \end{corollary}
 
   \begin{definition}[Jordan chain]
     ある行列$A$の固有値$\lambda$に対する階数$m$の一般固有ベクトル$\vect{x}_m$によって
@@ -48,11 +94,35 @@
     となり、 $\vect{x}_j$は行列$A$の固有値$\lambda$に対する階数$j$の一般固有ベクトルであることが示される。
     また Jordan chain は線形独立となる。
   \end{definition}
+  \begin{theorem}
+    階数$m$の一般固有ベクトルによって生成される Jordan chain に含まれるベクトル
+    \begin{equation}
+      \vect{x}_j = (A - \lambda I)^{m-j} \vect{x}_m = (A - \lambda I) \vect{x}_{j+1}, \quad (j = 1, 2, \cdots, m-1)
+    \end{equation}
+    に対して以下が成立する。
+    \begin{enumerate}
+      \item $\vect{x}_1$は固有ベクトルである
+      \item $\vect{x}_m$は$Ker(A - \lambda I)^m$に含まれるが$Ker(A - \lambda I)^{m-1}$に含まれないベクトルである
+    \end{enumerate}
+  \end{theorem}
+
+
+
+
+
+
+
+
+
+
 
   \begin{thebibliography}{99}
     \bibitem{bib:a} ``講義固有ベクトル - Wikipedia''，\url{https://ja.wikipedia.org/wiki/広義固有ベクトル}，参照May.16,2020.
     \bibitem{bib:b} ``Generalized eigenvector - Wikipedia''，\url{https://en.wikipedia.org/wiki/Generalized_eigenvector#Jordan_chains}，参照May.16,2020.
-    %\bibitem{bib:z} ``''，\url{}，参照May.16,2020.
+    \bibitem{bib:c} ``行列式 - Wikipedia''，\url{https://ja.wikipedia.org/wiki/行列式}，参照May.17,2020.
+    \bibitem{bib:d} ``固有多項式 - Wikipedia''，\url{https://ja.wikipedia.org/wiki/固有多項式}，参照May.17,2020.
+    \bibitem{bib:e} ``Jordan normal form - Wikipedia''，\url{https://en.wikipedia.org/wiki/Jordan_normal_form}，参照May.17,2020.
+    %\bibitem{bib:z} ``''，\url{}，参照May.17,2020.
   \end{thebibliography}
 \end{document}
 
