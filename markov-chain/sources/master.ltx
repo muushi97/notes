@@ -6,8 +6,8 @@
 \usepackage{./preambles/ownpack}
 
 
-\title{title}
-\author{muushi97}
+\title{マルコフ連鎖(Markov chain)}
+\author{}
 \date{}
 
 % -----------------------------------------------------------------------
@@ -19,7 +19,213 @@
   \maketitle
   \tableofcontents
 
+  \begin{definition}[マルコフ連鎖(Markov chain)]
+    ある一連の確率変数$X_0, X_1, \ddots$に対して
+    \begin{equation}
+      Pr(X_{n+1} = x | X_n = x_n, \ddots, X_1 = x_1, X_0 = x_0) = Pr(X_{n+1} | X_n = x_n)
+    \end{equation}
+    であるとき、マルコフ連鎖という。
+    これは現在の時刻での状態のみによって次の状態の確率が決まることである。
+    ここで$X_i$のとりうる値は、連鎖の状態空間といい、加算集合となる。
 
+    状態空間が有限であるマルコフ連鎖は有限状態マルコフ連鎖という。
+    また、斉次的(homogeneous)マルコフ連鎖とは任意の$n$に対して
+    \begin{equation}
+      Pr(X_{n+1} = x | X_n = y) = Pr(X_n | X_{n-1} = y)
+    \end{equation}
+    が成立することである。
+  \end{definition}
+
+  マルコフ連鎖はコスト付きの有向グラフで表すことができ、ノードが状態、枝のコストがある状態から別の状態へ遷移する確率となる。
+
+  \begin{definition}[到達可能(accessible)]
+    あるマルコフ連鎖に対して、現在の状態が$i$であり、未来のある時点で状態$j$にある確率が$0$でないとき、状態$j$は状態$i$から到達可能であるという。
+    つまり
+    \begin{equation}
+      Pr(X_n = j | X_0 = i) > 0
+    \end{equation}
+    となる$n$が存在することである。
+    また、これはマルコフ連鎖をグラフで表わしたとき、ノード$i$からノード$j$への路が存在することと同値である。
+  \end{definition}
+  \begin{definition}[連結(communicate)・連結類(communicate class)]
+    あるマルコフ連鎖に対し、状態$i$と状態$j$が互いに到達可能ならば、状態$i$と状態$j$は連結しているという。
+    そして、状態の集合$C$の任意の$i, j$が互いに連結ならば、$C$は連結類といい、連結類の状態からその連結類に含まれない状態へと遷移する確率が$0$ならば、この連結類は閉じている(closed)という。
+  \end{definition}
+  \begin{definition}[既約(または可約でない : irreducible)]
+    あるマルコフ連鎖の状態空間が連結類ならば、マルコフ連鎖は既約であるという。
+    つまり、既約なマルコフ連鎖では任意の状態から別の任意の状態へと遷移することができる。
+  \end{definition}
+  \begin{definition}[周期]
+    \begin{equation}
+      k = gcd \{ n : Pr(X_n = i | X_0 = i) > 0 \}
+    \end{equation}
+    として書かれる$k$を状態$i$の周期という。
+    $k=1$のとき状態は非周期的であるという。
+    連結類の各状態の周期は等しく、既約なマルコフ連鎖の状態が非周期的なとき、エルゴード的(ergodic)という。
+  \end{definition}
+
+  \begin{definition}[遷移行列(transition matrix)]
+    有限状態マルコフ連鎖であれば、遷移確率分布は行列で表すことができる。
+    このとき、遷移確率分布を表す行列$P$を遷移行列(確率行列)といい、第$(i, j)$要素$p_{ij}$は
+    \begin{equation}
+      p_{ij} = PR(X_{n+1} = j | X_n = i)
+    \end{equation}
+    と書かれる。
+    また、斉次的なマルコフ連鎖であれば$k$-段階遷移確率は遷移行列の$k$乗で表すことができる。
+  \end{definition}
+
+  \begin{definition}[定常状態]
+    現在ある状態$i$にある確率を$\pi_i$として表されるベクトル$\vect{\pi}$を確率行列といい、斉次的な有限状態マルコフ連鎖の遷移行列$P$に対して
+    \begin{equation}
+      \vect{\pi} = \vect{\pi} P
+    \end{equation}
+    であるとき$\vect{\pi}$を定常分布という。
+    定常分布は遷移行列の左側固有ベクトルであり、固有値は$1$であるといえる。
+  \end{definition}
+
+  \begin{definition}[ゲルシュゴリン円盤(Gershgorin disc)]
+    $n \times n$の複素行列$A$の各成分を$a_{ij}$とする。
+    この行列に対して$i$行の非対角成分の絶対和$R_i$を
+    \begin{equation}
+      R_i = \sum_{j\neq i} \abs{a_{ij}}
+    \end{equation}
+    とする。
+    このとき、$a_{ii}$を中心とする半径$R_i$の閉円盤$D(a_{ii}, R_i)$をゲルシュゴリン円盤(Gershgorin disc)という。
+  \end{definition}
+  \begin{theorem}[ゲルシュゴリンの定理(Gershgorin circle theorem)]
+    $n \times n$の複素行列$A$の任意の固有値は、少なくともひとつのゲルシュゴリン円盤$D(a_{ii}, R_i)$の上に乗る。
+  \end{theorem}
+  \begin{proof}
+    $A$のある固有値$\lambda$とそれに対応する固有ベクトル$\vect{x}$を一つ選び、固有ベクトル$\vect{x}$の各成分のうち絶対値が最大となる成分の番号を$i$とする。
+    つまり、任意の$j$に対して$\abs{x_i} \ge \abs{x_j}$であり、$\vect{x}$が固有ベクトルであることから$\abs{x_i} > 0$である。
+    $\vect{x}$は$\lambda$に対応する固有ベクトルとしたため$A\vect{x} = \lambda\vect{x}$が成立し、前述の$i$について
+    \begin{equation}
+      \sum_j a_{ij} x_j = \lambda x_i
+    \end{equation}
+    と書くことができる。
+    また、上式の対角成分を移行することで
+    \begin{equation}
+      \sum_{j \neq i} a_{ij} x_j = \lambda x_i - a_{ii} x_i
+    \end{equation}
+    と変形することができる。
+    $x_i$は非ゼロとしたため、両辺を$x_i$で割り絶対値をとることで
+    \begin{equation}
+      \abs{\lambda - a_{ii}} = \abs{\frac{\sum_{j \neq i} a_{ij} x_j}{x_i}} \le \sum_{j \neq i} \abs{\frac{\sum_{j \neq i} a_{ij} x_j}{x_i}}
+                                                                            \le \sum_{j \neq i} \abs{\sum_{j \neq i} a_{ij}} = R_i
+    \end{equation}
+    となり、定理が示された。
+    ここで、三角不等式と$\abs{\frac{x_j}{x_i}} \le 1$を用いた。
+  \end{proof}
+
+  \begin{theorem}
+    ある遷移行列$P$の任意の右固有値の絶対値は$1$以下である。
+  \end{theorem}
+  \begin{proof}
+    ゲルシュゴリンの定理から任意の右固有値に対してある$i$が存在し
+    \begin{equation}
+      \abs{\lambda - p_{ii}} \le \sum_{j \neq i} \abs{p_{ij}}
+    \end{equation}
+    である。
+    $P$が遷移行列であることから
+    \begin{equation}
+      \sum_{j \neq i} \abs{p_{ij}} \le 1
+    \end{equation}
+    であり、$\sum_{j \neq i} \abs{p_{ij}} = 1$であるとき$p_{ii} = 0$となるため示される。
+
+    また$\sum_{j \neq i} \abs{p_{ij}} < 1$であるならば$\abs{\lambda - p_{ij}} < 1$であり、
+    \begin{equation}
+      \abs{\lambda - p_{ii}} < \sum_{j \neq i} \abs{p_{ij}} \Leftrightarrow  \begin{cases}
+        -\lambda + p_{ii} < \sum_{j \neq i} \abs{p_{ij}}, & \lambda < p_{ii} \\
+        \lambda - p_{ii} < \sum_{j \neq i} \abs{p_{ij}}, & \text{otherwise}
+      \end{cases}
+    \end{equation}
+    %TODO: もうちょっとちゃんと見て
+    であるため示された。
+  \end{proof}
+
+  \begin{theorem}
+    ある遷移行列$P$は必ず左固有値$1$を持つ。
+  \end{theorem}
+  \begin{proof}
+    $P$が遷移行列であることがら、右固有値$1$とそれに対する固有ベクトル$\vect{1}$が存在する。
+    また、正方行列の右固有値と左固有値は一致するため左固有値$1$が存在する。
+    %TODO: 要証明
+  \end{proof}
+  \begin{corollary}
+    遷移行列$P$に対して定常分布は必ず存在する。
+  \end{corollary}
+
+  \begin{theorem}
+    ある遷移行列$P$が既約かつ非周期であれば
+    \begin{equation}
+      \lim_{k \to \infty} P^k = \vect{1} \vect{\pi}
+    \end{equation}
+    となる。
+    ここで$\vect{1}$は各成分が$1$である列ベクトルとした。
+  \end{theorem}
+  \begin{proof}
+    %TODO: 要証明
+  \end{proof}
+
+  以下に定常状態となる例を示す。
+  シミュレーテッド・アニーリングにおいて、ある状態$i$で状態$j$が選ばれたときに$j$へと遷移する確率$p'_{ij}$は
+  \begin{equation}
+    p'_{ij} = \begin{cases}
+      1, & f(j) \le f(i) \\
+      \exp\left( -\frac{f(j) - f(i)}{T} \right), & f(j) > f(i)
+    \end{cases}
+  \end{equation}
+  ここで、$T$はシミュレーテッド・アニーリングで用いられるパラメータであり、$f$は最小化する目的関数である。
+  このとき、$T$が不変であるとし、状態$i$のときに状態$j$が選ばれる確率が一様であるとすれば、このシミュレーテッド・アニーリングの状態遷移は斉次的なマルコフ連鎖となり、遷移行列$P = \{p_{ij}\}$は
+  \begin{equation}
+    p_{ij} = \begin{cases}
+      1 - \sum_{j \neq i} p_{ij}, & i = j \\
+      \frac{1}{n}, & i \neq j, f(j) \le f(i) \\
+      \frac{1}{n} \exp\left( -\frac{f(j) - f(i)}{T} \right), & i \neq j, f(j) > f(i)
+    \end{cases}
+  \end{equation}
+  と書くことができる。
+  また$P$は正方行列であり左固有ベクトル$1$が存在するため、定常分布が存在する。
+
+  この遷移行列$P$によって表わされる定常分布$\vect{\pi}$がボルツマン分布
+  \begin{equation}
+    \pi_i = \frac{\exp\left( -\frac{f(i)}{T} \right)}{\sum_{j} \exp\left( -\frac{f(j)}{T} \right)}
+  \end{equation}
+  となることを示す。
+  ベクトル$\vect{\pi}$に右から遷移行列を作用させると
+  \begin{equation}
+    \pi'_j = \sum_i \pi_i p_{ij}
+  \end{equation}
+  となる。
+  この式を変形すると
+  \begin{align}
+    \pi'_j &= \sum_i \pi_i p_{ij} \\
+           &= \pi_j p_{jj} + \sum_{i \neq j} \pi_i p_{ij} \\
+           &= \pi_j \left(1 - \sum_{k \neq j} p_{jk}\right) + \sum_{i \neq j} \pi_i p_{ij} \\
+           &= \pi_j - \pi_j \sum_{k \neq j} p_{jk} + \sum_{i \neq j} \pi_i p_{ij} \\
+           &= \pi_j - \sum_{i \neq j} \pi_j p_{ji} + \sum_{i \neq j} \pi_i p_{ij} \\
+           &= \pi_j + \sum_{i \neq j} \left( \pi_i p_{ij} - \pi_j p_{ji} \right) \\
+           &= \pi_j + \sum_{i \neq j} \left( p_{ij} \frac{\exp\left( -\frac{f(i)}{T} \right)}{\sum_{k} \exp\left( -\frac{f(j)}{T} \right)} - p_{ji} \frac{\exp\left( -\frac{f(j)}{T} \right)}{\sum_{k} \exp\left( -\frac{f(j)}{T} \right)} \right) \\
+           &= \pi_j + \frac{1}{\sum_{k} \exp\left( -\frac{f(j)}{T} \right)} \sum_{i \neq j} \left( p_{ij} \exp\left( -\frac{f(i)}{T} \right) - p_{ji} \exp\left( -\frac{f(j)}{T} \right) \right)
+  \end{align}
+  となる。
+  $f(i) = f(j)$のときは$p_{ij} = p_{ji} = \frac{1}{n}$であるため、$\pi'_j = \pi_j$となる。
+  $f(j) < f(i)$のときは
+  \begin{align}
+     p_{ij} \exp\left( -\frac{f(i)}{T} \right) - p_{ji} \exp\left( -\frac{f(j)}{T} \right)
+      &= \frac{1}{n} \exp\left( -\frac{f(j) - f(i)}{T} \right) \exp\left( -\frac{f(i)}{T} \right) - \frac{1}{n} \exp\left( -\frac{f(j)}{T} \right) \\
+      &= \frac{1}{n} \exp\left( -\frac{f(j)}{T} \right) - \frac{1}{n} \exp\left( -\frac{f(j)}{T} \right) \\
+      &= 0
+  \end{align}
+  となり、$f(j) > f(i)$のときも同様の変形が行えるため$\pi'_j = \pi_j$となる。
+  よって遷移行列$P$の定常状態としてボルツマン分布$\vect{\pi}$が存在することが示された。
+
+
+  \begin{thebibliography}{99}
+    \bibitem{bib:a} ``マルコフ連鎖-Wikipedia''，\url{https://ja.wikipedia.org/wiki/マルコフ連鎖}，参照May.16,2020.
+    \bibitem{bib:b} ``確率行列-Wikipedia''，\url{https://ja.wikipedia.org/wiki/確率行列}，参照May.16,2020.
+    \bibitem{bib:c} ``ゲルシュゴリンの定理-Wikipedia''，\url{https://ja.wikipedia.org/wiki/ゲルシュゴリンの定理}，参照May.16,2020.
+  \end{thebibliography}
 
 \end{document}
 
