@@ -5,8 +5,12 @@
 %------------------------------------------------------------------------
 \usepackage{./preambles/ownpack}
 
-% aut
+% Aut
 \DeclareMathOperator{\Aut}{Aut}
+% Ker
+\DeclareMathOperator{\Ker}{Ker}
+% Ran
+\DeclareMathOperator{\Ran}{Ran}
 
 \title{ジョルダン標準形(Jordan normal form)}
 \author{}
@@ -55,9 +59,9 @@
     したがって、階数$m$の一般固有ベクトルが存在するならば、固有ベクトルも存在する。
   \end{proof}
   \begin{corollary}
-    ある行列$A$の固有値$\lambda$に対応する一般固有ベクトルが存在することと、$Ker (A - \lambda I) \neq \{ \vect{0} \}$であることは同値である。
+    ある行列$A$の固有値$\lambda$に対応する一般固有ベクトルが存在することと、$\Ker (A - \lambda I) \neq \{ \vect{0} \}$であることは同値である。
   \end{corollary}
-  $Ker (A - \lambda I) \neq \{\vect{0}\}$であることと$\det{(A - \lambda I)} = 0$であることは同値であるため固有値の存在に関して以下の定理が成立する。
+  $\Ker (A - \lambda I) \neq \{\vect{0}\}$であることと$\det{(A - \lambda I)} = 0$であることは同値であるため固有値の存在に関して以下の定理が成立する。
   \begin{theorem}
     ある行列$A$に対して$\lambda$が固有値であることと$\det{(A - \lambda I)} = 0$でることは同値である。
   \end{theorem}
@@ -102,9 +106,52 @@
     に対して以下が成立する。
     \begin{enumerate}
       \item $\vect{x}_1$は固有ベクトルである
-      \item $\vect{x}_m$は$Ker(A - \lambda I)^m$に含まれるが$Ker(A - \lambda I)^{m-1}$に含まれないベクトルである
+      \item $\vect{x}_m$は$\Ker(A - \lambda I)^m$に含まれるが$\Ker(A - \lambda I)^{m-1}$に含まれないベクトルである
     \end{enumerate}
   \end{theorem}
+
+  \begin{definition}[一般固有空間(generalized eigenspace)]
+    $n$次行列$A$の重複度$r$の固有値$\lambda$に対して
+    \begin{equation}
+      W(\lambda) = \Ker(A - \lambda I)^r
+    \end{equation}
+    を一般(広義)固有空間という。
+  \end{definition}
+  \begin{theorem}
+    固有値$\lambda$の一般固有空間の次元は$\lambda$の重複度と一致する。
+    すなわち
+    \begin{equation}
+      r = \dim{W(\lambda)}
+    \end{equation}
+    である。
+  \end{theorem}
+
+  \begin{definition}[invariant subspace]
+    ある線形空間$V$から$V$自身への線形写像$T$と$V$の部分線形空間$W$に対して、
+    \begin{equation}
+      v \in W \Rightarrow T(v) \in W
+    \end{equation}
+    であるとき、$W$を$T$の invariant subspace であるという。
+  \end{definition}
+
+  \begin{theorem}
+    固有値$\lambda$が与えられたとき Jordan block と Jordan chain は一致する。
+    サイズ$r$の Jordan block を生成する Jordan chain は$(A - \lambda I)^r \vect{p}_r = 0$となるベクトル$\vect{p}_r$によって生成される。
+    また、$\vect{p}_1 = (A - \lambda I)^{r-1} \vect{p}_r$は$\lambda$の固有ベクトルとなり非ゼロである。
+    したがって(?)、$n$次行列に Jordan normal form が存在することと、 Jordan Chain の総数が$n$であることは同値となる(?)。
+  \end{theorem}
+  \begin{proof}
+    行列の次数の帰納法によって証明する。
+
+    まず$1$次正方行列$A = (a_{ij})$のときを考える。
+    このとき行列$A$の固有値は$a_{11}$であり、固有空間の次元は$1$次元となる。
+    すなわち、長さ$1$の Jordan chain が一つ存在し示される。
+
+    次に$n-1$次正方行列に対して、Jordan chain の総数が$n-1$であると仮定して、$n$次正方行列を考える。
+    ここで、行列$A$の任意の固有値$\lambda$を考える。
+    $A - \lambda I$によって表わされる線形変換の値域(range)を$\Ran{(A - \lambda I)}$と書くとする。
+    $A - \lambda I$による線型写像は$A$の invariant subspace である。
+  \end{proof}
 
 
 
@@ -122,6 +169,7 @@
     \bibitem{bib:c} ``行列式 - Wikipedia''，\url{https://ja.wikipedia.org/wiki/行列式}，参照May.17,2020.
     \bibitem{bib:d} ``固有多項式 - Wikipedia''，\url{https://ja.wikipedia.org/wiki/固有多項式}，参照May.17,2020.
     \bibitem{bib:e} ``Jordan normal form - Wikipedia''，\url{https://en.wikipedia.org/wiki/Jordan_normal_form}，参照May.17,2020.
+    \bibitem{bib:f} ``線形代数Ｉ/広義固有空間の構造とジョルダン標準形 - 武内＠筑波大''，\url{https://dora.bk.tsukuba.ac.jp/~takeuchi/?線形代数Ｉ\%2F広義固有空間の構造とジョルダン標準形}，参照May.17,2020.
     %\bibitem{bib:z} ``''，\url{}，参照May.17,2020.
   \end{thebibliography}
 \end{document}
