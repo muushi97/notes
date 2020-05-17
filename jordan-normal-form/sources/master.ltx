@@ -19,7 +19,40 @@
   \maketitle
   \tableofcontents
 
+  \begin{definition}[一般固有ベクトル{generalized eigenvector}]
+    ある$n$次正方行列$A$と、$A$の固有値$\lambda$に対して
+    \begin{equation}
+      (A - \lambda I)^m \vect{v} = \vect{0}
+    \end{equation}
+    であり
+    \begin{equation}
+      (A - \lambda I)^{m-1} \vect{v} \neq \vect{0}
+    \end{equation}
+    であるようなベクトル$\vect{v}$を固有値$\lambda$に対する行列$A$の階数(rank)$m$の一般(広義)固有ベクトルという。
+    ここで$I$は単位行列、$\vect{0}$をゼロベクトルとした。
+  \end{definition}
 
+  \begin{definition}[Jordan chain]
+    ある行列$A$の固有値$\lambda$に対する階数$m$の一般固有ベクトル$\vect{x}_m$によって
+    \begin{equation}
+      \vect{x}_j = (A - \lambda I)^{m-j} \vect{x}_m = (A - \lambda I) \vect{x}_{j+1}, \quad (j = 1, 2, \cdots, m-1)
+    \end{equation}
+    として表されるベクトルの集合$\{ \vect{x}_m, \vect{x}_{m-1}, \cdots, \vect{x}_1 \}$を Jordan chain という。
 
+    また、$\vect{x}_m$が階数$m$の一般固有ベクトルであることから
+    \begin{align}
+      (A - \lambda I)^{j} \vect{x}_j &= (A - \lambda I)^{j} (A - \lambda I)^{m-j} \vect{x}_m \\
+                                     &= (A - \lambda I)^m \vect{x}_m \\
+                                     &= \vect{0}
+    \end{align}
+    となり、 $\vect{x}_j$は行列$A$の固有値$\lambda$に対する階数$j$の一般固有ベクトルであることが示される。
+    また Jordan chain は線形独立となる。
+  \end{definition}
+
+  \begin{thebibliography}{99}
+    \bibitem{bib:a} ``講義固有ベクトル - Wikipedia''，\url{https://ja.wikipedia.org/wiki/広義固有ベクトル}，参照May.16,2020.
+    \bibitem{bib:b} ``Generalized eigenvector - Wikipedia''，\url{https://en.wikipedia.org/wiki/Generalized_eigenvector#Jordan_chains}，参照May.16,2020.
+    %\bibitem{bib:z} ``''，\url{}，参照May.16,2020.
+  \end{thebibliography}
 \end{document}
 
