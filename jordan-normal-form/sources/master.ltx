@@ -134,6 +134,10 @@
     であるとき、$W$を$T$の invariant subspace であるという。
   \end{definition}
 
+  \begin{definition}[canonical basis]
+    $n$個の線形独立な一般固有ベクトルが Jordan chain のみによって構成されるとき、この線形独立なベクトルの組を canonical basis という。
+  \end{definition}
+
   \begin{theorem}
     固有値$\lambda$が与えられたとき Jordan block と Jordan chain は一致する。
     サイズ$r$の Jordan block を生成する Jordan chain は$(A - \lambda I)^r \vect{p}_r = 0$となるベクトル$\vect{p}_r$によって生成される。
@@ -147,10 +151,40 @@
     このとき行列$A$の固有値は$a_{11}$であり、固有空間の次元は$1$次元となる。
     すなわち、長さ$1$の Jordan chain が一つ存在し示される。
 
-    次に$n-1$次正方行列に対して、Jordan chain の総数が$n-1$であると仮定して、$n$次正方行列を考える。
+    次に$n-1$次正方行列に対して、Jordan chain の総数が$n-1$であると仮定して、$n$次正方行列$A$を考える。
     ここで、行列$A$の任意の固有値$\lambda$を考える。
+    また、$A$による線型写像が$n$次線形空間$V$から自身への写像となるとする。
     $A - \lambda I$によって表わされる線形変換の値域(range)を$\Ran{(A - \lambda I)}$と書くとする。
-    $A - \lambda I$による線型写像は$A$の invariant subspace である。
+    すると$\Ran{(A - \lambda I)} \subset V$であり、また$x \in \Ran{(A - \lambda I)}$ならば、ある$y \in V$によって$x = (A - \lambda I) y$と書けるため
+    \begin{align}
+      A x &= A (A - \lambda I) y \\
+          &= A A - \lambda A y \\
+          &= (A - \lambda I) A y
+    \end{align}
+    となり、$A - \lambda I$による線型写像は$A$の invariant subspace である。
+    また、$\lambda$が$A$の固有値であることから、$\dim{\Ran(A - \lambda I)} = r < n$である(?)。
+    $A$による写像$f$は$\Ran{(A - \lambda I)}$から$\Ran{(A - \lambda I)}$への写像でもある。
+    ここで$A$でない$A'$による写像$f'$
+
+
+    $A'$を$A$の$\Ran{(A - \lambda I)}$への Restriction とすると、帰納法の仮定より$A'$には Jordan basis が$r$個存在する(?)。
+
+    次に$A - \lambda I$の核(Kernel)$\Ker{(A - \lambda I)}$について考える。
+    もし
+    \begin{equation}
+      \Ran{(A - \lambda I)} \cap \Ker{(A - \lambda I)} = \{ \vect{0} \}
+    \end{equation}
+    である、すなわち線形空間$\Ran{(A - \lambda I)}$と$\Ker{(A - \lambda I)}$が線形独立とする。
+    $\Ker{(A - \lambda I)}$は$A$の固有空間であり、$\Ran{(A - \lambda I)}$は$A$の一般固有空間であるため、
+    rank-nullity theorem より$\dim{\Ran{(A - \lambda I)}} + \dim{\Ker{(A - \lambda I)}} = n$が示され、$A$の固有空間の基底と$A - \lambda I$の Jordan basis の線形結合によって$n$次の線形空間が表わされる。
+    また、固有空間の基底はどれも長さが$1$の Jordan chain であるため(?)示される。
+
+    他に
+    \begin{equation}
+      Q = \Ran{(A - \lambda I)} \cap \Ker{(A - \lambda I)} \neq \{ \vect{0} \}
+    \end{equation}
+    である場合を考える。
+    このとき$Q$の任意のベクトルは$A$の固有ベクトルによって表わされる。
   \end{proof}
 
 
@@ -170,6 +204,10 @@
     \bibitem{bib:d} ``固有多項式 - Wikipedia''，\url{https://ja.wikipedia.org/wiki/固有多項式}，参照May.17,2020.
     \bibitem{bib:e} ``Jordan normal form - Wikipedia''，\url{https://en.wikipedia.org/wiki/Jordan_normal_form}，参照May.17,2020.
     \bibitem{bib:f} ``線形代数Ｉ/広義固有空間の構造とジョルダン標準形 - 武内＠筑波大''，\url{https://dora.bk.tsukuba.ac.jp/~takeuchi/?線形代数Ｉ\%2F広義固有空間の構造とジョルダン標準形}，参照May.17,2020.
+    \bibitem{bib:g} ``Invariant subspace - Wikipedia''，\url{https://en.wikipedia.org/wiki/Invariant_subspace}，参照May.17,2020.
+    \bibitem{bib:h} ``Restriction(mathematics) - Wikipedia''，\url{https://en.wikipedia.org/wiki/Restriction_(mathematics)}，参照May.17,2020.
+    \bibitem{bib:i} ``Rank-nullity theorem - Wikipedia''，\url{https://en.wikipedia.org/wiki/Rank–nullity_theorem}，参照May.17,2020.
+    \bibitem{bib:j} ``ジョルダン標準形 - Wikipedia''，\url{https://ja.wikipedia.org/wiki/ジョルダン標準形}，参照May.17,2020.
     %\bibitem{bib:z} ``''，\url{}，参照May.17,2020.
   \end{thebibliography}
 \end{document}
