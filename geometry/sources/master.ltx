@@ -29,6 +29,23 @@
       特に正四面体は自己双対である。
     \end{theorem}
 
+    \begin{proof}[錐体の体積(volume of conic solid)]
+      ある高さ$h$の錐体の底面積を$S$とすると、頂点からの高さ$z$のところでの断面積$S'$の相似比は
+      \begin{equation}
+        S : S' = h^2 : z^2
+      \end{equation}
+      で表わすことができる。
+      しがたって、
+      \begin{equation}
+        S' = \frac{z^2}{h^2} S
+      \end{equation}
+      が成立し断面積$S'$を高さで積分することで
+      \begin{align}
+        \int_0^h S' dz &= \int_0^h \frac{z^2}{h^2} S dz \\
+                       &= \frac{1}{3} h S \\
+      \end{align}
+      となり、錐体の体積が示された。
+    \end{proof}
 
 
 
