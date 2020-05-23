@@ -29,5 +29,68 @@
 
   \subimport{./sources/sections/}{significance-of-neural-network.ltx}
 
+  \section{パラメータの更新}
+    \subsection{Adam}
+      \subsubsection{概要}
+
+      \subsubsection{アルゴリズム}
+        以下に$t$回目のパラメータ$\theta^{(t)}$の更新を Adam で行う場合の具体的な計算手順を示す。
+        なお各計算はベクトルの各要素に行うものとする。
+        また確率的目的関数は$f(\theta)$とする。
+        \begin{description}
+          \descitem{Step1}{}
+            ステップサイズ$\alpha$を定める。
+
+          \descitem{Step2}{}
+            モーメント推定用の指数減衰係数$\beta_1, \beta_2 \in [0, 1)$を定める。
+
+          \descitem{Step3}{}
+            パラメータの初期値$\theta_0$を定め、1次モーメントの初期値$m_0$と2次モーメントの初期値$v_0$と繰り返し階数$t$を$0$で初期化する。
+
+          \descitem{Step4}{Adam:Step4}
+            $t$を$1$増やし、以下の計算を行う。
+            \begin{align}
+              &g_i = \nabla_\theta \func{f_t}{\theta_{t-1}} \\
+              &m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t \\
+              &v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2 \\
+              &\hat{m}_t = \frac{1}{1 - \beta_1^t} m_t \\
+              &\hat{v}_t = \frac{1}{1 - \beta_2^t} v_t \\
+              &\theta_t = \theta_{t-1} - \alpha \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}
+            \end{align}
+
+          \descitem{Step5}{}
+            $\theta_t$が収束すれば終了し、そうでなければ\ref{Adam:Step4}を繰り返す。
+        \end{description}
+        ここで$\epsilon$はゼロ除算の発生を除外するための非常に小さい正の実数である。
+
+        次節でアルゴリズムの詳細を説明する。
+
+      \subsubsection{詳細}
+        $\func{f_t}{\theta}$は各$t$におけるパラメータ$\theta_t$での$\func{f}{\theta_t}$の値を示す。
+        $g_t$は各$t$における目的関数$f_t$の勾配である。
+
+        $m_1, v_2$はそれぞれ勾配と勾配の2乗の exponential moving average である。
+        それと同時に$m_1, v_2$はそれぞれ1次のモーメント(平均)と2次の生モーメント(非中心化分散)の推定値であるとも言うことができる。
+        しかし、移動平均の初期値がゼロベクトルであるため(?)、減衰係数が小さい場合や繰り返し回数が少ないときは$0$に偏った値が推定される。
+        $\hat{m}_t, \hat{v}_t$は偏りを修正した推定値である。
+
+        また$\theta_t$の計算において$\hat{m}_t$と$\hat{v}_t$の計算をまとめて
+        \begin{align}
+          \alpha_t = a \frac{\sqrt{1 - \beta_2^t}}{1 - \beta_1^t} \\
+          \theta_t = \theta_{t-1} - \alpha_t \frac{m_t}{\sqrt{v_t} + \hat{\epsilon}}
+        \end{align}
+        とすることで計算をより効率的に行うことができる(?)。
+
+        Adam の更新においてステップサイズ$\alpha$の値選択が慎重に行われている。
+        $\epsilon$が$0$である場合を考えるとパラメータの更新量は$\Delta_t = \alpha \frac{\hat{m}_t}{\sqart{\hat{v}_t}}$と書くことができ、この値は
+        \begin{align}
+          \abs{\Delta_t} &\le \alpha \frac{1 - \beta_1}{\sqrt{1 - \beta_2}}, & \text{if} \; 1 - \beta_t > \sqrt{1 - \beta_2} \\
+          \abs{\Delta_t} &\le \alpha, & \text{otherwise}
+        \end{align}
+        という2つの式でバウンドされる。...
+
+      \subseubsection{偏り修正}
+
+
 \end{document}
 
