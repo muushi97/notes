@@ -49,25 +49,25 @@
 
     \begin{proof}[球の体積(the volume inside a sphere)]
       原点を中心として半径が$r$の球のを考える。
-      中心から$x$離れた所で球を切断した円の半径$r'$は
+      中心から$x$離れた所で球を切断した円の半径$r'(x)$は
       \begin{equation}
-        r' = \sqrt{r^2 - x^2}
+        r'(x) = \sqrt{r^2 - x^2}
       \end{equation}
       となる。
-      したがって、中心から$x$離れた所での断面積$S_c(x)$は
+      したがって、中心から$x$離れた所での断面積$V_c(x)$は
       \begin{equation}
-        S_c(x) = \pi (r^2 - x^2)
+        V_c(x) = \pi (r^2 - x^2)
       \end{equation}
       となる。
-      $x$を$0$から$r$まで積分することで半球の体積$S'$は
+      $x$を$0$から$r$まで積分することで半球の体積$V'$は
       \begin{align}
-        S' &= \int_0^r \pi (r^2 - x^2) dx \\
+        V' &= \int_0^r \pi (r^2 - x^2) dx \\
            &= \frac{2}{3} \pi r^3
       \end{align}
       として得られる。
       球の体積は半球の体積の倍であるため球の体積$S$は
       \begin{equation}
-        S = 2 S' = \frac{4}{3} \pi r^3
+        V = 2 V' = \frac{4}{3} \pi r^3
       \end{equation}
       となる。
     \end{proof}
