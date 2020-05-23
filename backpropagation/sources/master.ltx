@@ -55,9 +55,9 @@
     \begin{align}
       \partial^{(p)} x^{(k)}_i &= \begin{cases}
         \diffp{L}{x^{(N)}_i} = \partial_{x_i} \func{L}{t^{(p)}, x^{(N)}}, & k = N \\
-        \diffp{L}{x^{(k+1)}_j} \diffp{x^{(k+1)}_j}{x^{(k)}_i} = \partial^{(p)} x^{(k+1)}_j \cdot \partial_{x_i} \func{f^{(k)}_j}{t^{(p)}, x^{(N)}}, & \text{otherwise}
+        \sum_j \diffp{L}{x^{(k+1)}_j} \diffp{x^{(k+1)}_j}{x^{(k)}_i} = \sum_j \partial^{(p)} x^{(k+1)}_j \cdot \partial_{x_i} \func{f^{(k)}_j}{x^{(k)}, w^{(k)}}, & \text{otherwise}
       \end{cases} \\
-      \partial^{(p)} w^{(k)}_i &= \partial^{(p)} x^{(k+1)}_j \cdot \partial_{w_i} \func{f^{(k)}_j}{t^{(p)}, x^{(N)}} \\
+      \partial^{(p)} w^{(k)}_i &= \sum_j \partial^{(p)} x^{(k+1)}_j \cdot \partial_{w_i} \func{f^{(k)}_j}{x^{(k)}, w^{(k)}} \\
       \partial_{x_i} f^{(k)}_j &= \diffp{f^{(k)}_j}{x^{(k)}_i} = \diffp{x^{(k+1)}_j}{x^{(k)}_i} \\
       \partial_{w_i} f^{(k)}_j &= \diffp{f^{(k)}_j}{w^{(k)}_i} = \diffp{x^{(k+1)}_j}{w^{(k)}_i}
     \end{align}
@@ -87,8 +87,8 @@
         \end{equation}
         を計算し、$k$を$N-1$から$1$まで減らしながら
         \begin{align}
-          \partial^{(p)} x^{(k)}_i = \partial^{(p)} x^{(k+1)}_j \cdot \partial_{x_i} \func{f^{(k)}_j}{t^{(p)}, x^{(N)}} \\
-          \partial^{(p)} w^{(k)}_i = \partial^{(p)} x^{(k+1)}_j \cdot \partial_{w_i} \func{f^{(k)}_j}{t^{(p)}, x^{(N)}}
+          \partial^{(p)} x^{(k)}_i = \sum_j \partial^{(p)} x^{(k+1)}_j \cdot \partial_{x_i} \func{f^{(k)}_j}{x^{(k)}, w^{(k)}} \\
+          \partial^{(p)} w^{(k)}_i = \sum_j \partial^{(p)} x^{(k+1)}_j \cdot \partial_{w_i} \func{f^{(k)}_j}{x^{(k)}, w^{(k)}}
         \end{align}
         を計算する。
 
