@@ -6,8 +6,8 @@
 \usepackage{./preambles/ownpack}
 
 
-\title{title}
-\author{muushi97}
+\title{幾何学(Geometry)}
+\author{}
 \date{}
 
 % -----------------------------------------------------------------------
@@ -18,6 +18,34 @@
 
   \maketitle
   \tableofcontents
+
+  \section{立体}
+    \begin{theorem}[正多面体の双対性(dual polyhedron of regular polyhedron)]
+      立方体の各面を中心として作られる多面体は正八面体となる。
+      逆の操作を正八面体に行うと立方体が得られる。
+      この操作によって、正十二面体と正二十面体が互いに得られ、正四面体からは正四面体が得られる。
+
+      この立方体と正八面体、正十二面体と正二十面体、正四面体と正四面体の組は互いに双対であるという。
+      特に正四面体は自己双対である。
+    \end{theorem}
+
+    \begin{proof}[錐体の体積(volume of conic solid)]
+      ある高さ$h$の錐体の底面積を$S$とすると、頂点からの高さ$z$のところでの断面積$S'$の相似比は
+      \begin{equation}
+        S : S' = h^2 : z^2
+      \end{equation}
+      で表わすことができる。
+      しがたって、
+      \begin{equation}
+        S' = \frac{z^2}{h^2} S
+      \end{equation}
+      が成立し断面積$S'$を高さで積分することで
+      \begin{align}
+        \int_0^h S' dz &= \int_0^h \frac{z^2}{h^2} S dz \\
+                       &= \frac{1}{3} h S \\
+      \end{align}
+      となり、錐体の体積が示された。
+    \end{proof}
 
 
 
