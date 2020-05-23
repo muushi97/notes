@@ -110,6 +110,29 @@
     \end{description}
 
 
+  \section{全結合層(fully-connected)}
+    ニューロン数$n$の層からニューロン数$m$の層への全結合層の順伝播は
+    \begin{equation}
+      y_j = \func{f}{x, w} = \sum_i x_j w_{ij}
+    \end{equation}
+    と書くことができる。
+    ここで$i$は前の層のニューロンの番号、$j$は次の層のニューロンの番号、$w_{ij}$は$i$番目のニューロンから$j$番目のニューロンへの結合荷重である。
+    前節の式とてらしあわせると
+    \begin{align}
+      \partial_{x_i} \func{f_j}{x, w} = \diffp*{\sum_k x_k w_{kj}}{x_i} = \begin{cases}
+        w_{ij}, & i = k \\
+        0, & \text{otherwise}
+      \end{cases} \\
+      \partial_{w_{ik}} \func{f_j}{x, w} = \diffp*{\sum_l x_l w_{lj}}{w_{ik}} = \begin{cases}
+        x_i, & i = l, j = k \\
+        0, & \text{otherwise}
+      \end{cases}
+    \end{align}
+    となる。
+
+
+
+
 
 \end{document}
 
