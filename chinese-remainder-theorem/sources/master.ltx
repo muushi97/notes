@@ -1,0 +1,87 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx]{jsarticle}
+
+%------------------------------------------------------------------------
+% パッケージ
+%------------------------------------------------------------------------
+\usepackage{./preambles/ownpack}
+
+
+\title{中国剰余定理(chinese remainder theorem)}
+\author{}
+\date{}
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+
+\begin{document}
+
+  \maketitle
+  \tableofcontents
+
+  \begin{dfn}[イデアル]
+    $R$を可換環とする。以下を見たす$R$の部分集合$I$を$R$上のイデアルという。
+    \begin{description}
+      \item[(I1)] $\forall x, y\in I, x + y \in I$
+      \item[(I2)] $\forall x\in I, a \in R, a x \in I$
+    \end{description}
+  \end{dfn}
+
+  \begin{dfn}[剰余類]
+    可換環$R$上のイデアル$I$と任意の$x \in R$に対して
+    \begin{equation}
+      x + I = \{ x + a \mid a \in I \}
+    \end{equation}
+    を$x$を代表元とする剰余類という。
+  \end{dfn}
+
+  \begin{thm}
+    ある$x, y \in R$が$x - y \in I$であるとき、$x + I = y + I$である。
+    \begin{proof}
+      $I$の生成元が$m$であるとする。
+      まず定義より$x + I$の任意の元$a$はある$q \in R$によって
+      \begin{equation}
+        a = x + m q
+      \end{equation}
+      と書くことができる。
+      ここで仮定より、ある$p$によって$x - y = m p \Leftrightarrow x = y + m p$となる。
+      この$x$を代入すると
+      \begin{align}
+        a &= y + m p + m q \\
+          &= y + m (p + q)
+      \end{align}
+      となり、$a \in y + I$が得られた。ここで$a$は任意の$x + I$の元であるため$a \in x + I \Rightarrow a \in y + I$が示された。
+      同様にして$a \in y + I \Rightarrow a \in x + I$が示される。
+      以上より示された。
+    \end{proof}
+  \end{thm}
+
+
+
+  \begin{dfn}[剰余環]
+    可換環$R$上のイデアル$I$に対して
+    \begin{equation}
+      R/I = \{ x + I \mid x \in R \}
+    \end{equation}
+    として書かれる集合$R/I$を$R$上の剰余環という。
+  \end{dfn}
+
+  \begin{thm}
+    可換環$R$上の剰余環$R/I$は可換環となる。
+    \begin{proof}
+    \end{proof}
+  \end{thm}
+
+
+  \begin{thm}
+    hoge
+  \end{thm}
+
+
+  \begin{thm}[中国剰余定理(Chinese Remainder Theorem)]
+    ある剰余環$Z/mZ$に
+  \end{thm}
+
+
+\end{document}
+

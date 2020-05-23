@@ -4,9 +4,6 @@
 [submodule "bookkeeping/.template"]
 	path = bookkeeping/.template
 	url = https://github.com/muushi97/tex-project-template
-[submodule "chinese-remainder-theorem/.template"]
-	path = chinese-remainder-theorem/.template
-	url = https://github.com/muushi97/tex-project-template
 [submodule "perelman-sequence/.template"]
 	path = perelman-sequence/.template
 	url = https://github.com/muushi97/tex-project-template
@@ -57,4 +54,7 @@
 	url = https://github.com/muushi97/tex-project-template
 [submodule "geometry/.template"]
 	path = geometry/.template
+	url = https://github.com/muushi97/tex-project-template
+[submodule "chinese-remainder-theorem/.template"]
+	path = chinese-remainder-theorem/.template
 	url = https://github.com/muushi97/tex-project-template
