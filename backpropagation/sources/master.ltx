@@ -110,7 +110,7 @@
     \end{description}
 
 
-  \section{全結合層(fully-connected)}
+  \section{全結合層(fully-connected layer)}
     ニューロン数$n$の層からニューロン数$m$の層への全結合層の順伝播は
     \begin{equation}
       y_j = \func{f}{x, w} = \sum_i x_j w_{ij}
@@ -130,6 +130,47 @@
     \end{align}
     となる。
 
+
+  \section{畳み込み層(convolution layer)}
+    前層と後層のニューロンが$n$次元で構成され、各次元$i$でのサイズが$\mu_i$であるとする。
+    このとき各次元$i$に対してストライドを$s_i$、パディングのサイズを$p_i$、フィルタのサイズを$f_i$とすると、出力される信号長$\nu_i$は
+    \begin{equation}
+      \nu_i = \frac{\mu_i + 2 p_i - f_i}{s_i} + 1
+    \end{equation}
+    として計算される。
+    ここで$\nu_i$が整数とならないときを許容しない場合と、切り捨て等の処理を行って処理を継続する場合がある。
+    入力$x_{\gamma_1 \gamma_2 \cdots \gamma_n}$が与えられたとき、計算に用いられるのはパディングによって埋められた値も含まれる。
+    よって、任意の$i$に対して$-p_i \le \gamma_i < \mu_i + p_i$として
+    \begin{equation}
+      x'_{\gamma_1 \gamma_2 \cdots \gamma_n} = \begin{cases}
+        x_{\gamma_1 \gamma_2 \cdots \gamma_n}, & \forall i, 0 \le \gamma_i < \mu_i \\
+        v_{\gamma_1 \gamma_2 \cdots \gamma_n}, & \text{otherwise}
+      \end{cases}
+    \end{equation}
+    と書かれる$x'_{\gamma_1 \gamma_2 \cdots \gamma_n}$を用いて計算されるとする。
+    ここで$v$はパディングによって埋められる値である。
+    入力$x_{\gamma_1 \gamma_2 \cdots \gamma_n}$とフィルタ$w_{\alpha_1 \alpha_2 \cdots \alpha_n}$のよって出力$y_{\beta_1 \beta_2 \cdots \beta_n}$は
+    \begin{equation}
+      y_{\beta_1 \beta_2 \cdots \beta_n} \sum_{\alpha_1 \alpha_2 \cdots \alpha_n} x'_{\gamma_1 \gamma_2 \cdots \gamma_n} w_{\alpha_1 \alpha_2 \cdots \alpha_n}
+    \end{equation}
+    で計算され、各$\gamma_i$は$\alpha_i$と$\beta_i$によって
+    \begin{equation}
+      \gamma_i = s_i \beta_i + f_i - p_i - \alpha_i - 1
+    \end{equation}
+    と書かれる。
+
+    畳み込み層の重みと入力による偏導関数は
+    \begin{align}
+      \partial_{x_{\gamma_1 \gamma_2 \cdots \gamma_n}} \func{f_{\beta_1 \beta_2 \cdots \beta_n}}{x, w} = \begin{cases}
+        w_{\alpha_1 \alpha_2 \cdots \alpha_n}, & \forall i, \frac{\gamma_i - f_i + p_i + 1}{s_i} \le \beta_i < \frac{\gamma_i + p_i + 1}{s_i} \\
+        0, & \text{otherwise}
+      \end{cases} \\
+      \partial_{w_{\alpha_1 \alpha_2 \cdots \alpha_n}} \func{f_{\beta_1 \beta_2 \cdots \beta_n}}{x, w} = \begin{cases}
+        x'_{\gamma_1 \gamma_2 \cdots \gamma_n}, & \forall i, \frac{\alpha_i - f_i + 1}{s_i} \le \beta_i < \frac{\mu_i + \alpha_i - f_i + 2 p_i + 1}{s_i} \\
+        0, & \text{otherwise}
+      \end{cases} \\
+    \end{align}
+    となる。
 
 
 
