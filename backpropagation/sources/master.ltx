@@ -151,13 +151,14 @@
     ここで$v$はパディングによって埋められる値である。
     入力$x_{\gamma_1 \gamma_2 \cdots \gamma_n}$とフィルタ$w_{\alpha_1 \alpha_2 \cdots \alpha_n}$のよって出力$y_{\beta_1 \beta_2 \cdots \beta_n}$は
     \begin{equation}
-      y_{\beta_1 \beta_2 \cdots \beta_n} \sum_{\alpha_1 \alpha_2 \cdots \alpha_n} x'_{\gamma_1 \gamma_2 \cdots \gamma_n} w_{\alpha_1 \alpha_2 \cdots \alpha_n}
+      y_{\beta_1 \beta_2 \cdots \beta_n} \sum_{\alpha_1 \alpha_2 \cdots \alpha_n} x'_{\gamma_1 \gamma_2 \cdots \gamma_n} w_{\alpha_1 \alpha_2 \cdots \alpha_n} + b
     \end{equation}
     で計算され、各$\gamma_i$は$\alpha_i$と$\beta_i$によって
     \begin{equation}
       \gamma_i = s_i \beta_i + f_i - p_i - \alpha_i - 1
     \end{equation}
     と書かれる。
+    ここで、$b$は各出力値に対するしきい値であり、畳み込み和後に全ての値に等しく加算される。
 
     畳み込み層の重みと入力による偏導関数は
     \begin{align}
@@ -169,6 +170,7 @@
         x'_{\gamma_1 \gamma_2 \cdots \gamma_n}, & \forall i, \frac{\alpha_i - f_i + 1}{s_i} \le \beta_i < \frac{\mu_i + \alpha_i - f_i + 2 p_i + 1}{s_i} \\
         0, & \text{otherwise}
       \end{cases} \\
+      \partial_{b} \func{f_{\beta_1 \beta_2 \cdots \beta_n}}{x, w} = 1
     \end{align}
     となる。
 
