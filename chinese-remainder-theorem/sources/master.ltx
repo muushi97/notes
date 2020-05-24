@@ -1,0 +1,149 @@
+\documentclass[uplatex, 11pt, a4j, dvipdfmx]{jsarticle}
+
+%------------------------------------------------------------------------
+% パッケージ
+%------------------------------------------------------------------------
+\usepackage{./preambles/ownpack}
+
+
+\title{中国剰余定理(chinese remainder theorem)}
+\author{}
+\date{}
+
+% gcd
+%\DeclareMathOperator{\gcd}{gcd}
+% lcm (gcd is already declared)
+\DeclareMathOperator{\lcm}{lcm}
+
+% -----------------------------------------------------------------------
+% 本文
+% -----------------------------------------------------------------------
+
+\begin{document}
+
+  \maketitle
+  \tableofcontents
+
+  \begin{definition}[イデアル(ideal)]
+    $R$を可換環とする。以下を見たす$R$の部分集合$I$を$R$上のイデアルという。
+    \begin{description}
+      \item[(I1)] $\forall x, y\in I, x + y \in I$
+      \item[(I2)] $\forall x\in I, a \in R, a x \in I$
+    \end{description}
+  \end{definition}
+
+  \begin{corollary}[単項イデアル(principal ideal)]
+    可換環$R$のある元$m \in R$によって書かれる集合$I$
+    \begin{equation}
+      I = \Set{ a m | a \in R }
+    \end{equation}
+    はイデアルとなる。
+    この$I$を$m$を生成元とする単項イデアルという。
+    また、$m$を生成元とする単項イデアルを$mR$と書くこともある。
+  \end{corollary}
+
+  \begin{definition}[剰余類(residue class)]
+    可換環$R$上のイデアル$I$と任意の$x \in R$に対して
+    \begin{equation}
+      x + I = \Set{ x + a | a \in I }
+    \end{equation}
+    を$x$を代表元とする剰余類という。
+    また$x$を代表元とする剰余類を$\overline{x}$とも書く。
+  \end{definition}
+
+  \begin{theorem}
+    ある$x, y \in R$が$x - y \in I$であるとき、$x + I = y + I$である。
+  \end{theorem}
+  \begin{proof}
+    $I$の生成元が$m$であるとする。
+    まず定義より$x + I$の任意の元$a$はある$q \in R$によって
+    \begin{equation}
+      a = x + m q
+    \end{equation}
+    と書くことができる。
+    ここで仮定より、ある$p$によって$x - y = m p \Leftrightarrow x = y + m p$となる。
+    この$x$を代入すると
+    \begin{align}
+      a &= y + m p + m q \\
+        &= y + m (p + q)
+    \end{align}
+    となり、$a \in y + I$が得られた。ここで$a$は任意の$x + I$の元であるため$a \in x + I \Rightarrow a \in y + I$が示された。
+    同様にして$a \in y + I \Rightarrow a \in x + I$が示される。
+    以上より示された。
+  \end{proof}
+
+
+
+  \begin{definition}[剰余環(quotient ring)]
+    可換環$R$上のイデアル$I$に対して
+    \begin{equation}
+      R/I = \Set{ x + I | x \in R }
+    \end{equation}
+    として書かれる集合$R/I$を$R$上の剰余環という。
+  \end{definition}
+
+  \begin{theorem}
+    可換環$R$上の剰余環$R/I$は可換環となる。
+  \end{theorem}
+  \begin{proof}
+  \end{proof}
+
+  \begin{theorem}
+    hoge
+  \end{theorem}
+
+  \begin{theorem}
+    ある剰余環$R/mR$と$R/nR$の元からなる組の集合
+    \begin{equation}
+      \Set{ (a + mR, b + nR) | a, b \in R }
+    \end{equation}
+    は以下に定める加法と乗法に対して環となる。
+    \begin{description}
+      \descitem{加法}{} 任意の$a, b, a', b' \in R$に対して$(a + mR, b + nR) + (a' + mR, b' + nR) = ((a + a') + mR, (b + b') + nR)$
+      \descitem{乗法}{} 任意の$a, b, a', b' \in R$に対して$(a + mR, b + nR) \times (a' + mR, b' + nR) = ((a \times a') + mR, (b \times b') + nR)$
+    \end{description}
+  \end{theorem}
+  \begin{proof}
+  \end{proof}
+
+  \begin{theorem}[中国剰余定理(Chinese Remainder Theorem)]
+    ある整数$m, n$に対して最小公倍数と最大公約数をそれぞれ
+    \begin{equation}
+      l = \lcm(m, n), \quad g = \gcd(m, n)
+    \end{equation}
+    とする。
+    このとき剰余環$\Z/l\Z$と$\Set{ ((ga + r) + m\Z, (gb + r) + n\Z) | a, b, c \in \Z, 0 \le r < g }$は環同型となる。
+  \end{theorem}
+  \begin{proof}
+    $(gx + r) + l\Z \in \Z/l\Z$に対してある$\func{\phi}{(gx + r) + l\Z}$を
+    \begin{equation}
+      \func{\phi}{(gx + r) + l\Z} = ((gx + r) + m\Z, (gx + r) + n\Z)
+    \end{equation}
+    とすると$\phi$は$\Z/l\Z$を始域、$\Set{ ((ga + r) + m\Z, (gb + r) + n\Z) | a, b, c \in \Z, 0 \le r < g }$を終域とする同型写像となることを示す。
+
+    まず、$\phi$が写像となることを示す。
+    任意の$x \in \Z, 0 \le r < \Z, y \in (gx + r) + l\Z$に対して、ある$a \in \Z$が存在し
+    \begin{equation}
+      y = gx + r + la
+    \end{equation}
+    が成立する。
+    前提より、$l = \frac{mn}{g}, g | m, g | n$であるため
+    \begin{equation}
+      y = gx + r + \frac{mn}{g} a = gx + r + m \left( \frac{n}{g}a \right) = gx + r + n \left( \frac{m}{g}a \right)
+    \end{equation}
+    となる。
+    したがって、任意の$x, r$に対して
+    \begin{equation}
+      (gx + r) + l\Z \subset (gx + r) + m\Z, \quad (gx + r) + l\Z \subset (gx + r) + n\Z
+    \end{equation}
+    となる。
+    よって$\phi$は
+    \begin{equation}
+      y = gx + r + \frac{mn}{g} a = gx + r + m \left( \frac{n}{g}a \right) = gx + r + n \left( \frac{m}{g}a \right)
+    \end{equation}
+    したがって
+  \end{proof}
+
+
+\end{document}
+
