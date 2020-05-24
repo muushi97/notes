@@ -42,9 +42,57 @@
       が成立し断面積$S'$を高さで積分することで
       \begin{align}
         \int_0^h S' dz &= \int_0^h \frac{z^2}{h^2} S dz \\
-                       &= \frac{1}{3} h S \\
+                       &= \frac{1}{3} h S
       \end{align}
       となり、錐体の体積が示された。
+    \end{proof}
+
+    \begin{proof}[球の体積(the volume inside a sphere)]
+      原点を中心として半径が$r$の球のを考える。
+      中心から$x$離れた所で球を切断した円の半径$r'(x)$は
+      \begin{equation}
+        r'(x) = \sqrt{r^2 - x^2}
+      \end{equation}
+      となる。
+      したがって、中心から$x$離れた所での断面積$V_c(x)$は
+      \begin{equation}
+        V_c(x) = \pi (r^2 - x^2)
+      \end{equation}
+      となる。
+      $x$を$0$から$r$まで積分することで半球の体積$V'$は
+      \begin{align}
+        V' &= \int_0^r \pi (r^2 - x^2) dx \\
+           &= \frac{2}{3} \pi r^3
+      \end{align}
+      として得られる。
+      球の体積は半球の体積の倍であるため球の体積$S$は
+      \begin{equation}
+        V = 2 V' = \frac{4}{3} \pi r^3
+      \end{equation}
+      となる。
+    \end{proof}
+
+    \begin{proof}[球の表面積(the surface area of a sphere)]
+      半径$r$の球と半径$r + \Delta r$の球を考える。
+      この二つの球の体積の差は
+      \begin{equation}
+        \frac{4}{3} \pi (r + \Delta r)^3 - \frac{4}{3} \pi r^3
+      \end{equation}
+      となる。
+      また、この体積の差は半径$r$の球の表面積と厚さ$\Delta r$の積ともいえる。
+      したがって、表面積を$S$とすれば
+      \begin{align}
+        S \Delta r &= \frac{4}{3} \pi (r + \Delta r)^3 - \frac{4}{3} \pi r^3 \\
+        S &= \frac{\frac{4}{3} \pi (r + \Delta r)^3 - \frac{4}{3} \pi r^3}{\Delta r}
+      \end{align}
+      となる。
+      ここで$\Delta r \to 0$の極限をとることを考えると、表面積$S$は体積を微分したものそのものである。
+      よって半径$r$の球の表面積$S$は
+      \begin{align}
+        S &= \diff*{\frac{4}{3} \pi r^3}{r} \\
+          &= 4 \pi r^2
+      \end{align}
+      となる。
     \end{proof}
 
 
