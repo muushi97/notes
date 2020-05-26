@@ -67,3 +67,6 @@
 [submodule "dropout/.template"]
 	path = dropout/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "regularization/.template"]
+	path = regularization/.template
+	url = https://github.com/muushi97/tex-project-template
