@@ -61,3 +61,6 @@
 [submodule "batch-normalization/.template"]
 	path = batch-normalization/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "weight-decay/.template"]
+	path = weight-decay/.template
+	url = https://github.com/muushi97/tex-project-template
