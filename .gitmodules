@@ -1,6 +1,3 @@
-[submodule "algebra/.template"]
-	path = algebra/.template
-	url = https://github.com/muushi97/tex-project-template
 [submodule "perelman-sequence/.template"]
 	path = perelman-sequence/.template
 	url = https://github.com/muushi97/tex-project-template
@@ -57,4 +54,7 @@
 	url = https://github.com/muushi97/tex-project-template
 [submodule "bookkeeping/.template"]
 	path = bookkeeping/.template
+	url = https://github.com/muushi97/tex-project-template
+[submodule "algebra/.template"]
+	path = algebra/.template
 	url = https://github.com/muushi97/tex-project-template
