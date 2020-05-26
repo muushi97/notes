@@ -82,14 +82,14 @@
         とすることで計算をより効率的に行うことができる(?)。
 
         Adam の更新においてステップサイズ$\alpha$の値選択が慎重に行われている。
-        $\epsilon$が$0$である場合を考えるとパラメータの更新量は$\Delta_t = \alpha \frac{\hat{m}_t}{\sqart{\hat{v}_t}}$と書くことができ、この値は
+        $\epsilon$が$0$である場合を考えるとパラメータの更新量は$\Delta_t = \alpha \frac{\hat{m}_t}{\sqrt{\hat{v}_t}}$と書くことができ、この値は
         \begin{align}
           \abs{\Delta_t} &\le \alpha \frac{1 - \beta_1}{\sqrt{1 - \beta_2}}, & \text{if} \; 1 - \beta_t > \sqrt{1 - \beta_2} \\
           \abs{\Delta_t} &\le \alpha, & \text{otherwise}
         \end{align}
         という2つの式でバウンドされる。...
 
-      \subseubsection{偏り修正}
+      \subsubsection{偏り修正}
 
 
 \end{document}
