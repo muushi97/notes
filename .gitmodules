@@ -58,3 +58,6 @@
 [submodule "algebra/.template"]
 	path = algebra/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "batch-normalization/.template"]
+	path = batch-normalization/.template
+	url = https://github.com/muushi97/tex-project-template
