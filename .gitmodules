@@ -64,3 +64,6 @@
 [submodule "weight-decay/.template"]
 	path = weight-decay/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "dropout/.template"]
+	path = dropout/.template
+	url = https://github.com/muushi97/tex-project-template
