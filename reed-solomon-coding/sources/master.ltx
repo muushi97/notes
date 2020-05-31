@@ -6,6 +6,8 @@
 \usepackage{./preambles/ownpack}
 
 
+% 転置行列
+\newcommand{\tr}[1]{{}^t\!#1}
 
 \title{リードソロモン符号}
 \author{}
@@ -149,5 +151,63 @@
           x(T) f(T) + y(T) g(T) = z(T)
         \end{equation}
         の解を一つ得ることができれば他の解も得ることができる。
+
+  \section{概要}
+    $F_q$を位数$q$のガロア体として$\vect{m}, \vect{w}, \vect{y}$をそれぞれ
+    \begin{gather}
+      \vect{m} = ( m_0, \cdots, m_{k-1} ) \\
+      \vect{w} = ( w_0, \cdots, w_{n-1} ) \\
+      \vect{y} = ( y_0, \cdots, y_{n-1} )
+    \end{gather}
+    とする。
+    $\vect{m}, \vect{w}, \vect{y}$はどれも$F_q$上のベクトルである。
+    このとき$\vect{m}$を情報系列、$\vect{w}$を符号語、$\vect{y}$を受信語という。
+    また、符号語$\vect{w}$は$F_q$上の$k \times n$行列に$G$よって
+    \begin{equation}
+      \vect{w} = \vect{m} G
+    \end{equation}
+    と表される。
+    この$G$は$F_q$上の原始根$\alpha$によって
+    \begin{equation}
+      G = \begin{pmatrix}
+             1 &            1 & \cdots &                   1 \\
+             1 &       \alpha & \cdots &        \alpha^{n-1} \\
+             1 &     \alpha^2 & \cdots &     \alpha^{2(n-1)} \\
+        \vdots &       \vdots & \ddots &              \vdots \\
+             1 & \alpha^{k-1} & \cdots & \alpha^{(k-1)(n-1)}
+      \end{pmatrix}
+    \end{equation}
+    と定義する。
+    そして受信語$\vect{y}$は符号語$\vect{w}$が通信路で雑音等によって確率的に変化したものとする。
+    さらに$n-k \times n$の行列
+    \begin{equation}
+      H = \begin{pmatrix}
+             1 &       \alpha & \cdots &        \alpha^{n-1} \\
+             1 &     \alpha^2 & \cdots &     \alpha^{2(n-1)} \\
+        \vdots &       \vdots & \ddots &              \vdots \\
+             1 & \alpha^{n-k} & \cdots & \alpha^{(n-k)(n-1)}
+      \end{pmatrix}
+    \end{equation}
+    に対して
+    \begin{equation}
+      G \tr{H} = 0
+    \end{equation}
+    が成立する。
+    ここで$G$によって得られる符号語の集合を
+    \begin{equation}
+      W = \Set{ \vect{m} G | \vect{m} \in F_q^k }
+    \end{equation}
+    とすると、任意の$\vect{w} \in W$に対して
+    \begin{align}
+      \vect{w} \tr{H} = \vect{m} G \tr{H} \\
+                    &= \vect{m} 0 \\
+                    &= 0
+    \end{align}
+    となるため、
+    \begin{equation}
+      \vect{w} \text{が符号語である} \Rightarrow \vect{w} \tr{H} = 0
+    \end{equation}
+    が成立する。
+    また、この符号語全体の集合$W$を符号という。
 
 \end{document}
