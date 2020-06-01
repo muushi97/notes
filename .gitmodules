@@ -73,3 +73,6 @@
 [submodule "gaussian-process-regression/.template"]
 	path = gaussian-process-regression/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "bayesian-optimization/.template"]
+	path = bayesian-optimization/.template
+	url = https://github.com/muushi97/tex-project-template
