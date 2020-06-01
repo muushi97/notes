@@ -8,6 +8,10 @@
 
 % 転置行列
 \newcommand{\tr}[1]{{}^t\!#1}
+% 天井関数
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+% 床関数
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
 
 \title{リードソロモン符号}
 \author{}
@@ -199,9 +203,9 @@
     \end{equation}
     とすると、任意の$\vect{w} \in W$に対して
     \begin{align}
-      \vect{w} \tr{H} = \vect{m} G \tr{H} \\
-                    &= \vect{m} 0 \\
-                    &= 0
+      \vect{w} \tr{H} &= \vect{m} G \tr{H} \\
+                      &= \vect{m} 0 \\
+                      &= 0
     \end{align}
     となるため、
     \begin{equation}
@@ -209,6 +213,35 @@
     \end{equation}
     が成立する。
     また、この符号語全体の集合$W$を符号という。
+
+    情報系列$\vect{m}$の各要素を用いて多項式$\func{m}{x}$を
+    \begin{equation}
+      \func{m}{x} = m_0 + m_1 x + m_2 x^2 + \cdots + m_{k-1} x^{k-1}
+    \end{equation}
+    とすると符号語の各成分$w_i \; (i = 0, 1, \cdots, n-1)$は
+    \begin{equation}
+      w_i = \func{m}{\alpha^i}
+    \end{equation}
+    と書くことができる。
+    したがって、$w_i = 0$となることと$\func{m}{x}$の根に$\alpha^i$が含まれることは同値である。
+    また、$\func{m}{x}$はたかだか$k-1$次の多項式なので根はたかだか$k-1$個となる。
+    $n = q$とすれば任意の$i, j$に対して
+    \begin{equation}
+      \alpha^i \neq \alpha^j
+    \end{equation}
+    となり、ゼロである$w_i$はたかだか$k-1$個であることがわかる。
+    つまり$w_i$の非ゼロな要素は$n-k+1$以上である。
+    これは$F_q$上の$n$次元ゼロベクトルと符号語とのハミング距離の最小値が$n-K+1$であることを示している。
+    さらにゼロベクトルと符号語とのハミング距離の最小値は符号語同士のハミング距離の最小値と等しいため、$d_{min} \le n-k+1$である。%TODO:
+    また、シングルトン限界から最大値が$n-k+1$によってバウンドされるため
+    \begin{equation}
+      n-k+1 \le d_{min} \le n-k+1 \Leftrightarrow d_{min} = n-k+1
+    \end{equation}
+    が得られ、符号語を探索する半径$t$を
+    \begin{equation}
+      t = \floor{\frac{d_{min}-1}{2}} = \floor{\frac{n-k}{2}}
+    \end{equation}
+    とすることで、受信語$\vect{y}$に対してハミング距離$t$の範囲の符号語が一意に定まる。
 
 
 
