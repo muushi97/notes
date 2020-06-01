@@ -95,6 +95,33 @@
       となる。
     \end{proof}
 
+  \section{線形変換}
+    \begin{definition}[線形変換(linear transform)]
+      %TODO: 線形変換の定義
+    \end{definition}
+
+    \begin{definition}[不動点]
+      ある点$\vect{x}$と線形変換$f$に対して
+      \begin{equation}
+        \vect{x} = \func{f}{\vect{x}}
+      \end{equation}
+      となるとき、$\vect{x}$を線形変換$f$の不動点という。
+    \end{definition}
+
+    線形変換$f$が行列$A$で表されるとすると、$f$の任意の不動点$\vect{x}$は
+    \begin{align}
+      \vect{x} &= A \vect{x} \\
+      (A - I) \vect{x} &= \vect{0}
+    \end{align}
+    となる。
+    ここで$I$は単位行列である。
+    $(A-I)$が正則であれば逆行列$(A-I)^{-1}$が存在し、不動点は$\vect{x} = \vect{0}$のみである。
+    正則でないとき$\det{A-I} = 0$となるため$A$は固有値$1$を持つ。
+    したがって
+    \begin{equation}
+      \text{$A$に固有値$1$が存在する} \Leftrightarrow \text{不動点が$\vect{0}$以外に存在する}
+    \end{equation}
+    が成立する。
 
 
 \end{document}
