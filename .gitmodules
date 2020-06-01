@@ -70,3 +70,6 @@
 [submodule "regularization/.template"]
 	path = regularization/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "gaussian-process-regression/.template"]
+	path = gaussian-process-regression/.template
+	url = https://github.com/muushi97/tex-project-template
