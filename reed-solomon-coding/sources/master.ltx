@@ -12,6 +12,8 @@
 \newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
 % 床関数
 \newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
+% deg
+%\DeclareMathOperator{\deg}{deg}
 
 \title{リードソロモン符号}
 \author{}
@@ -242,6 +244,87 @@
       t = \floor{\frac{d_{min}-1}{2}} = \floor{\frac{n-k}{2}}
     \end{equation}
     とすることで、受信語$\vect{y}$に対してハミング距離$t$の範囲の符号語が一意に定まる。
+
+    $t$以下のある$l$によって$\vect{y}$が$l$箇所誤っているとする。
+    すると非ゼロの$e_j \in F_q$によって
+    \begin{equation}
+      \func{e}{x} = e_{j_1} x^{j_1} + e_{j_2} x^{j_2} + \cdots + e_{j_l} x^{j_l}
+    \end{equation}
+    と書かれる多項式$\func{e}{x}$によって$\vect{y}$の多項式表示を
+    \begin{equation}
+      \func{y}{x} = \func{w}{x} + \func{e}{x}
+    \end{equation}
+    と書くことができる。
+    ここで$\epsilon = \{ j_1, j_2, \cdots, j_l \}$は誤り位置の集合であり、$e_{j_i}$は符号語の$j_i-1$番目の要素がどれだけ誤っているかを表す。
+
+    $\vect{y}$が符号語であることと$\vect{y} \tr{H} = \vect{0}$であることは同値であるため、%TODO:
+    受信語が誤っているかの判断に
+    \begin{equation}
+      \vect{s} = \vect{y} \tr{H}
+    \end{equation}
+    を用いる。
+    この$\vect{s}$をシンドロームとよぶ。
+    $\vect{s}$がゼロベクトルであれば、受信語$\vect{y}$は符号語であり、誤りなく伝送されたものと見なすことができる。
+    よって以降$\vect{s}$が非ゼロベクトルであるとき、すなわち$\vect{y}$が符号語でない場合を考える。
+
+    $H$の定義から、$\vect{e}$の多項式表示を用いると$\vect{s}$の多項式表示での各係数は
+    \begin{equation}
+      s_i = \func{e}{\alpha^{i+1}}
+    \end{equation}
+    となる。
+    よってシンドローム$\vect{s}$の多項式表示は
+    \begin{align}
+      \func{s}{x} &= s_0 + s_1 x + \cdots + s_{n-k-1} x^{n-k-1} \\
+                  &= \func{e}{\alpha^1} + \func{e}{\alpha^2} x + \cdots + \func{e}{\alpha^{n-k}} x^{n-k-1} \\
+                  &= \sum_{j \in \epsilon} e_j \alpha^1 + \sum_{j \in \epsilon} e_j \alpha^2 x + \cdots + \sum_{j \in \epsilon} e_j \alpha^{n-k} x^{n-k-1} \\
+                  &= \sum_{j \in \epsilon} e_j \left[ \alpha^j + \alpha^{2j} x + \cdots + \alpha^{j(n-k)} x^{n-k-1} \right]  \\
+                  &= \sum_{j \in \epsilon} e_j \sum_{i = 1}^{n-k} \alpha^{ij} x^{i-1}
+    \end{align}
+    と書くことができる。
+    さらに$\sum_{i=1}^{n-k} \alpha^{ij} x^{i-1}$を等比級数とみなせば
+    \begin{align}
+      \func{s}{x} &= \sum_{j \in \epsilon} e_j \sum_{i = 1}^{n-k} \alpha^{ij} x^{i-1} \\
+                  &= \sum_{j \in \epsilon} e_j \frac{\alpha^j - \alpha^{j(n-k+1)} x^{n-k}}{1 - \alpha^j x}
+    \end{align}
+    となる。
+    また、ここで新たに多項式$\func{\sigma}{x}$を
+    \begin{equation}
+      \func{\sigma}{x} = \Pi_{j \in \epsilon} (1 - \alpha^j x)
+    \end{equation}
+    と定義する。
+    この$\func{\sigma}{x}$は任意の$j \in \epsilon$に対して$\func{\sigma}{\alpha^{-j}} = 0$となる。
+    すなわち、$\func{\sigma}{x}$の根がわかれば誤り位置が得られることになる。
+    ここで、2つの多項式
+    \begin{gather}
+      \func{\eta}{x} = \sum_{j \in \epsilon} e_j \alpha^j \Pi_{k \neq j, k \in \epsilon} (1 - \alpha^k x) \\
+      \func{\phi}{x} = \sum_{j \in \epsilon} \alpha^{j(n-k+1)} \Pi_{k \neq j, k \in \epsilon} (1 - \alpha^k x)
+    \end{gather}
+    を定義する。
+    また、$\func{\sigma}{x}$と$\func{\eta}{x}$は以下のような性質を持つ。%TODO:
+    \begin{itemize}
+      \item $\deg(\func{\sigma}{x}) \le t, \deg(\func{\eta}{x}) \le t-1$
+      \item $\func{\sigma}{x}$と$\func{\eta}{x}$は互いに素
+      \item $\func{\sigma}{0} = 1$
+    \end{itemize}
+    この性質から$\func{\sigma}{x}, \func{\phi}{x}$を不定元とする不定方程式
+    \begin{equation}
+      \func{\sigma}{x} \func{s}{x} + \func{\phi}{x} x^{n-k} = \func{\eta}{x}
+    \end{equation}
+    の解は一意に定まる。%TODO:
+    よってこの不定方程式を解くことで$\func{\sigma}{x}$と$\func{\eta}{x}$が得られる。
+    そして、$\func{\sigma}{x}$の形式的な微分による
+    \begin{equation}
+      \func{\sigma'}{x} = -\sum_{j \in \epsilon} \alpha^j \Pi_{k \neq j, k \in \epsilon} (1 - \alpha^k x)
+    \end{equation}
+    を用いることで$e_j$は
+    \begin{equation}
+      e_j = \frac{\func{\eta}{\alpha^{-j}}}{\func{\sigma'}{\alpha^{-j}}}
+    \end{equation}
+    として得られる。
+
+
+
+
 
 
 
