@@ -19,7 +19,94 @@
   \maketitle
   \tableofcontents
 
+  \section{順伝播}
+    学習にバッチサイズ$m$の入力が与えられるときの順伝播を考える。
+    ネットワークの$i$番目のニューロンへの$\lambda$個目の入力を$x^I_{i, \lambda}$、同様に Batch Normalization layer への入力を$x_{i, \lambda}$、ネットワークの出力を$x^O_{i, \lambda}$とする。
+    順伝播の計算は
+    \begin{align}
+      x_{i, \lambda}   &= \func{f_{i, \lambda}}{x^I, \theta^I} \\
+      y_{i, \lambda}   &= \func{BN_{i, \lambda, \beta_i, \gamma_i}}{x} \\
+      x^O_{i, \lambda} &= \func{g{i, \lambda}}{o, \theta^O}
+    \end{align}
+    として計算されるとする。
+    ここで$\theta^I, \theta^O$はそれぞれ Batch Normalization より前と後の層のパラメータとし、$\beta_i, \gamma_i$は Normalization 語のリスケーリングとシフトのパラメータとした。
+    また、Normalization の計算$\func{BN_{i, \lambda, \beta_i, \gamma_i}}{x}$は
+    \begin{align}
+      \mu_i &= \frac{1}{m} \sum_{\lambda=1}^{m} x_{i, \lambda} \\
+      \sigma^2_i &= \frac{1}{m} \sum_{\lambda=1}^{m} (x_{i, \lambda} - \mu_i)^2 \\
+      \hat{x}_{i, \lambda} &= \frac{x_{i, \lambda} - \mu_i}{\sqrt{\sigma^2_i - \epsilon}} \\
+      y_{i, \lambda} &= \gamma_i x_{i, \lambda} + \beta_i
+    \end{align}
+    として計算される。
+
+    また、学習の際はミニバッチによって平均と分散が計算されるが、実際の識別の場合は学習の最後のエポックで用いた平均と分散を用いる等して計算される。
 
 
+  \section{逆伝播}
+    誤差関数を$E$と書けば、前述の計算式から各パラメータの更新量$\Delta \theta^I_i, \Delta \theta^O_i, \Delta \beta_i, \Delta \gamma_i$は
+    \begin{align}
+      \diffp{y_{i, \lambda}}{\beta_i} &= 1,
+      \quad \diffp{y_{i, \lambda}}{\gamma_i} = \hat{x}_{i, \lambda} \\
+      \diffp{y_{i, \nu}}{x_{i, \lambda}} &= \frac{\gamma_i}{\sqrt{\sigma^2_i + \epsilon}} \left( \delta_\lambda^\nu - \frac{1}{m} - \frac{1}{m} \hat{x}_{i, \nu} \hat{x}_{i, \lambda} \right)
+    \end{align}
+    と置くことで
+    \begin{align}
+      \Delta \theta^O_i &= - \sum_{j=1}^{n} \sum_{\lambda=1}^{m} \partial_{x^O_{j, \lambda}} E \diffp{x^O_{j, \lambda}}{\theta^O_i} \\
+      \Delta \beta[i] &= - \sum_{\lambda=1}^{m} \partial_{y_{i, \lambda}} E,
+      \quad \Delta \gamma[i] = - \sum_{\lambda=1}^{m} \partial_{y_{i, \lambda}} E \hat{x}_{i, \lambda} \\
+      \Delta \theta^I_i &= - \sum_{j=1}^{n} \sum_{\lambda=1}^{m} \sum_{\nu=1}^{m} \gamma_j \frac{1}{\sqrt{\sigma^2_j + \epsilon}} \left( \partial_{y_{j, \nu}} E \left( \delta_\lambda^\nu - \frac{1}{m} - \frac{1}{m} \hat{x}_{j, \nu} \hat{x}_{j, \lambda} \right) \right) \diffp{x_{j, \lambda}}{\theta^I_i}
+    \end{align}
+    として計算される。
+
+    上の式から
+    \begin{align}
+      \diffp{E}{\beta_i} &= \sum_{\lambda=1}^{m} \partial_{y_{i, \lambda}} E \\
+      \diffp{E}{\gamma} &= \sum_{\lambda=1}^{m} \partial_{y_{i, \lambda}} E \hat{x}_{i, \lambda} \\
+      \diffp{E}{x_{i, \lambda}} &= \sum_{\nu=1}^{m} \gamma_i \frac{1}{\sqrt{\sigma^2_i + \epsilon}} \left( \partial_{y_{i, \nu}} E \left( \delta_\lambda^\nu - \frac{1}{m} - \frac{1}{m} \hat{x}_{i, \nu} \hat{x}_{i, \lambda} \right) \right)
+    \end{align}
+    である。
+    ここで論文中に示される
+    \begin{align}
+      \diffp{E}{\hat{x}_{i, \lambda}} &= \diffp{E}{y_{i, \lambda}} \gamma_i \\
+      \diffp{E}{\sigma^2_i}           &= \sum_{\lambda=1}^{m} \diffp{E}{\hat{x}_{i, \lambda}} (x_{i, \lambda} - \mu_i) \frac{-1}{2}(\sigma^2_i + \epsilon)^\frac{-3\gamma_i }{2} \\
+      \diffp{E}{\mu_i}                &= \left( \sum_{\lambda=1}^{m} \diffp{E}{\hat{x}_{i, \lambda}} \frac{-1}{\sqrt{\sigma^2_i + \epsilon}} \right) + \diffp{E}{\sigma^2_i} \sum_{\lambda=1}^{m} \frac{-2(x_{i, \lambda} - \mu_i)}{m} \\
+      \diffp{E}{x_{i, \lambda}}       &= \diffp{E}{\hat{x}_{i, \lambda}} \frac{1}{\sqrt{\sigma^2_i + \epsilon}} + \diffp{E}{\sigma^2_i} \frac{2(x_{i, \lambda} - \mu_i)}{m} + \diffp{E}{\mu_i} \frac{1}{m} \\
+      \diffp{E}{\gamma_i}             &= \sum_{\lambda=1}^{m} \diffp{E}{y_{i, \lambda}} \hat{x}_{i, \lambda} \\
+      \diffp{E}{\beta}                &= \sum_{\lambda=1}^{m} \diffp{E}{y_{i, \lambda}}
+    \end{align}
+    と一致することを確認する。
+    それぞれ代入することで
+    \begin{align}
+      \diffp{E}{\sigma^2_i} &= \sum_{\lambda=1}^{m} \diffp{E}{y_{i, \lambda}} \gamma_i (x_{i, \lambda} - \mu_i) \frac{-1}{2}(\sigma^2_i + \epsilon)^\frac{-3}{2} \\
+                            &= \sum_{\lambda=1}^{m} \diffp{E}{y_{i, \lambda}} \gamma_i (x_{i, \lambda} - \mu_i) \frac{-1}{2}(\sigma^2_i + \epsilon)^\frac{-3}{2} \\
+                            &= -\frac{1}{2} \sum_{\lambda=1}^{m} \diffp{E}{y_{i, \lambda}} \gamma_i (\sigma^2_i + \epsilon)^\frac{-3}{2} (x_{i, \lambda} - \mu_i)
+    \end{align}
+    \begin{align}
+      \diffp{E}{\mu_i}                &= \left( \sum_{\lambda=1}^{m} \diffp{E}{\hat{x}_{i, \lambda}} \frac{-1}{\sqrt{\sigma^2_i + \epsilon}} \right) + \diffp{E}{\sigma^2_i} \sum_{\lambda=1}^{m} \frac{-2(x_{i, \lambda} - \mu_i)}{m} \\
+                                      &= \left( \sum_{\lambda=1}^{m} \diffp{E}{y_{i, \lambda}} \gamma_i \frac{-1}{\sqrt{\sigma^2_i + \epsilon}} \right) + \diffp{E}{\sigma^2_i} 0 \\
+                                      &= -\sum_{\lambda=1}^{m} \diffp{E}{y_{i, \lambda}} \gamma_i \frac{1}{\sqrt{\sigma^2_i + \epsilon}}
+    \end{align}
+    \begin{align}
+      \diffp{E}{x_{i, \lambda}}       &= \diffp{E}{\hat{x}_{i, \lambda}} \frac{1}{\sqrt{\sigma^2_i + \epsilon}} + \diffp{E}{\sigma^2_i} \frac{2(x_{i, \lambda} - \mu_i)}{m} + \diffp{E}{\mu_i} \frac{1}{m} \\
+                                      &= \diffp{E}{y_{i, \lambda}} \gamma_i \frac{1}{\sqrt{\sigma^2_i + \epsilon}} - \frac{1}{2} \sum_{\nu=1}^{m} \diffp{E}{y_{i, \nu}} \gamma_i (\sigma^2_i + \epsilon)^\frac{-3}{2} (x_{i, \nu} - \mu_i) \frac{2(x_{i, \lambda} - \mu_i)}{m} - \sum_{\nu=1}^{m} \diffp{E}{y_{i, \nu}} \gamma_i \frac{1}{\sqrt{\sigma^2_i + \epsilon}} \frac{1}{m} \\
+                                      &= \diffp{E}{y_{i, \lambda}} \gamma_i \frac{1}{\sqrt{\sigma^2_i + \epsilon}} - \frac{1}{m} \sum_{\nu=1}^{m} \diffp{E}{y_{i, \nu}} \gamma_i (\sigma^2_i + \epsilon)^\frac{-3}{2} (x_{i, \nu} - \mu_i) (x_{i, \lambda} - \mu_i) - \frac{1}{m} \sum_{\nu=1}^{m} \diffp{E}{y_{i, \nu}} \gamma_i \frac{1}{\sqrt{\sigma^2_i + \epsilon}} \\
+                                      &= \sum_{\nu=1}^{m} \diffp{E}{y_{i, \nu}} \gamma_i \delta^\nu_\lambda \frac{1}{\sqrt{\sigma^2_i + \epsilon}} - \frac{1}{m} \sum_{\nu=1}^{m} \diffp{E}{y_{i, \nu}} \gamma_i (\sigma^2_i + \epsilon)^\frac{-3}{2} (x_{i, \nu} - \mu_i) (x_{i, \lambda} - \mu_i) - \frac{1}{m} \sum_{\nu=1}^{m} \diffp{E}{y_{i, \nu}} \gamma_i \frac{1}{\sqrt{\sigma^2_i + \epsilon}} \\
+                                      &= \sum_{\nu=1}^{m} \gamma_i \frac{1}{\sqrt{\sigma^2_i + \epsilon}} \left( \diffp{E}{y_{i, \nu}} \left( \delta^\nu_\lambda - \frac{1}{m} (\sigma^2_i + \epsilon)^{-1} (x_{i, \nu} - \mu_i) (x_{i, \lambda} - \mu_i) - \frac{1}{m} \right) \right) \\
+                                      &= \sum_{\nu=1}^{m} \gamma_i \frac{1}{\sqrt{\sigma^2_i + \epsilon}} \left( \diffp{E}{y_{i, \nu}} \left( \delta^\nu_\lambda - \frac{1}{m} \hat{x}_{i, \nu} \hat{x}_{i, \lambda} - \frac{1}{m} \right) \right) \\
+                                      &= \sum_{\nu=1}^{m} \gamma_i \frac{1}{\sqrt{\sigma^2_i + \epsilon}} \left( \diffp{E}{y_{i, \nu}} \left( \delta^\nu_\lambda - \frac{1}{m} - \frac{1}{m} \hat{x}_{i, \nu} \hat{x}_{i, \lambda} \right) \right)
+    \end{align}
+    となり一致する。
+
+
+
+  \begin{thebibliography}{99}
+    %\bibitem{bib:a} 吉冨康成，``ニューラルネットワーク''，朝倉書店，pp.88-96，(2002)．
+    %\bibitem{bib:b} 相吉英太郎他，安田恵一郎，``メタヒューリスティクスと応用''，電気学会，pp.1-15，()．%TODO: 年は?
+    %\bibitem{bib:c} 斎藤康毅，``ゼロから作るDeep Learning''，オライリージャパン，pp.165-177，(2016)．
+    \bibitem{bib:c} 斎藤康毅，``ゼロから作るDeep Learning''，オライリージャパン，(2016)．%TODO: ページ
+      \bibitem{bib:bn}
+          Sergey loffe and Christian Szegedy (2015) : Batch Normalization : Accelerating Deep Network Training by Reducing Internal Covariate Shift. ArXiv:1502.03167 [cs] (February 2015).
+    %\bibitem{bib:z} ``''，\url{}，参照May.17,2020．
+  \end{thebibliography}
 \end{document}
 
