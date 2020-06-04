@@ -19,6 +19,29 @@
   \maketitle
   \tableofcontents
 
+  \section{順伝播}
+    学習にバッチサイズ$m$の入力が与えられるときの順伝播を考える。
+    ネットワークの$i$番目のニューロンへの$\lambda$個目の入力を$x^I_{i, \lambda}$、同様に Batch Normalization layer への入力を$x_{i, \lambda}$、ネットワークの出力を$x^O_{i, \lambda}$とする。
+    順伝播の計算は
+    \begin{align}
+      x_{i, \lambda}   &= \func{f_{i, \lambda}}{x^I, \theta^I} \\
+      y_{i, \lambda}   &= \func{BN_{i, \lambda, \beta_i, \gamma_i}}{x} \\
+      x^O_{i, \lambda} &= \func{g{i, \lambda}}{o, \theta^O}
+    \end{align}
+    として計算されるとする。
+    ここで$\theta^I, \theta^O$はそれぞれ Batch Normalization より前と後の層のパラメータとした。
+    また、Normalization の計算$\func{BN_{i, \lambda, \beta_i, \gamma_i}}{x}$は
+    \begin{align}
+      \mu_i &= \frac{1}{m} \sum_{\lambda=1}^{m} x_{i, \lambda} \\
+      \sigma^2_i &= \frac{1}{m} \sum_{\lambda=1}^{m} (x_{i, \lambda} - \mu_i)^2 \\
+      \hat{x}_{i, \lambda} &= \frac{x_{i, \lambda} - \mu_i}{\sqrt{\sigma^2_i - \epsilon}} \\
+      y_{i, \lambda} &= \gamma_i x_{i, \lambda} + \beta_i
+    \end{align}
+    として計算される。
+
+    また、学習の際はミニバッチによって平均と分散が計算されるが、実際の識別の場合は学習の最後のエポックで用いた平均と分散を用いる等して計算される。
+
+
 
   \begin{thebibliography}{99}
     %\bibitem{bib:a} 吉冨康成，``ニューラルネットワーク''，朝倉書店，pp.88-96，(2002)．
