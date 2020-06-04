@@ -79,3 +79,6 @@
 [submodule "fisher-yates-shuffle/.template"]
 	path = fisher-yates-shuffle/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "todo/.template"]
+	path = todo/.template
+	url = https://github.com/muushi97/tex-project-template
