@@ -63,5 +63,48 @@
     \end{proof}
 
 
+  \section{メビウスの反転公式(M\"obius inversion formula)}
+    \begin{theorem}{メビウスの反転公式(M\"obius inversion formula)}
+      正の整数集合を定義域とする関数$f(n), g(n)$に対して%TODO: 終域は?
+      \begin{equation}
+        f(n) = \sum_{d | n} g(d) \Leftrightarrow g(n) = \sum_{d | n} \mu(\frac{n}{d}) f(d)
+      \end{equation}
+      が成り立つ。
+      この関係式をメビウスの反転公式という。
+    \end{theorem}
+    \begin{proof}
+      まず$f(n) = \sum_{d | n} g(d) \Leftarrow g(n) = \sum_{d | n} \mu(\frac{n}{d}) f(d)$を示す。
+      この左辺の式を代入することで、
+      \begin{align}
+        g(n) &= \sum_{d | n} \func{\mu}{\frac{n}{d}} f(d) \\
+             &= \sum_{d | n} \func{\mu}{\frac{n}{d}} \sum_{d' | d} g(d') \\
+             &= \sum_{d | n} \sum_{d' | d} g(d') \func{\mu}{\frac{n}{d}} \\
+             &= \sum_{d' | n} \sum_{d' | d | n} g(d') \func{\mu}{\frac{n}{d}} \\
+             &= \sum_{d' | n} g(d') \sum_{d' | d | n} \func{\mu}{\frac{n}{d}}
+      \end{align}
+      となる。
+      ここで$m = \frac{n}{d'}, d^\ast = \frac{d}{d'}$とおくと、$d^\ast | m$を満たす$d^\ast$の集合と$d' | d | m$を満たす$d$の集合は一体一対応する。
+      さらに、$\frac{n}{d} = \frac{m}{d^\ast}$であるため
+      \begin{equation}
+        \sum_{d' | n} g(d') \sum_{d' | d | n} \func{\mu}{\frac{n}{d}} = \sum_{d' | n} g(d') \sum_{d^\ast | m} \func{\mu}{\frac{m}{d^\ast}}
+      \end{equation}
+      となる。
+      前述の定理から
+      \begin{equation}
+        \func{\mu}{\frac{m}{d^\ast}} = \begin{cases}
+          0, & m \neq 0 \\
+          1, & m  =   0
+        \end{cases}
+      \end{equation}
+      であるため
+      \begin{equation}
+        \sum_{d' | n} g(d') \sum_{d^\ast | m} \func{\mu}{\frac{m}{d^\ast}} = g(n)
+      \end{equation}
+      となり示された。
+      同様にして$f(n) = \sum_{d | n} g(d) \Rightarrow g(n) = \sum_{d | n} \mu(\frac{n}{d}) f(d)$も示される。
+    \end{proof}
+
+
+
 \end{document}
 
