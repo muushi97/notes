@@ -179,11 +179,39 @@
     \end{definition}
 
 
+  \section{ディリクレ母関数(Dirichlet generating function)}
+    \begin{definition}{ディリクレ級数(Dirichlet series)}
+      数論的関数$f$に対して
+      \begin{equation}
+        D(f;s) = \sum_{n=1}^\infty \frac{f(n)}{n^s}
+      \end{equation}
+      と書かれる級数をディリクレ級数という。
+      これは数列$\{ f(n) \}_{n \ge 1}$に付随するディリクレ母関数(Dirichlet generating function)であるともいう。
+      またディリクレ変換ともいうことができる。
+    \end{definition}
+    ディリクレ級数とディリクレ畳み込みに対して
+    \begin{equation}
+      D(f;s) D(g;s) = D(f \ast g;s)
+    \end{equation}
+    が成立し、ディリクレ級数を数論的関数におけるフーリエ変換とみることができることがわかる。
+
+    リーマンゼータ関数(Riemann zeta function)は
+    \begin{equation}
+      \zeta(s) = \sum_{n=1}^\infty \frac{1}{n^s} = D(\mathbf{id};s)
+    \end{equation}
+    と書けるため
+    \begin{equation}
+      D(f;s) = \zeta(s) D(g;s)
+    \end{equation}
+    た成り立つ。
 
 
   \section{反転公式の応用}
 
 
+  % TODO: 読んでみたい本たち
+  % T. M. Apostol. Introduction to Analytic Number Theory. Springer-Verlag, 1976.
+  % 安福 悠. 発見・予想を積み重ねる ―それが整数論. オーム社, 2016.
 
 \end{document}
 
