@@ -207,6 +207,45 @@
 
 
   \section{反転公式の応用}
+    \subsection{周期性をもたない文字列の数}
+      有限集合$\Omega$をアルファベットとし、$\Omega^n$の元を長さ$n$の文字列とする。
+      2つの文字列$\vect{x}, \vect{y}$に対して$\vect{x} \ast \vect{y}$を$\vect{x}$と$\vect{y}$を連結(concatenation)したものとする。
+      次に文字列の周期を定義する。
+      \begin{definition}{文字列の周期}
+        ある文字列$\vect{x} \in \Omega^n$に対してある$\vect{y} \in \Omega^d$が存在し
+        \begin{equation}
+          \vect{x} = \vect{y} \ast \vect{y} \ast \cdots \ast \vect{y}
+        \end{equation}
+        と書けるとき、$\vect{x}$は周期$d$を持つという。
+        また$d | n$であることは自明である。
+        さらに、文字列$\vect{x}$がもつ周期のうち最小のものが$d$であるとき、$d$を$\vect{x}$の最短周期という。
+      \end{definition}
+
+      また$\mathcal{F}, \mathcal{G}$をそれぞれ
+      \begin{gather}
+        \mathcal{F}(d) = \Set{ \vect{x} \in \Omega^n | \text{$\vect{x}$が周期$d$をもつ} } \\
+        \mathcal{G}(d) = \Set{ \vect{x} \in \Omega^n | \text{$\vect{x}$の最短周期が$d$である} }
+      \end{gather}
+      とする。
+      $\mathcal{F}(n)$が長さ$n$の文字列集合$\Omega^n$と一致するのは自明であり、また$\mathcal{G}(d) \; (d | n)$によって$\Omega^n$が分割される。
+      したがって、数論的関数$f, g$をそれぞれ$f(n) = \card{\mathcal{F}(n)}, g(n) = \card{\mathcal{G}(n)}$とすれば
+      \begin{equation}
+        f(n) = \sum_{d | n} g(d)
+      \end{equation}
+      が成立する。
+      メビウスの反転公式から
+      \begin{equation}
+        f(n) = \sum_{d | n} g(d) \Leftrightarrow g(n) = \sum_{d | n} \func{\mu}{\frac{n}{d}} f(d)
+      \end{equation}
+      が成立し、$f(d) = \card{\Omega}^d$であることから
+      \begin{equation}
+        g(n) = \sum_{d | n} \func{\mu}{\frac{n}{d}} f(d) = \sum_{d | n} \func{\mu}{\frac{n}{d}} \card{\Omega}^d
+      \end{equation}
+      とが得られる。
+      そして、$g(n)$は最短周期が$n$であるような長さ$n$の文字列の数であり、すなわち長さ$n$の周期性を持たない文字列の数である。
+      上式を用いれば長さが$n$の周期性を持たない文字列の数を比較的用意に得ることができる。
+
+      % combinatorics on words (語の組合せ論) という組合せ論の分野がある
 
 
   % TODO: 読んでみたい本たち
