@@ -5,9 +5,11 @@
 %------------------------------------------------------------------------
 \usepackage{./preambles/ownpack}
 
+\newcommand{\comb}[2]{\begin{pmatrix} #1 \\ #2 \end{pmatrix}}
 
-\title{title}
-\author{muushi97}
+
+\title{メビウス関数(M\"obius function)}
+\author{}
 \date{}
 
 % -----------------------------------------------------------------------
@@ -19,6 +21,46 @@
   \maketitle
   \tableofcontents
 
+  \section{メビウス関数(M\"obius function)}
+    \begin{definition}{メビウス関数(M\"obius function)}
+      正の整数$n$に対して以下の関数
+      \begin{equation}
+        \mu(n) = \begin{cases}
+          0,      & \text{$n$が$1$以外の平方因子をもつとき} \\
+          (-1)^k, & \text{$n$が$k$個の異なる素因数を持つとき}
+        \end{cases}
+      \end{equation}
+      をメイビウス関数とする。
+      また、$\mu(1) = 1$とする。
+    \end{definition}
+
+    \begin{theorem}
+      任意の互いに素な正の整数$m, n$に対して$\mu(m) \mu(n) = \mu(m n)$が成立する。
+    \end{theorem}
+
+    \begin{theorem}
+      正の整数$2 \ge 2$に対して、
+      \begin{equation}
+        \sum_{d | n} \mu(d) = 0
+      \end{equation}
+      となる。
+    \end{theorem}
+    \begin{proof}
+      $n$の標準素因数分解$n = p_1^{\alpha_1} p_2^{\alpha_2} \cdots p_k^{\alpha_k}$と書くとする。
+      ここで$n$のある約数$d$に対して$\mu(d) \neq 0$となる必要十分条件は$d = p_1^{\delta_1} p_2^{\delta_2} \cdots p_k^{\delta_k}, \; (\delta_i \in \{ 0, 1 \}, 1 \le i \le k)$と書けることである。
+      したがって
+      \begin{equation}
+        \sum_{d | n} \mu(d) = \sum_{\delta_i \in \{0, 1 \}} \mu(p_1^{\delta_1} p_2^{\delta_2} \cdots p_k^{\delta_k})
+                            = \sum_{\delta_i \in \{0, 1 \}} (-1)^{\delta_1 + \delta_2 + \cdots + \delta_k}
+                            = \sum_{i=0}^k (-1)^k \comb{k}{i}
+      \end{equation}
+      となる。
+      二項定理から
+      \begin{equation}
+        \sum_{i=0}^k (-1)^k \comb{k}{i} = (1 - 1)^k = 0
+      \end{equation}
+      が示される。
+    \end{proof}
 
 
 \end{document}
