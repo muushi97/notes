@@ -7,6 +7,8 @@
 
 \newcommand{\comb}[2]{\begin{pmatrix} #1 \\ #2 \end{pmatrix}}
 
+\renewcommand{\theenumi}{\roman{enumi}}
+
 
 \title{メビウス関数(M\"obius function)}
 \author{}
@@ -103,6 +105,83 @@
       となり示された。
       同様にして$f(n) = \sum_{d | n} g(d) \Rightarrow g(n) = \sum_{d | n} \mu(\frac{n}{d}) f(d)$も示される。
     \end{proof}
+
+
+  \section{乗法的関数とディクレ畳み込み}
+    \begin{definition}{数論的関数(arithmetic function)}
+      正の整数の集合を$\N$とし複素数の集合を$\C$としたとき
+      \begin{equation}
+        f : \N \to \C
+      \end{equation}
+      である写像$f$を数論的関数という。
+    \end{definition}
+    \begin{definition}{乗法的関数(multiplicative function)}
+      ある数論的関数$f : \N \to \C$が、任意の互いに素な$m, n \in \N$に対して
+      \begin{equation}
+        f(m) f(n) = f(mn)
+      \end{equation}
+      であるとき、$f$を乗法的関数という。
+    \end{definition}
+    オイラー関数やメビウス関数、$0$以上の約数の個数、約数の個数、値域が$1$の定数関数、恒等関数、$1$の指示関数($1$のときのみ$1$でそれ以外$0$の関数)等が乗法的関数にあたる。
+
+    \begin{definition}{ディリクレ畳み込み(Dirichlet convolution)}
+      数論的関数$f, g$に対して、$f \ast g$を
+      \begin{equation}
+        (f \ast g)(n) = \sum_{d | n} f(d) \func{g}{\frac{n}{d}} = \sum_{ab = n} f(a) g(b)
+      \end{equation}
+      と定義し、これをディリクレ畳み込みという。
+    \end{definition}
+    \begin{theorem}
+      ディリクレ畳み込みに対して、一般の畳み込み和等で成立するのと同じように以下が成立する。
+      \begin{enumerate}
+        \item $f \ast g = g \ast f$ (可換性)
+        \item $(f + g) \ast h = f \ast h + g \ast h$ (分配律)
+        \item $(f \ast g) \ast h = f \ast (h \ast g)$ (結合律)
+        \item $f \ast \varepsilon$ (単位元)
+      \end{enumerate}
+      ここで$\varepsilon$は$1$の指示関数である。
+    \end{theorem}
+    このディリクレ畳み込みは乗法的関数に対する2項演算である。
+    例として以下があげられる。
+    \begin{enumerate}
+      \item $\mu \ast \mathbf{1} = \varepsilon$
+      \item $\varphi \ast \mathbf{1} = \mathrm{id}$
+    \end{enumerate}
+    ここで$\mathbf{1}$は値域が$1$の定数関数であり、$\mathrm{id}$は恒等関数である。
+    これはメビウス関数のディリクレ畳み込みに対する逆元が$\mathbf{1}$であるとも言うことができる。
+    よってメビウス反転公式はディリクレ畳み込みによって
+    \begin{equation}
+      f = g \ast 1 \Leftrightarrow g = \mu \ast f
+    \end{equation}
+    と書くことができる。
+    ディリクレ畳み込みの性質を用いると簡単に証明することができる。
+
+    ディリクレ畳み込みで書かれる
+    \begin{equation}
+      \varphi = \mu \ast \mathrm{id}
+    \end{equation}
+    はよく知られている。
+    この式にディリクレ反転公式を適用すれば
+    \begin{equation}
+      \mathrm{id} = \varphi \ast \mathbf{1}
+    \end{equation}
+    が得られる。
+    これはオイラー関数の性質として知られる式
+    \begin{equation}
+      n = \sum_{d | n} \varphi(d)
+    \end{equation}
+    そのものである。
+
+    また、ディリクレ畳み込みに対する逆元は以下のディリクレ逆と呼ばれる。
+    \begin{definition}{ディリクレ逆(Dirichlet inverse)}
+      ある数論的関数$f$に対して$f \ast g = \varepsilon$が成立する数論的関数$g$をディレイクレ逆という。
+      ディリクレ逆は任意の$f(1) = \neq 0$を見たす数論的関数に存在する。
+    \end{definition}
+
+
+
+
+  \section{反転公式の応用}
 
 
 
