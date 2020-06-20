@@ -85,3 +85,6 @@
 [submodule "mobius-function/.template"]
 	path = mobius-function/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "graph-theory/.template"]
+	path = graph-theory/.template
+	url = https://github.com/muushi97/tex-project-template
