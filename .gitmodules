@@ -88,3 +88,6 @@
 [submodule "graph-theory/.template"]
 	path = graph-theory/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "probability-theory/.template"]
+	path = probability-theory/.template
+	url = https://github.com/muushi97/tex-project-template
