@@ -91,3 +91,6 @@
 [submodule "probability-theory/.template"]
 	path = probability-theory/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "variational-autoencoder/.template"]
+	path = variational-autoencoder/.template
+	url = https://github.com/muushi97/tex-project-template
