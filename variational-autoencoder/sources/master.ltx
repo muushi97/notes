@@ -20,6 +20,218 @@
   \tableofcontents
 
 
+  \section{多変量ベルヌーイ分布}
+    $n$次元のベクトルの各要素が$0$か$1$のみをとるとしたとき、その確率分布を多変量ベルヌーイ分布という。
+    ここで、各要素は独立に定まるとすると、$i$番目の要素が$1$となる確率を$p_i$として、$\vect{x} = (x_1, x_2, \ldots, x_n)$が現れる確率$p(\vect{x})$は
+    \begin{equation}
+      p(\vect{x}) = \prod_{i=1}^n p_i^{x_i} (1 - p_i)^{1 - x_i}
+    \end{equation}
+    と書くことができる。
+    よって、対数確率は
+    \begin{equation}
+      \log p(\vect{x}) = \sum_{i=1}^n [ x_i \log p_i + (1 - x_i) \log (1 - p_i) ]
+    \end{equation}
+    となる。
+
+
+  \section{正規分布同士の KL-divergence}
+    確率分布$p(\vect{x})$と$q(\vect{x})$の間の KL-divergence は
+    \begin{equation}
+      D_\mathrm{KL}(p(\vect{x}) || q(\vect{x})) = \int p(\vect{x}) \log \frac{q(\vect{x})}{p(\vect{x})} d\vect{x}
+    \end{equation}
+    と定義される。
+    KL-divergence は非負な値になることが示され、$p(\vect{x})$と$q(\vect{x})$が等しいときのみゼロとなることから、確率分布同士の近さをはかる汎関数であるといえる。
+
+    この$p(\vect{x})$と$q(\vect{x})$が正規分布に従うとして、KL-divergence を解析的に計算する。
+    まず
+    \begin{align}
+      p(\vect{x}) &= N(\vect{\mu_1}, \Sigma_1) \\
+      q(\vect{x}) &= N(\vect{\mu_2}, \Sigma_2)
+    \end{align}
+    とする。
+    % TODO:
+
+    よって
+    \begin{equation}
+      D_\mathrm{KL}(p(\vect{x}) || q(\vect{x}))
+        = \frac{1}{2} \left[ \log \frac{\det{\Sigma_2}}{\det{\Sigma_1}} - n + \mathrm{Tr}(\Sigma_2^{-1} \Sigma_1) + (\vect\mu_2 - \vect\mu_1)^{\mathrm{T}} \Sigma_2^{-1} (\vect\mu_2 - \vect\mu_1) \right]
+    \end{equation}
+    である。
+
+
+  \section{前提}
+    エンコーダのパラメータを$\vect{\phi}$、デコーダのパラメータを$\vect{\theta}$とする。
+    そして、エンコーダが$\vect{x}$を与えられて、潜在変数$\vect{z}$を出力する事後確率を$q_\vect{\phi}(\vect{z} \mid \vect{x})$とする。
+    また、デコーダが$\vect{x}$を出力したときに、与えられている潜在変数が$\vect{z}$である事後確率を$p_\vect{\theta}(\vect{z} \mid \vect{x})$とする。
+
+    デコーダの確率分布$p_\vect\theta$をエンコーダの確率分布$q_\vect\phi$で近似することを考える。
+    まず、ある$\vect{x}$に対して$p_\vect\theta$と$q_\vect\phi$がどれだけ近い分布かを評価する方法として KL-divergence を用いて
+    \begin{equation}
+      D_\mathrm{KL} (q_\vect\phi(\vect{z} \mid \vect{x}) || p_\vect\theta(\vect{z} \mid \vect{x}))
+        = \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{q_\vect\phi(\vect{z} \mid \vect{x})}{p_\vect\theta(\vect{z} \mid \vect{x})} d\vect{z}
+    \end{equation}
+    とする。
+    KL-divergence は小さければ小さいほど2つの確率分布が近いことを示す汎関数であるため、この値を最小化する問題へ帰着することがわかる。
+    しかし、KL-divergence そのものを最小化するのは難しい。
+    ここで、ベイズの定理を用いると
+    \begin{equation}
+      p_\vect{\theta} = \frac{p_\vect{\theta}(\vect{z}, \vect{x})}{p(\vect{x})}
+    \end{equation}
+    となり、KL-divergence へ代入することで
+    \begin{align}
+      D_\mathrm{KL} (q_\vect\phi(\vect{z} \mid \vect{x}) || p_\vect\theta(\vect{z} \mid \vect{x}))
+        &= \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{q_\vect\phi(\vect{z} \mid \vect{x})}{p_\vect\theta(\vect{z} \mid \vect{x})} d\vect{z} \\
+        &= \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{q_\vect\phi(\vect{z} \mid \vect{x}) p(\vect{x})}{p_\vect\theta(\vect{z}, \vect{x})} d\vect{z} \\
+        &= \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{q_\vect\phi(\vect{z} \mid \vect{x})}{p_\vect\theta(\vect{z}, \vect{x})} d\vect{z}
+              + \int q_\vect\phi(\vect{z} \mid \vect{x}) \log p(\vect{x}) d\vect{z} \\
+        &= - \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{p_\vect\theta(\vect{z}, \vect{x})}{q_\vect\phi(\vect{z} \mid \vect{x})} d\vect{z}
+              + \log p(\vect{x}) \int q_\vect\phi(\vect{z} \mid \vect{x}) d\vect{z} \\
+        &= - \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{p_\vect\theta(\vect{z}, \vect{x})}{q_\vect\phi(\vect{z} \mid \vect{x})} d\vect{z} + \log p(\vect{x})
+    \end{align}
+    となる。
+    ここで$p(\vect{x})$は周辺尤度である。
+    $L$を
+    \begin{equation}
+      L[q_\vect\phi, p_\vect\theta, \vect{x}] = \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{p_\vect\theta(\vect{z}, \vect{x})}{q_\vect\phi(\vect{z} \mid \vect{x})} d\vect{z}
+    \end{equation}
+    とすることで
+    \begin{equation}
+      \log p(\vect{x}) = L[q_\vect\phi, p_\vect\theta, \vect{x}] + D_\mathrm{KL} (q_\vect\phi(\vect{z} \mid \vect{x}) || p_\vect\theta(\vect{z} \mid \vect{x}))
+    \end{equation}
+    が成立する。
+    $p(\vect{x})$はパラメータによらないため今考えている最適化問題においては定数である。 % TODO: ほんほに p(x) が定数なのかどうか
+    したがって、KL-divergece を最小化することと$L$を最大化することは同値となる。
+    以降、$L$を最大化する最適化問題を考える。
+    また、$L[q_\vect\phi, p_\vect\theta, \vect{x}]$のことを変分限界、もしくは変分下限(variational lower bound)という。
+
+    一つのデータ$\vect{x}$が与えられたときの目的関数は$L[q_\vect\phi, p_\vect\theta, \vect{x}]$である。
+    $N$個のデータ$X = \{ \vect{x}_1, \vect{x}_2, \ldots, \vect{x}_N \}$がそれぞれ独立に与えられたとすると、$X$の事前確率$p(X)$は
+    \begin{equation}
+      p(X) = \sum_{i=1}^N p(\vect{x}_i)
+    \end{equation}
+    と表すことができる。
+    これをふまえると
+    \begin{equation}
+      \sum_{i=1}^N \log p(\vect{x}_i) = \sum_{i=1}^N L[q_\vect\phi, p_\vect\theta, \vect{x}_i] + D_\mathrm{KL} (q_\vect\phi(\vect{z} \mid \vect{x}_i) || p_\vect\theta(\vect{z} \mid \vect{x}_i))
+    \end{equation}
+    が成立する。
+    これに従って、$N$個のデータ$X$が与えられたときの目的関数は
+    \begin{equation}
+      \sum_{\vect{x} \in X} L[q_\vect\phi, p_\vect\theta, \vect{x}] = \sum_{\vect{x} \in X} \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{p_\vect\theta(\vect{z}, \vect{x})}{q_\vect\phi(\vect{z} \mid \vect{x})} d\vect{z}
+    \end{equation}
+    とすることとする。
+
+
+  \section{変分限界の変形}
+    定義から変分限界は
+    \begin{align}
+      L[q_\vect\phi, p_\vect\theta, \vect{x}]
+        &= \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{p_\vect\theta(\vect{z}, \vect{x})}{q_\vect\phi(\vect{z} \mid \vect{x})} d\vect{z} \\
+        &= \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{p(\vect{z}) p_\vect\theta(\vect{x} \mid \vect{z})}{q_\vect\phi(\vect{z} \mid \vect{x})} d\vect{z} \\
+        &= \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{p(\vect{z})}{q_\vect\phi(\vect{z} \mid \vect{x})} d\vect{z} + \int q_\vect\phi(\vect{z} \mid \vect{x}) \log p_\vect\theta(\vect{x} \mid \vect{z}) d\vect{z} \\
+        &= \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{p(\vect{z})}{q_\vect\phi(\vect{z} \mid \vect{x})} d\vect{z} + \int q_\vect\phi(\vect{z} \mid \vect{x}) \log p_\vect\theta(\vect{x} \mid \vect{z}) d\vect{z} \\
+        &= - \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{q_\vect\phi(\vect{z} \mid \vect{x})}{p(\vect{z})} d\vect{z} + \int q_\vect\phi(\vect{z} \mid \vect{x}) \log p_\vect\theta(\vect{x} \mid \vect{z}) d\vect{z}
+    \end{align}
+    と変形することができる。
+    上式の第一項目は KL-divergece であり、第二項目は$q_\vect\phi(\vect{z} \mid \vect{x})$による期待値とみることができるため
+    \begin{equation}
+      L[q_\vect\phi, p_\vect\theta, \vect{x}]
+        = - D_\mathrm{KL}(q_\vect\phi(\vect{z} \mid \vect{x}) || p(\vect{x})) + \mathbb{E}_{q_\vect\phi(\vect{z} \mid \vect{x})}[ \log p_\vect\theta(\vect{x} \mid \vect{z})]
+    \end{equation}
+    と書くことができる。
+    ここで、ベイズの定理によって$p_\vect\theta(\vect{z}, \vect{x}) = p(\vect{z} p_\vect\theta(\vect{x} \mid \vect{z}))$とした。
+
+
+  \section{リパラメタライズ}
+    $\vect{z}$が$\vect{x}$から生成される確率変数であるため、微分によって勾配を求めることが容易でない。
+    したがって決定的な微分可能関数$g_\vect\phi$を用いて$\vect{x}$を
+    \begin{equation}
+      \vect{z} = g_\vect\phi(\vect\epsilon, \vect{x}), \quad \vect\epsilon \sim p(\vect\epsilon)
+    \end{equation}
+    と再定義する。
+    すると
+    \begin{align}
+      \int q_\vect\phi(\vect{z} \mid \vect{x}) f(\vect{z}) d\vect{z}
+        &= \int q_\vect\phi(g_\vect\phi(\vect\epsilon, \vect{x}) \mid \vect{x}) f(g_\vect\phi(\vect\epsilon, \vect{x})) d\vect{\epsilon} \\
+        &\simeq \frac{1}{L} \sum_{l=1}^L f(g_\vect\phi(\vect\epsilon^{(l)}, \vect{x}))
+    \end{align}
+    と近似することができる。
+    ここで$\vect\epsilon^{(l)} \sim p(\vect\epsilon)$であり、$L$はある程度大きな自然数である。
+
+    例えば$g_\vect\phi$の例として
+    \begin{equation}
+      g_\vect\phi(\vect\epsilon, \vect{\mu}, \vect\sigma)
+        = \vect\mu + \vect\epsilon \odot \vect\sigma, \quad \vect\epsilon \sim N(\vect{0}, I)
+    \end{equation}
+    とすれば$\vect{z} = g_\vect\phi(\vect\epsilon, \vect{\mu}, \vect\sigma)$は平均ベクトルが$\vect\mu$、各要素が独立で分散が$\vect\sigma \odot \vect\sigma$である正規分布に従う。
+    ここで$\odot$はベクトルの要素同士積、$I$は単位行列とした。
+
+    この近似によって
+    \begin{align}
+      \mathbb{E}_{q_\vect\phi(\vect{z} \mid \vect{x})}[ \log p_\vect\theta(\vect{x} \mid \vect{z})]
+        &= \int q_\vect\phi(\vect{z} \mid \vect{x}) \log p_\vect\theta(\vect{x} \mid \vect{z}) d\vect{z} \\
+        &\simeq \frac{1}{L} \sum_{l=1}^L \log p_\vect\theta(\vect{x} \mid \vect{z}^{(l)})
+    \end{align}
+    となるため、変分限界は
+    \begin{equation}
+      L[q_\vect\phi, p_\vect\theta, \vect{x}]
+        \simeq - D_\mathrm{KL}(q_\vect\phi(\vect{z} \mid \vect{x}) || p(\vect{x})) + \frac{1}{L} \sum_{l=1}^L \log p_\vect\theta(\vect{x} \mid \vect{z}^{(l)})
+    \end{equation}
+    と近似できる。
+    ここで$\vect{z}^{(l)} = g_\vect\phi(\vect\epsilon^{(l)}, \vect{x}), \vect\epsilon^{(l)} \sim p(\vect\epsilon^{(l)})$である。
+
+    また、変分限界は
+    \begin{align}
+      L[q_\vect\phi, p_\vect\theta, \vect{x}]
+        &= \int q_\vect\phi(\vect{z} \mid \vect{x}) \log \frac{p_\vect\theta(\vect{z}, \vect{x})}{q_\vect\phi(\vect{z} \mid \vect{x})} d\vect{z} \\
+        &= \int q_\vect\phi(\vect{z} \mid \vect{x}) [ \log p_\vect\theta(\vect{z}, \vect{x}) - \log q_\vect\phi(\vect{z} \mid \vect{x}) ] d\vect{z} \\
+        &= \mathbb{E}_{q_\vect\phi(\vect{z} \mid \vect{x})}[ \log p_\vect\theta(\vect{z}, \vect{x}) - \log q_\vect\phi(\vect{z} \mid \vect{x}) ]
+    \end{align}
+    とも変形できるため
+    \begin{equation}
+      L[q_\vect\phi, p_\vect\theta, \vect{x}]
+        \simeq \frac{1}{L} \sum_{l=1}^L [ \log p_\vect\theta(\vect{x}, \vect{z}^{(l)}) - \log q_\vect\phi(\vect{z}^{(l)} \mid \vect{x}) ]
+    \end{equation}
+    という近似も成立する。
+    したがって、KL-divergence が計算できる場合は$L_A$、難しい場合は$L_B$
+    \begin{align}
+      L_A[q_\vect\phi, p_\vect\theta, \vect{x}] &= - D_\mathrm{KL}(q_\vect\phi(\vect{z} \mid \vect{x}) || p(\vect{x})) + \frac{1}{L} \sum_{l=1}^L \log p_\vect\theta(\vect{x} \mid \vect{z}^{(l)}) \\
+      L_B[q_\vect\phi, p_\vect\theta, \vect{x}] &=  \frac{1}{L} \sum_{l=1}^L [ \log p_\vect\theta(\vect{x}, \vect{z}^{(l)}) - \log q_\vect\phi(\vect{z}^{(l)} \mid \vect{x}) ] \\
+      \vect{z}^{(l)} &= g_\vect\phi(\vect\epsilon^{(l)}, \vect{x}), \quad \vect\epsilon^{(l)} \sim p(\vect\epsilon^{(l)})
+    \end{align}
+    をそれぞれ計算し変分限界を近似することができる。
+    そして、近似した変分限界の勾配を用いることでパラメータを更新すればよい。
+
+
+  \section{まとめ}
+    データの集合$X$が与えられたとしたときの目的関数は
+    \begin{equation}
+      \sum_{\vect{x} \in X} L[q_\vect\phi, p_\vect\theta, \vect{x}]
+    \end{equation}
+    であり、$L$は$L_A$もしくは$L_B$
+    \begin{align}
+      L_A[q_\vect\phi, p_\vect\theta, \vect{x}] &= - D_\mathrm{KL}(q_\vect\phi(\vect{z} \mid \vect{x}) || p(\vect{x})) + \frac{1}{L} \sum_{l=1}^L \log p_\vect\theta(\vect{x} \mid \vect{z}^{(l)}) \\
+      L_B[q_\vect\phi, p_\vect\theta, \vect{x}] &=  \frac{1}{L} \sum_{l=1}^L [ \log p_\vect\theta(\vect{x}, \vect{z}^{(l)}) - \log q_\vect\phi(\vect{z}^{(l)} \mid \vect{x}) ] \\
+      \vect{z}^{(l)} &= g_\vect\phi(\vect\epsilon^{(l)}, \vect{x}), \quad \vect\epsilon^{(l)} \sim p(\vect\epsilon^{(l)})
+    \end{align}
+    によって
+    \begin{align}
+      \sum_{\vect{x} \in X} L[q_\vect\phi, p_\vect\theta, \vect{x}] &\simeq \sum_{\vect{x} \in X} L_A[q_\vect\phi, p_\vect\theta, \vect{x}] \\
+      \sum_{\vect{x} \in X} L[q_\vect\phi, p_\vect\theta, \vect{x}] &\simeq \sum_{\vect{x} \in X} L_B[q_\vect\phi, p_\vect\theta, \vect{x}]
+    \end{align}
+    と近似できる。
+
+    また、ミニバッチとして$X' \subset X$が与えられたときの目的関数は
+    \begin{equation}
+      \sum_{\vect{x} \in X} L[q_\vect\phi, p_\vect\theta, \vect{x}]
+        \simeq \frac{\card{X}}{\card{X'}} \sum_{\vect{x} \in X'} L[q_\vect\phi, p_\vect\theta, \vect{x}]
+    \end{equation}
+    と近似できる。
+
+
+
+
+  % Arxiv:1312.6114
 
 \end{document}
 
