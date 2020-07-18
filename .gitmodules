@@ -94,3 +94,6 @@
 [submodule "variational-autoencoder/.template"]
 	path = variational-autoencoder/.template
 	url = https://github.com/muushi97/tex-project-template
+[submodule "deconvolution/.template"]
+	path = deconvolution/.template
+	url = https://github.com/muushi97/tex-project-template
