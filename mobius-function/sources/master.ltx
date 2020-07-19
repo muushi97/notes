@@ -5,9 +5,13 @@
 %------------------------------------------------------------------------
 \usepackage{./preambles/ownpack}
 
+\newcommand{\comb}[2]{\begin{pmatrix} #1 \\ #2 \end{pmatrix}}
 
-\title{title}
-\author{muushi97}
+\renewcommand{\theenumi}{\roman{enumi}}
+
+
+\title{メビウス関数(M\"obius function)}
+\author{}
 \date{}
 
 % -----------------------------------------------------------------------
@@ -19,7 +23,234 @@
   \maketitle
   \tableofcontents
 
+  \section{メビウス関数(M\"obius function)}
+    \begin{definition}{メビウス関数(M\"obius function)}
+      正の整数$n$に対して以下の関数
+      \begin{equation}
+        \mu(n) = \begin{cases}
+          0,      & \text{$n$が$1$以外の平方因子をもつとき} \\
+          (-1)^k, & \text{$n$が$k$個の異なる素因数を持つとき}
+        \end{cases}
+      \end{equation}
+      をメイビウス関数とする。
+      また、$\mu(1) = 1$とする。
+    \end{definition}
 
+    \begin{theorem}
+      任意の互いに素な正の整数$m, n$に対して$\mu(m) \mu(n) = \mu(m n)$が成立する。
+    \end{theorem}
+
+    \begin{theorem}
+      正の整数$2 \ge 2$に対して、
+      \begin{equation}
+        \sum_{d | n} \mu(d) = 0
+      \end{equation}
+      となる。
+    \end{theorem}
+    \begin{proof}
+      $n$の標準素因数分解$n = p_1^{\alpha_1} p_2^{\alpha_2} \cdots p_k^{\alpha_k}$と書くとする。
+      ここで$n$のある約数$d$に対して$\mu(d) \neq 0$となる必要十分条件は$d = p_1^{\delta_1} p_2^{\delta_2} \cdots p_k^{\delta_k}, \; (\delta_i \in \{ 0, 1 \}, 1 \le i \le k)$と書けることである。
+      したがって
+      \begin{equation}
+        \sum_{d | n} \mu(d) = \sum_{\delta_i \in \{0, 1 \}} \mu(p_1^{\delta_1} p_2^{\delta_2} \cdots p_k^{\delta_k})
+                            = \sum_{\delta_i \in \{0, 1 \}} (-1)^{\delta_1 + \delta_2 + \cdots + \delta_k}
+                            = \sum_{i=0}^k (-1)^k \comb{k}{i}
+      \end{equation}
+      となる。
+      二項定理から
+      \begin{equation}
+        \sum_{i=0}^k (-1)^k \comb{k}{i} = (1 - 1)^k = 0
+      \end{equation}
+      が示される。
+    \end{proof}
+
+
+  \section{メビウスの反転公式(M\"obius inversion formula)}
+    \begin{theorem}{メビウスの反転公式(M\"obius inversion formula)}
+      正の整数集合を定義域とする関数$f(n), g(n)$に対して%TODO: 終域は?
+      \begin{equation}
+        f(n) = \sum_{d | n} g(d) \Leftrightarrow g(n) = \sum_{d | n} \mu(\frac{n}{d}) f(d)
+      \end{equation}
+      が成り立つ。
+      この関係式をメビウスの反転公式という。
+    \end{theorem}
+    \begin{proof}
+      まず$f(n) = \sum_{d | n} g(d) \Leftarrow g(n) = \sum_{d | n} \mu(\frac{n}{d}) f(d)$を示す。
+      この左辺の式を代入することで、
+      \begin{align}
+        g(n) &= \sum_{d | n} \func{\mu}{\frac{n}{d}} f(d) \\
+             &= \sum_{d | n} \func{\mu}{\frac{n}{d}} \sum_{d' | d} g(d') \\
+             &= \sum_{d | n} \sum_{d' | d} g(d') \func{\mu}{\frac{n}{d}} \\
+             &= \sum_{d' | n} \sum_{d' | d | n} g(d') \func{\mu}{\frac{n}{d}} \\
+             &= \sum_{d' | n} g(d') \sum_{d' | d | n} \func{\mu}{\frac{n}{d}}
+      \end{align}
+      となる。
+      ここで$m = \frac{n}{d'}, d^\ast = \frac{d}{d'}$とおくと、$d^\ast | m$を満たす$d^\ast$の集合と$d' | d | m$を満たす$d$の集合は一体一対応する。
+      さらに、$\frac{n}{d} = \frac{m}{d^\ast}$であるため
+      \begin{equation}
+        \sum_{d' | n} g(d') \sum_{d' | d | n} \func{\mu}{\frac{n}{d}} = \sum_{d' | n} g(d') \sum_{d^\ast | m} \func{\mu}{\frac{m}{d^\ast}}
+      \end{equation}
+      となる。
+      前述の定理から
+      \begin{equation}
+        \func{\mu}{\frac{m}{d^\ast}} = \begin{cases}
+          0, & m \neq 0 \\
+          1, & m  =   0
+        \end{cases}
+      \end{equation}
+      であるため
+      \begin{equation}
+        \sum_{d' | n} g(d') \sum_{d^\ast | m} \func{\mu}{\frac{m}{d^\ast}} = g(n)
+      \end{equation}
+      となり示された。
+      同様にして$f(n) = \sum_{d | n} g(d) \Rightarrow g(n) = \sum_{d | n} \mu(\frac{n}{d}) f(d)$も示される。
+    \end{proof}
+
+
+  \section{乗法的関数とディクレ畳み込み}
+    \begin{definition}{数論的関数(arithmetic function)}
+      正の整数の集合を$\N$とし複素数の集合を$\C$としたとき
+      \begin{equation}
+        f : \N \to \C
+      \end{equation}
+      である写像$f$を数論的関数という。
+    \end{definition}
+    \begin{definition}{乗法的関数(multiplicative function)}
+      ある数論的関数$f : \N \to \C$が、任意の互いに素な$m, n \in \N$に対して
+      \begin{equation}
+        f(m) f(n) = f(mn)
+      \end{equation}
+      であるとき、$f$を乗法的関数という。
+    \end{definition}
+    オイラー関数やメビウス関数、$0$以上の約数の個数、約数の個数、値域が$1$の定数関数、恒等関数、$1$の指示関数($1$のときのみ$1$でそれ以外$0$の関数)等が乗法的関数にあたる。
+
+    \begin{definition}{ディリクレ畳み込み(Dirichlet convolution)}
+      数論的関数$f, g$に対して、$f \ast g$を
+      \begin{equation}
+        (f \ast g)(n) = \sum_{d | n} f(d) \func{g}{\frac{n}{d}} = \sum_{ab = n} f(a) g(b)
+      \end{equation}
+      と定義し、これをディリクレ畳み込みという。
+    \end{definition}
+    \begin{theorem}
+      ディリクレ畳み込みに対して、一般の畳み込み和等で成立するのと同じように以下が成立する。
+      \begin{enumerate}
+        \item $f \ast g = g \ast f$ (可換性)
+        \item $(f + g) \ast h = f \ast h + g \ast h$ (分配律)
+        \item $(f \ast g) \ast h = f \ast (h \ast g)$ (結合律)
+        \item $f \ast \varepsilon$ (単位元)
+      \end{enumerate}
+      ここで$\varepsilon$は$1$の指示関数である。
+    \end{theorem}
+    このディリクレ畳み込みは乗法的関数に対する2項演算である。
+    例として以下があげられる。
+    \begin{enumerate}
+      \item $\mu \ast \mathbf{1} = \varepsilon$
+      \item $\varphi \ast \mathbf{1} = \mathrm{id}$
+    \end{enumerate}
+    ここで$\mathbf{1}$は値域が$1$の定数関数であり、$\mathrm{id}$は恒等関数である。
+    これはメビウス関数のディリクレ畳み込みに対する逆元が$\mathbf{1}$であるとも言うことができる。
+    よってメビウス反転公式はディリクレ畳み込みによって
+    \begin{equation}
+      f = g \ast 1 \Leftrightarrow g = \mu \ast f
+    \end{equation}
+    と書くことができる。
+    ディリクレ畳み込みの性質を用いると簡単に証明することができる。
+
+    ディリクレ畳み込みで書かれる
+    \begin{equation}
+      \varphi = \mu \ast \mathrm{id}
+    \end{equation}
+    はよく知られている。
+    この式にディリクレ反転公式を適用すれば
+    \begin{equation}
+      \mathrm{id} = \varphi \ast \mathbf{1}
+    \end{equation}
+    が得られる。
+    これはオイラー関数の性質として知られる式
+    \begin{equation}
+      n = \sum_{d | n} \varphi(d)
+    \end{equation}
+    そのものである。
+
+    また、ディリクレ畳み込みに対する逆元は以下のディリクレ逆と呼ばれる。
+    \begin{definition}{ディリクレ逆(Dirichlet inverse)}
+      ある数論的関数$f$に対して$f \ast g = \varepsilon$が成立する数論的関数$g$をディレイクレ逆という。
+      ディリクレ逆は任意の$f(1) = \neq 0$を見たす数論的関数に存在する。
+    \end{definition}
+
+
+  \section{ディリクレ母関数(Dirichlet generating function)}
+    \begin{definition}{ディリクレ級数(Dirichlet series)}
+      数論的関数$f$に対して
+      \begin{equation}
+        D(f;s) = \sum_{n=1}^\infty \frac{f(n)}{n^s}
+      \end{equation}
+      と書かれる級数をディリクレ級数という。
+      これは数列$\{ f(n) \}_{n \ge 1}$に付随するディリクレ母関数(Dirichlet generating function)であるともいう。
+      またディリクレ変換ともいうことができる。
+    \end{definition}
+    ディリクレ級数とディリクレ畳み込みに対して
+    \begin{equation}
+      D(f;s) D(g;s) = D(f \ast g;s)
+    \end{equation}
+    が成立し、ディリクレ級数を数論的関数におけるフーリエ変換とみることができることがわかる。
+
+    リーマンゼータ関数(Riemann zeta function)は
+    \begin{equation}
+      \zeta(s) = \sum_{n=1}^\infty \frac{1}{n^s} = D(\mathbf{id};s)
+    \end{equation}
+    と書けるため
+    \begin{equation}
+      D(f;s) = \zeta(s) D(g;s)
+    \end{equation}
+    た成り立つ。
+
+
+  \section{反転公式の応用}
+    \subsection{周期性をもたない文字列の数}
+      有限集合$\Omega$をアルファベットとし、$\Omega^n$の元を長さ$n$の文字列とする。
+      2つの文字列$\vect{x}, \vect{y}$に対して$\vect{x} \ast \vect{y}$を$\vect{x}$と$\vect{y}$を連結(concatenation)したものとする。
+      次に文字列の周期を定義する。
+      \begin{definition}{文字列の周期}
+        ある文字列$\vect{x} \in \Omega^n$に対してある$\vect{y} \in \Omega^d$が存在し
+        \begin{equation}
+          \vect{x} = \vect{y} \ast \vect{y} \ast \cdots \ast \vect{y}
+        \end{equation}
+        と書けるとき、$\vect{x}$は周期$d$を持つという。
+        また$d | n$であることは自明である。
+        さらに、文字列$\vect{x}$がもつ周期のうち最小のものが$d$であるとき、$d$を$\vect{x}$の最短周期という。
+      \end{definition}
+
+      また$\mathcal{F}, \mathcal{G}$をそれぞれ
+      \begin{gather}
+        \mathcal{F}(d) = \Set{ \vect{x} \in \Omega^n | \text{$\vect{x}$が周期$d$をもつ} } \\
+        \mathcal{G}(d) = \Set{ \vect{x} \in \Omega^n | \text{$\vect{x}$の最短周期が$d$である} }
+      \end{gather}
+      とする。
+      $\mathcal{F}(n)$が長さ$n$の文字列集合$\Omega^n$と一致するのは自明であり、また$\mathcal{G}(d) \; (d | n)$によって$\Omega^n$が分割される。
+      したがって、数論的関数$f, g$をそれぞれ$f(n) = \card{\mathcal{F}(n)}, g(n) = \card{\mathcal{G}(n)}$とすれば
+      \begin{equation}
+        f(n) = \sum_{d | n} g(d)
+      \end{equation}
+      が成立する。
+      メビウスの反転公式から
+      \begin{equation}
+        f(n) = \sum_{d | n} g(d) \Leftrightarrow g(n) = \sum_{d | n} \func{\mu}{\frac{n}{d}} f(d)
+      \end{equation}
+      が成立し、$f(d) = \card{\Omega}^d$であることから
+      \begin{equation}
+        g(n) = \sum_{d | n} \func{\mu}{\frac{n}{d}} f(d) = \sum_{d | n} \func{\mu}{\frac{n}{d}} \card{\Omega}^d
+      \end{equation}
+      とが得られる。
+      そして、$g(n)$は最短周期が$n$であるような長さ$n$の文字列の数であり、すなわち長さ$n$の周期性を持たない文字列の数である。
+      上式を用いれば長さが$n$の周期性を持たない文字列の数を比較的用意に得ることができる。
+
+      % combinatorics on words (語の組合せ論) という組合せ論の分野がある
+
+
+  % TODO: 読んでみたい本たち
+  % T. M. Apostol. Introduction to Analytic Number Theory. Springer-Verlag, 1976.
+  % 安福 悠. 発見・予想を積み重ねる ―それが整数論. オーム社, 2016.
 
 \end{document}
 
