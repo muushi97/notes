@@ -6,6 +6,14 @@
 \usepackage{./preambles/ownpack}
 
 
+% 転置行列
+\newcommand{\tr}[1]{{}^t\!#1}
+% 天井関数
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+% 床関数
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
+% deg
+%\DeclareMathOperator{\deg}{deg}
 
 \title{リードソロモン符号}
 \author{}
@@ -17,136 +25,312 @@
 
 \begin{document}
 
-\maketitle
+  \maketitle
 
-\section{基礎知識}
-  \subsection{多項式環}
-    $R$を可換環とするとき、$R$上の元を係数とする多項式全体の集合
-    \begin{equation}
-      R[T] := \Set{ a_0 + a_1 T^1 + \cdots + a_n T^n | n \in \Z, 0 \le n, a_0, \ldots a_n \in R }
-    \end{equation}
-    は可換環を成す。これを多項式環という。
-    \begin{proof}
-      hoge
-    \end{proof}
-
-    また、$R[T]$上のある元$f(T)$が
-    \begin{equation}
-      f(T) = a_0 + a_1 T^1 + \cdots + a_n T^n
-    \end{equation}
-    と書かれて$a_n \neq 0$であるとき、$n$を$f(T)$の次数といい$\rm{deg}(f(T))$と書く。
-
-  \subsection{多項式環上での除法}
-    ある体$K$による多項式環$K[T]$に除法が定義される。
-    \begin{thm}[除法]
-      ある$f(T), g(T) \in K[T], g(T) \neq 0$に対して
+  \section{基礎知識}
+    \subsection{多項式環}
+      $R$を可換環とするとき、$R$上の元を係数とする多項式全体の集合
       \begin{equation}
-        f(T) = q(T) g(T) + r(T) \quad (\rm{deg}(r(T)) < \rm{deg}(g(T)))
+        R[T] := \Set{ a_0 + a_1 T^1 + \cdots + a_n T^n | n \in \Z, 0 \le n, a_0, \ldots a_n \in R }
       \end{equation}
-      を満たす$q(T), r(T) \in K[T]$の組が唯一つ存在し$q(T)$を商、$r(T)$を剰余という。
-      また$r(T)$が$r(T) = 0$であるとき、$g(T)$は$f(T)$を割り切るといい$g(T) \mid f(T)$と書く。
-      そして2つの多項式$f(T), g(T) \in K[T]$を割り切るモニックな多項式を最大公約多項式という。
-      ここでモニックな多項式とは最高次数の係数が1であるような多項式のことである。
-    \end{thm}
+      は可換環を成す。これを多項式環という。
+      \begin{proof}
+        hoge
+      \end{proof}
 
-  \subsubsection{イデアル}
-    \begin{thm}[イデアル]
-      ある可換環$R$に対して、$R$の部分集合$I$が以下の2つを満たすとき、$I$を$R$のイデアルという。
-      \begin{enumerate}
-        \item $a, b \in I \Rightarrow a + b \in I$
-        \item $a \in I, r \in R \Rightarrow a r \in I$
-      \end{enumerate}
-    \end{thm}
-    ある$a \in R$によって
-    \begin{equation}
-     (a) = \left\{ ax \mid x \in R \right\}
-    \end{equation}
-    と書かれる$(a)$はイデアルであり、$a$によって生成される単項イデアルという。
-    また、$a, b \in R$によって
-    \begin{equation}
-     (a, b) = \left\{ ax + by \mid x, y \in R \right\}
-    \end{equation}
-    と書かれる[tex: (a, b) ]もイデアルである。
-
-    体$K$上の多項式環$K[T]$も可換環であるため$K[T]$にもイデアルが存在する。
-    このとき、$K[T]$のイデアルは単項イデアルしか存在しない。
-
-    \begin{proof}
-      $I \neq \{0\}$を$K[T]$のイデアルとする。
-      $I$の元のうち最も次元が小さい元を$f(T)$とする。
-
-      ここで、任意に$g(T)$をとる。
-      そして$g(T)$を$f(T)$で割ると
+      また、$R[T]$上のある元$f(T)$が
       \begin{equation}
-        g(T) = q(T) f(T) + r(T) \quad (\rm{deg}(r(T)) < \rm{deg}(f(T)))
+        f(T) = a_0 + a_1 T^1 + \cdots + a_n T^n
       \end{equation}
-      を満たす$q(T), r(T) \in K[T]$が存在する。
-      また式を変形すると
-      \begin{equation} \begin{aligned}
-        g(T) &= q(T) f(T) + r(T) \\
-        \rightleftharpoons r(T) &= g - q(T) f(T) \\
-        \rightleftharpoons r(T) &= g + q(T) (-f(T))
-      \end{aligned} \end{equation}
-      となる。
-      $f(T), g(T) \in I$であったこととイデアルの定義から$r(T) \in I$が得られる。
-      ここで、$r(T) \neq 0$とすると$\rm{deg}(r(T)) < \rm{deg}(f(T))$であることから$f(T)$の最小性に矛盾する。
-      したがって$r(T) = 0$である。
-      よって$g(T) = q(T) f(T)$となり$g(T) \in (f(T))$となる。
-      したがって$I \subset (f(T))$である。
+      と書かれて$a_n \neq 0$であるとき、$n$を$f(T)$の次数といい$\rm{deg}(f(T))$と書く。
 
-      逆に$f(T) \in I$であるため$(f(T)) \subset I$でもある。
+    \subsection{多項式環上での除法}
+      ある体$K$による多項式環$K[T]$に除法が定義される。
+      \begin{thm}[除法]
+        ある$f(T), g(T) \in K[T], g(T) \neq 0$に対して
+        \begin{equation}
+          f(T) = q(T) g(T) + r(T) \quad (\rm{deg}(r(T)) < \rm{deg}(g(T)))
+        \end{equation}
+        を満たす$q(T), r(T) \in K[T]$の組が唯一つ存在し$q(T)$を商、$r(T)$を剰余という。
+        また$r(T)$が$r(T) = 0$であるとき、$g(T)$は$f(T)$を割り切るといい$g(T) \mid f(T)$と書く。
+        そして2つの多項式$f(T), g(T) \in K[T]$を割り切るモニックな多項式を最大公約多項式という。
+        ここでモニックな多項式とは最高次数の係数が1であるような多項式のことである。
+      \end{thm}
 
-      以上より$I = (f(T))$が示された。
-    \end{proof}
+    \subsubsection{イデアル}
+      \begin{thm}[イデアル]
+        ある可換環$R$に対して、$R$の部分集合$I$が以下の2つを満たすとき、$I$を$R$のイデアルという。
+        \begin{enumerate}
+          \item $a, b \in I \Rightarrow a + b \in I$
+          \item $a \in I, r \in R \Rightarrow a r \in I$
+        \end{enumerate}
+      \end{thm}
+      ある$a \in R$によって
+      \begin{equation}
+       (a) = \left\{ ax \mid x \in R \right\}
+      \end{equation}
+      と書かれる$(a)$はイデアルであり、$a$によって生成される単項イデアルという。
+      また、$a, b \in R$によって
+      \begin{equation}
+       (a, b) = \left\{ ax + by \mid x, y \in R \right\}
+      \end{equation}
+      と書かれる[tex: (a, b) ]もイデアルである。
 
-    また、$f(T), g(T) \in K[T]$によって生成されるイデアル$(f(T), g(T))$は$f(T)$と$g(T)$の最大公約多項式を$h(T)$とすると
+      体$K$上の多項式環$K[T]$も可換環であるため$K[T]$にもイデアルが存在する。
+      このとき、$K[T]$のイデアルは単項イデアルしか存在しない。
+
+      \begin{proof}
+        $I \neq \{0\}$を$K[T]$のイデアルとする。
+        $I$の元のうち最も次元が小さい元を$f(T)$とする。
+
+        ここで、任意に$g(T)$をとる。
+        そして$g(T)$を$f(T)$で割ると
+        \begin{equation}
+          g(T) = q(T) f(T) + r(T) \quad (\rm{deg}(r(T)) < \rm{deg}(f(T)))
+        \end{equation}
+        を満たす$q(T), r(T) \in K[T]$が存在する。
+        また式を変形すると
+        \begin{equation} \begin{aligned}
+          g(T) &= q(T) f(T) + r(T) \\
+          \rightleftharpoons r(T) &= g - q(T) f(T) \\
+          \rightleftharpoons r(T) &= g + q(T) (-f(T))
+        \end{aligned} \end{equation}
+        となる。
+        $f(T), g(T) \in I$であったこととイデアルの定義から$r(T) \in I$が得られる。
+        ここで、$r(T) \neq 0$とすると$\rm{deg}(r(T)) < \rm{deg}(f(T))$であることから$f(T)$の最小性に矛盾する。
+        したがって$r(T) = 0$である。
+        よって$g(T) = q(T) f(T)$となり$g(T) \in (f(T))$となる。
+        したがって$I \subset (f(T))$である。
+
+        逆に$f(T) \in I$であるため$(f(T)) \subset I$でもある。
+
+        以上より$I = (f(T))$が示された。
+      \end{proof}
+
+      また、$f(T), g(T) \in K[T]$によって生成されるイデアル$(f(T), g(T))$は$f(T)$と$g(T)$の最大公約多項式を$h(T)$とすると
+      \begin{equation}
+        (f(T), g(T)) = (h(T))
+      \end{equation}
+      が成立する。
+      \begin{proof}
+        上述の定理により、ある$n(T) \in K[T]$が存在し
+        \begin{equation}
+         (f(T), g(T)) = (n(T))
+        \end{equation}
+        である。
+        ここで、$f(T), g(T) \in (f(T), g(T))$なので$f(T), g(T) \in (n(T))$である。
+        よって$n(T) \mid f(T)$かつ$n(T) \mid g(T)$であり、$n(T)$は$f(T), g(T)$の公約多項式となる。
+        したがって$n(T) \mid h(T)$である。
+
+        次に、$n(T) \in (f(T), g(T))$であるため、$n(T) = f(T) x_0(T) + g(T) y_0(T)$となる$x_0(T), y_0(T) \in K[T]$が存在する。
+        したがって$h(T) \mid n(T)$である。
+
+        以上より$n(T) \mid h(T)$かつ$h(T) \mid n(T)$であるから、ある$q(T), p(T) \in K[T]$によって
+        \begin{equation}
+          h(T) = p(T) n(T) \; n(T) = q(T) h(T)
+        \end{equation}
+        と表される。
+        この式から$n(T)$を消去すると$h(T) = p(T) q(T) h(T)$となり、$h(T) \neq 0$であるため
+        \begin{equation}
+          p(T) q(T) = 1
+        \end{equation}
+        となる。
+        したがって$p(T) = q(T) = \pm 1$となり、$n(T) = h(T), n(T) = -h(T)$となる。
+        また、$(h(T)) = (-h(T))$であるため$(f(T), g(T)) = (h(T))$が示された。
+      \end{proof}
+
+
+      \subsubsection{不定方程式}
+        さて$(f(T), g(T)) = (h(T))$であるため、多項式環$K[T]$上の$x(T), y(T) \in K[T]$を不定元とする不定方程式
+        \begin{equation}
+          x(T) f(T) + y(T) g(T) = z(T)
+        \end{equation}
+        は$z(T)$を$f(T)$と$g(T)$の最大公約多項式によって割り切るこできるときに解が存在する。
+        また$x(T) = x\_0(T), y(T) = y\_0(T)$を一つの解とすると
+        \begin{equation}
+          (x_0(T) + m(T) g(T)) f(T) + (y_0(T) - m(T) f(T)) g(T) = z(T)
+        \end{equation}
+        は任意の$m(T) \in K[T]$に対して成立する。
+
+        したがって、ある不定方程式
+        \begin{equation}
+          x(T) f(T) + y(T) g(T) = z(T)
+        \end{equation}
+        の解を一つ得ることができれば他の解も得ることができる。
+
+  \section{概要}
+    $F_q$を位数$q$のガロア体として行ベクトル$\vect{m}, \vect{w}, \vect{y}$をそれぞれ
+    \begin{gather}
+      \vect{m} = ( m_0, \cdots, m_{k-1} ) \\
+      \vect{w} = ( w_0, \cdots, w_{n-1} ) \\
+      \vect{y} = ( y_0, \cdots, y_{n-1} )
+    \end{gather}
+    とする。
+    $\vect{m}, \vect{w}, \vect{y}$はどれも$F_q$上のベクトルである。
+    このとき$\vect{m}$を情報系列、$\vect{w}$を符号語、$\vect{y}$を受信語という。
+    また、符号語$\vect{w}$は$F_q$上の$k \times n$行列に$G$よって
     \begin{equation}
-      (f(T), g(T)) = (h(T))
+      \vect{w} = \vect{m} G
+    \end{equation}
+    と表される。
+    この$G$は$F_q$上の原始根$\alpha$によって
+    \begin{equation}
+      G = \begin{pmatrix}
+             1 &            1 & \cdots &                   1 \\
+             1 &       \alpha & \cdots &        \alpha^{n-1} \\
+             1 &     \alpha^2 & \cdots &     \alpha^{2(n-1)} \\
+        \vdots &       \vdots & \ddots &              \vdots \\
+             1 & \alpha^{k-1} & \cdots & \alpha^{(k-1)(n-1)}
+      \end{pmatrix}
+    \end{equation}
+    と定義する。
+    そして受信語$\vect{y}$は符号語$\vect{w}$が通信路で雑音等によって確率的に変化したものとする。
+    さらに$n-k \times n$の行列
+    \begin{equation}
+      H = \begin{pmatrix}
+             1 &       \alpha & \cdots &        \alpha^{n-1} \\
+             1 &     \alpha^2 & \cdots &     \alpha^{2(n-1)} \\
+        \vdots &       \vdots & \ddots &              \vdots \\
+             1 & \alpha^{n-k} & \cdots & \alpha^{(n-k)(n-1)}
+      \end{pmatrix}
+    \end{equation}
+    に対して
+    \begin{equation}
+      G \tr{H} = 0
     \end{equation}
     が成立する。
-    \begin{proof}
-      上述の定理により、ある$n(T) \in K[T]$が存在し
-      \begin{equation}
-       (f(T), g(T)) = (n(T))
-      \end{equation}
-      である。
-      ここで、$f(T), g(T) \in (f(T), g(T))$なので$f(T), g(T) \in (n(T))$である。
-      よって$n(T) \mid f(T)$かつ$n(T) \mid g(T)$であり、$n(T)$は$f(T), g(T)$の公約多項式となる。
-      したがって$n(T) \mid h(T)$である。
+    ここで$G$によって得られる符号語の集合を
+    \begin{equation}
+      W = \Set{ \vect{m} G | \vect{m} \in F_q^k }
+    \end{equation}
+    とすると、任意の$\vect{w} \in W$に対して
+    \begin{align}
+      \vect{w} \tr{H} &= \vect{m} G \tr{H} \\
+                      &= \vect{m} 0 \\
+                      &= 0
+    \end{align}
+    となるため、
+    \begin{equation}
+      \vect{w} \text{が符号語である} \Rightarrow \vect{w} \tr{H} = 0
+    \end{equation}
+    が成立する。
+    また、この符号語全体の集合$W$を符号という。
 
-      次に、$n(T) \in (f(T), g(T))$であるため、$n(T) = f(T) x_0(T) + g(T) y_0(T)$となる$x_0(T), y_0(T) \in K[T]$が存在する。
-      したがって$h(T) \mid n(T)$である。
+    情報系列$\vect{m}$の各要素を用いて多項式$\func{m}{x}$を
+    \begin{equation}
+      \func{m}{x} = m_0 + m_1 x + m_2 x^2 + \cdots + m_{k-1} x^{k-1}
+    \end{equation}
+    とすると符号語の各成分$w_i \; (i = 0, 1, \cdots, n-1)$は
+    \begin{equation}
+      w_i = \func{m}{\alpha^i}
+    \end{equation}
+    と書くことができる。
+    したがって、$w_i = 0$となることと$\func{m}{x}$の根に$\alpha^i$が含まれることは同値である。
+    また、$\func{m}{x}$はたかだか$k-1$次の多項式なので根はたかだか$k-1$個となる。
+    $n = q$とすれば任意の$i, j$に対して
+    \begin{equation}
+      \alpha^i \neq \alpha^j
+    \end{equation}
+    となり、ゼロである$w_i$はたかだか$k-1$個であることがわかる。
+    つまり$w_i$の非ゼロな要素は$n-k+1$以上である。
+    これは$F_q$上の$n$次元ゼロベクトルと符号語とのハミング距離の最小値が$n-K+1$であることを示している。
+    さらにゼロベクトルと符号語とのハミング距離の最小値は符号語同士のハミング距離の最小値と等しいため、$d_{min} \le n-k+1$である。%TODO:
+    また、シングルトン限界から最大値が$n-k+1$によってバウンドされるため
+    \begin{equation}
+      n-k+1 \le d_{min} \le n-k+1 \Leftrightarrow d_{min} = n-k+1
+    \end{equation}
+    が得られ、符号語を探索する半径$t$を
+    \begin{equation}
+      t = \floor{\frac{d_{min}-1}{2}} = \floor{\frac{n-k}{2}}
+    \end{equation}
+    とすることで、受信語$\vect{y}$に対してハミング距離$t$の範囲の符号語が一意に定まる。
 
-      以上より$n(T) \mid h(T)$かつ$h(T) \mid n(T)$であるから、ある$q(T), p(T) \in K[T]$によって
-      \begin{equation}
-        h(T) = p(T) n(T) \; n(T) = q(T) h(T)
-      \end{equation}
-      と表される。
-      この式から$n(T)$を消去すると$h(T) = p(T) q(T) h(T)$となり、$h(T) \neq 0$であるため
-      \begin{equation}
-        p(T) q(T) = 1
-      \end{equation}
-      となる。
-      したがって$p(T) = q(T) = \pm 1$となり、$n(T) = h(T), n(T) = -h(T)$となる。
-      また、$(h(T)) = (-h(T))$であるため$(f(T), g(T)) = (h(T))$が示された。
-    \end{proof}
+    $t$以下のある$l$によって$\vect{y}$が$l$箇所誤っているとする。
+    すると非ゼロの$e_j \in F_q$によって
+    \begin{equation}
+      \func{e}{x} = e_{j_1} x^{j_1} + e_{j_2} x^{j_2} + \cdots + e_{j_l} x^{j_l}
+    \end{equation}
+    と書かれる多項式$\func{e}{x}$によって$\vect{y}$の多項式表示を
+    \begin{equation}
+      \func{y}{x} = \func{w}{x} + \func{e}{x}
+    \end{equation}
+    と書くことができる。
+    ここで$\epsilon = \{ j_1, j_2, \cdots, j_l \}$は誤り位置の集合であり、$e_{j_i}$は符号語の$j_i-1$番目の要素がどれだけ誤っているかを表す。
+
+    $\vect{y}$が符号語であることと$\vect{y} \tr{H} = \vect{0}$であることは同値であるため、%TODO:
+    受信語が誤っているかの判断に
+    \begin{equation}
+      \vect{s} = \vect{y} \tr{H}
+    \end{equation}
+    を用いる。
+    この$\vect{s}$をシンドロームとよぶ。
+    $\vect{s}$がゼロベクトルであれば、受信語$\vect{y}$は符号語であり、誤りなく伝送されたものと見なすことができる。
+    よって以降$\vect{s}$が非ゼロベクトルであるとき、すなわち$\vect{y}$が符号語でない場合を考える。
+
+    $H$の定義から、$\vect{e}$の多項式表示を用いると$\vect{s}$の多項式表示での各係数は
+    \begin{equation}
+      s_i = \func{e}{\alpha^{i+1}}
+    \end{equation}
+    となる。
+    よってシンドローム$\vect{s}$の多項式表示は
+    \begin{align}
+      \func{s}{x} &= s_0 + s_1 x + \cdots + s_{n-k-1} x^{n-k-1} \\
+                  &= \func{e}{\alpha^1} + \func{e}{\alpha^2} x + \cdots + \func{e}{\alpha^{n-k}} x^{n-k-1} \\
+                  &= \sum_{j \in \epsilon} e_j \alpha^1 + \sum_{j \in \epsilon} e_j \alpha^2 x + \cdots + \sum_{j \in \epsilon} e_j \alpha^{n-k} x^{n-k-1} \\
+                  &= \sum_{j \in \epsilon} e_j \left[ \alpha^j + \alpha^{2j} x + \cdots + \alpha^{j(n-k)} x^{n-k-1} \right]  \\
+                  &= \sum_{j \in \epsilon} e_j \sum_{i = 1}^{n-k} \alpha^{ij} x^{i-1}
+    \end{align}
+    と書くことができる。
+    さらに$\sum_{i=1}^{n-k} \alpha^{ij} x^{i-1}$を等比級数とみなせば
+    \begin{align}
+      \func{s}{x} &= \sum_{j \in \epsilon} e_j \sum_{i = 1}^{n-k} \alpha^{ij} x^{i-1} \\
+                  &= \sum_{j \in \epsilon} e_j \frac{\alpha^j - \alpha^{j(n-k+1)} x^{n-k}}{1 - \alpha^j x}
+    \end{align}
+    となる。
+    また、ここで新たに多項式$\func{\sigma}{x}$を
+    \begin{equation}
+      \func{\sigma}{x} = \Pi_{j \in \epsilon} (1 - \alpha^j x)
+    \end{equation}
+    と定義する。
+    この$\func{\sigma}{x}$は任意の$j \in \epsilon$に対して$\func{\sigma}{\alpha^{-j}} = 0$となる。
+    すなわち、$\func{\sigma}{x}$の根がわかれば誤り位置が得られることになる。
+    ここで、2つの多項式
+    \begin{gather}
+      \func{\eta}{x} = \sum_{j \in \epsilon} e_j \alpha^j \Pi_{k \neq j, k \in \epsilon} (1 - \alpha^k x) \\
+      \func{\phi}{x} = \sum_{j \in \epsilon} \alpha^{j(n-k+1)} \Pi_{k \neq j, k \in \epsilon} (1 - \alpha^k x)
+    \end{gather}
+    を定義する。
+    また、$\func{\sigma}{x}$と$\func{\eta}{x}$は以下のような性質を持つ。%TODO:
+    \begin{itemize}
+      \item $\deg(\func{\sigma}{x}) \le t, \deg(\func{\eta}{x}) \le t-1$
+      \item $\func{\sigma}{x}$と$\func{\eta}{x}$は互いに素
+      \item $\func{\sigma}{0} = 1$
+    \end{itemize}
+    この性質から$\func{\sigma}{x}, \func{\phi}{x}$を不定元とする不定方程式
+    \begin{equation}
+      \func{\sigma}{x} \func{s}{x} + \func{\phi}{x} x^{n-k} = \func{\eta}{x}
+    \end{equation}
+    の解は一意に定まる。%TODO:
+    よってこの不定方程式を解くことで$\func{\sigma}{x}$と$\func{\eta}{x}$が得られる。
+    そして、$\func{\sigma}{x}$の形式的な微分による
+    \begin{equation}
+      \func{\sigma'}{x} = -\sum_{j \in \epsilon} \alpha^j \Pi_{k \neq j, k \in \epsilon} (1 - \alpha^k x)
+    \end{equation}
+    を用いることで$e_j$は
+    \begin{equation}
+      e_j = \frac{\func{\eta}{\alpha^{-j}}}{\func{\sigma'}{\alpha^{-j}}}
+    \end{equation}
+    として得られる。
 
 
-    \subsubsection{不定方程式}
-      さて$(f(T), g(T)) = (h(T))$であるため、多項式環$K[T]$上の$x(T), y(T) \in K[T]$を不定元とする不定方程式
-      \begin{equation}
-        x(T) f(T) + y(T) g(T) = z(T)
-      \end{equation}
-      は$z(T)$を$f(T)$と$g(T)$の最大公約多項式によって割り切るこできるときに解が存在する。
-      また$x(T) = x\_0(T), y(T) = y\_0(T)$を一つの解とすると
-      \begin{equation}
-        (x_0(T) + m(T) g(T)) f(T) + (y_0(T) - m(T) f(T)) g(T) = z(T)
-      \end{equation}
-      は任意の$m(T) \in K[T]$に対して成立する。
 
-      したがって、ある不定方程式
-      \begin{equation}
-        x(T) f(T) + y(T) g(T) = z(T)
-      \end{equation}
-      の解を一つ得ることができれば他の解も得ることができる。
+
+
+
+
+  \begin{thebibliography}{99}
+    \bibitem{bib:a} ``3章 リード・ソロモン符号とその復号法 - J-Stage''，\url{https://www.jstage.jst.go.jp/article/itej/70/7/70_571/_pdf}，参照Mar.9,2020．
+    %\bibitem{bib:z} ``''，\url{}，参照May.17,2020.
+  \end{thebibliography}
 \end{document}
+
