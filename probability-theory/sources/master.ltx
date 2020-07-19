@@ -5,6 +5,12 @@
 %------------------------------------------------------------------------
 \usepackage{./preambles/ownpack}
 
+% 余集合
+%\newcommand{\compset}[1]{\overline{#1}}
+\newcommand{\compset}[1]{#1^c}
+
+    %\renewcommand{\labelenumi}{(\roman{enumi})}
+
 
 \title{確率論(Probability theory)}
 \author{}
@@ -18,6 +24,112 @@
 
   \maketitle
   \tableofcontents
+
+  \begin{definition}[試行]
+    ある集合$\Omega$が与えられたとする。
+    ある試行$T$の結果として$A \subset \Omega$の元が現れることを$A$が起こるといい、$\Omega$を試行$T$の見本空間、$\Omega$の元を試行$T$の見本点という。
+    $\Omega$が有限集合であるとき試行$T$は有限試行、無限集合であるとき試行$T$を無限試行という。
+    また$A \subset \Omega$を事象$A$ともいう。
+  \end{definition}
+  さいころをふるという試行の見本空間は$\{1, 2, 3, 4, 5, 6\}$であり事象$A$がおこる確率$P(A)$は
+  \begin{equation}
+    P(A) = \frac{\card{A}}{6}
+  \end{equation}
+  となる。
+
+  \begin{definition}[余事象・和事象・交事象・差事象・排反事象]
+    ある試行$T$と$T$の見本空間$\Omega$と、事象$A, B \subset \Omega$に対して以下を定義する。
+    \begin{description}
+      \item[余事象] $\compset{A} = \Omega - A$で表わされる$\Omega$を全体集合とした$A$の余集合$\compset{A}$がおこることを$A$の余事象という
+      \item[和事象] $A \cup B$がおこることを$A$と$B$の和事象という
+      \item[交事象] $A \cap B$がおこることを$A$と$B$の交事象という
+      \item[差事象] $A \setminus B$がおこることを$A$お$B$の差事象という
+      \item[排反事象] $A \cap B = \emptyset$であるとき$A$と$B$を排反事象という
+    \end{description}
+  \end{definition}
+  集合$A$と$B$が$B \subset A$であるようなとき$A$と$B$の差集合$A \setminus B$を$A - B$と書き、特に$A - B$と書いたときは$B \subset A$であるとする。
+  さらに$A$と$B$が$A \cap B = \emptyset$であるとき$A$と$B$の和集合$A \cup B$を$A + B$と書きこれを直和という。
+  また、集合$A$と$B$の直和が書かれたとき、$A \cap B = \emptyset$であるとする。
+
+  \begin{definition}[有限試行における確率測度]
+    ある試行$T$の有限な見本空間$\Omega$とがあるとき、事象$A \subset \Omega$がおこる確率$P(A)$が以下を満たすとき、$\Omega$上の集合関数$P$を確率測度という。
+    \begin{enumerate}
+      \renewcommand{\labelenumi}{(\rm{P}\arabic{enumi})}
+      \item $P(A) \ge 0$
+      \item $P(A) + P(B) = P(A) + P(B)$
+      \item $P(\Omega) = 1$
+    \end{enumerate}
+  \end{definition}
+
+  \begin{definition}[確率空間]
+    ある試行$T$の有限な見本空間$\Omega$と確率測度$P$が与えられたとき、これらの組$(\Omega, P)$を確率空間という。
+  \end{definition}
+
+  前述のさいころをふる試行の確率$P$も直感的に確率測度であることがわかり、$(\{1, 2, 3, 4, 5, 6\}, P)$が確率空間であることもわかる。
+
+  \begin{theorem}
+    $P$を$\Omega$上の確率測度とすれば、
+    \begin{enumerate}
+      \renewcommand{\labelenumi}{(\roman{enumi})}
+      \item $P\left( \sum_{i=1}^n A_i \right) = \sum_{i=1}^n P(A_i)$
+      \item $P(B - A) = P(B) - P(A)$
+      \item $P(\compset{A}) = 1 - P(A)$
+      \item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+      \item $P(A) = \sum_{\omega \in A} P\{\omega\}$
+    \end{enumerate}
+    が成立する。
+
+    \begin{proof}
+      \begin{enumerate}
+        \renewcommand{\labelenumi}{(\roman{enumi})}
+        \item 帰納法を用いて証明する。
+          $n=1$のときは自明であるため、$n=k$のときに成り立つとして$n=k+1$のときを考える。
+          まず、総和を分解することで
+          \begin{equation}
+            P\left( \sum_{i=1}^{k+1} A_i \right) = P\left( \sum_{i=1}^k A_i + A_{k+1} \right)
+          \end{equation}
+          となる。
+          そして、確率測度の定義より$P\left( \sum_{i=1}^k A_i + A_{k+1} \right) = P\left( \sum_{i=1}^k A_i \right) + P\left(A_{k+1} \right)$となり、仮定から
+          \begin{align}
+            P\left( \sum_{i=1}^{k+1} A_i \right) &= P\left( \sum_{i=1}^k A_i + A_{k+1} \right) \\
+                                                 &= P\left( \sum_{i=1}^k A_i \right) + P\left(A_{k+1} \right) \\
+                                                 &= \sum_{i=1}^k P(A_i) + P(A_{k+1}) \\
+                                                 &= \sum_{i=1}^{k+1} P(A_i)
+          \end{align}
+          が得られる。
+        \item $A \subset B$であるため$(B - A) + A = B$であるため、$P((B - A) + A) = P(B)$となる。
+          また$P((B - A + A)) = P(B - A) + P(A)$であるため、
+          \begin{align}
+            P(B - A) + P(A) &= P(B) \\
+            \rightleftharpoons P(B - A) &= P(B) - P(A)
+          \end{align}
+          となり示される。
+        \item $P(B - A) = P(B) - P(A)$のとき$B = \Omega$とすれば$P(\compset{A}) = P(\Omega) - P(A) = 1 - P(A)$となり示される。
+        \item $C = A \cap B,  A' = A - C, B' = B - C$とすれば$A \cup B = A' + B' + C = A + B - C$である。
+          よって確率測度の定義より
+          \begin{align}
+            P(A \cup B) &= P(A) + P(B) - P(C) \\
+                        &= P(A) + P(B) - P(A \cap B)
+          \end{align}
+          となり示される。
+        \item $A = \sum_{\omega \in A} \{ \omega \}$であるため示される。
+      \end{enumerate}
+    \end{proof}
+  \end{theorem}
+
+  \begin{theorem}[包含排除公式]
+    確率空間$(\Omega, P)$と、$n$個の事象$A_1, A_2, \ldots, A_n$に対して以下が成立する。
+    \begin{enumerate}
+      \renewcommand{\labelenumi}{(\roman{enumi})}
+      \item $P\left( \bigcup_{i=1}^n A_i \right) = \sum_{k=1}^n (-1)^{k-1} \sum_{i_1<i_2<\cdots<i_k} P\left( \bigcap_{\kappa=1}^k A_{i_\kappa} \right)$
+      \item $P\left( \bigcap_{i=1}^n A_i \right) = \sum_{k=1}^n (-1)^{k-1} \sum_{i_1<i_2<\cdots<i_k} P\left( \bigcup_{\kappa=1}^k A_{i_\kappa} \right)$
+    \end{enumerate}
+    \begin{proof}
+      %TODO:
+    \end{proof}
+  \end{theorem}
+
+  %TODO: P.6
 
 
 
