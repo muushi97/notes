@@ -19,6 +19,191 @@
   \maketitle
   \tableofcontents
 
+  \section{グラフ}
+    \begin{definition}[グラフ(graph)]
+      ある集合$V$と$V$によって表わされる集合$E \subset V \times V$に対して
+      \begin{equation}
+        G = (V, E)
+      \end{equation}
+      と書かれる集合の組$G$をグラフという。
+      このとき、$V$の元を頂点(接点、ノード)、$E$の元を辺(枝、エッジ)という。
+    \end{definition}
+
+    \begin{definition}[端点・接続・隣接]
+      あるグラフ$G = (V, E)$のある$e \in E$に対して、$e = (v, w) \; v, w \in V$と書かれるとき、$v, w$を$e$の端点といい、
+      \begin{itemize}
+        \item 枝$e$は$v, w$と接続している
+        \item 枝$e$は$v, w$を端点としている
+      \end{itemize}
+      等と言う。。
+      また、$v$と$w$は互いに隣接しているともいう。
+      枝に向きを定める場合$e$は$v$に正の向きに接続、$e$は$w$に負の向きに接続しているという。
+    \end{definition}
+
+    \begin{definition}[共有・隣接]
+      グラフ$G = (V, E)$の2辺$e, l \in E$があるノード$v \in V$を端点として持つとき、
+      \begin{itemize}
+        \item 枝$e, l$はノード$v$を共有している
+        \item 枝$e, l$は隣接している
+      \end{itemize}
+      という。
+    \end{definition}
+
+    \begin{definition}[多重枝・自己閉路]
+      グラフ$G = (V, E)$の異なる2辺$e, l \in E, e \neq l$が、あるノード$v, w \in V$によって
+      \begin{equation}
+        e = (v, w), \quad l = (v, w)
+      \end{equation}
+      と書けるとき、$e$と$l$を多重枝という。
+      また、両端点が等しい辺を自己閉路という。
+    \end{definition}
+
+    \begin{definition}[次数]
+      グラフ$G = (V, E)$の任意のノード$v \in V$に対して次数$\delta(v)$が以下のように定義される。
+      \begin{equation}
+        \delta(v) = \card{\Set{ e \in E | e = (v, w), e = (w, v), w \in V}}
+      \end{equation}
+      さらに正の向きに接続してる枝の数$\delta^+(v)$と負の向きに接続している枝の数$\delta^-(v)$を
+      \begin{equation}
+        \delta^+(v) = \card{\Set{ e \in E | e = (v, w), w \in V}}
+      \end{equation}
+      \begin{equation}
+        \delta^-(v) = \card{\Set{ e \in E | e = (w, v), w \in V}}
+      \end{equation}
+      とする。
+    \end{definition}
+    \begin{theorem}
+      あるグラフ$G = (V, E)$に対して
+      \begin{equation}
+        \sum_{v \in V} \delta(v) = 2 \card{E}
+      \end{equation}
+      が成立する。
+    \end{theorem}
+    \begin{theorem}
+      あるグラフ$G = (V, E)$のある$v \in V$に対して
+      \begin{equation}
+        \delta(v) = \delta^+(v) + \delta^-(v)
+      \end{equation}
+      が成立する。
+    \end{theorem}
+    \begin{theorem}
+      あるグラフ$G = (V, E)$に対して
+      \begin{equation}
+        \sum_{v \in V} \delta^+(v) = \sum_{v \in V} \delta^-(v) = \card{E}
+      \end{equation}
+      が成立する。
+    \end{theorem}
+
+    \begin{definition}[同型]
+      あるグラフ$G = (V, E)$と$G' = (V', E')$に対して$V, V'$間の同型写像$f_V$と以下を見たす写像$f_E$が定まるとする。
+      \begin{itemize}
+        \item 任意の$v, w \in V, v', w' \in V'$に対して$f_V(v) = v', f_V(w) = w'$ならば$f_E((v, w)) = (v', w')$である
+      \end{itemize}
+      このとき写像
+      \begin{equation}
+        f((V, E)) = (f_V(V), f_E(E))
+      \end{equation}
+      をグラフ$G, G'$間の同型写像という。
+      また、$G, G'$間に同型写像が定まるとき、$G'$を$G$と同型なグラフという。
+    \end{definition}
+
+    \begin{definition}[部分グラフ]
+      あるグラフ$G = (V, E)$があり、部分グラフ$V' \subset V, E' \subset E$があり、
+      \begin{equation}
+        \forall (v, w) \in E', v, w \in V'
+      \end{equation}
+      であるならば、$V', E'$によるグラフ$G' = (V', E')$を$G$の部分グラフという。
+    \end{definition}
+
+    \begin{definition}[グラフの変形操作]
+      グラフ$G = (V, E)$に対する点の除去、辺の解法除去、辺の短絡除去を以下のように定める。
+      \begin{description}
+        \item[点$v \in V$の除去] ノードの集合$V$から$v$を取り除き、辺の集合$E$から$v$を端点とする辺を取り除く操作
+        \item[辺$e \in E$の解法除去] 辺の集合$E$から$e$を取り除く操作
+        \item[辺$e \in E$の短絡除去] 辺の集合$E$から$e$を取り除き、$e$が端点としたノードをまとめる操作
+      \end{description}
+    \end{definition}
+
+    \begin{definition}[単純グラフ]
+      多重枝、自己閉路を含まないグラフを単純グラフという。
+    \end{definition}
+
+    \begin{definition}[連結グラフ] %TODO
+    \end{definition}
+
+    \begin{definition}[正則グラフ]
+      任意のノードの次数$r$であるグラフを$r$-正則グラフという。
+    \end{definition}
+
+    \begin{definition}[完全グラフ]
+      任意のノードが、自分以外の任意のノードと隣接するグラフを完全グラフという。
+    \end{definition}
+
+    \begin{definition}[2部グラフ]
+      ある集合$V_1, V_2$と、$V_1, V_2$から定まる$E \subset (V_1 \times V_2 \cup V_2 \times V_1)$によるグラフ$G = (V_1 \cup V_2, E)$を2部グラフという。
+    \end{definition}
+
+    \begin{definition}[道(path)、閉路(cycle)]
+      あるグラフ$G = (V, E)$と自然数$k$に対して$k+1$個のノード$v_0, v_1, \ldots, v_k \in V$と$k$個の辺$e_1, e_2, \ldots, e_k$からなる交代列
+      \begin{equation}
+        (v_0, e_1, v_1, e_2, v_2, \ldots, e_k, v_k)
+      \end{equation}
+      を長さ$k$の道という。道の$v_0$を始点(起点)、$v_k$を終点という。
+      また、$v_0 = v_k$である歩道を閉路という。
+
+      歩道や道、閉路を表す交代列に$v \in V$や$e \in E$が含まれるとき
+      \begin{itemize}
+        \item 歩道(道、閉路)はノード$v$や辺$e$を経路上に持つ
+        \item 歩道(道、閉路)はノード$v$や辺$e$を通る
+        \item ノード$v$や辺$e$は歩道(道、閉路)上にある
+      \end{itemize}
+      等という。
+    \end{definition}
+
+    \begin{definition}[単純な道・初等的な道]
+      同じ辺を通らない道を単純な道、同じ点を通らない道を初等的な道という。
+    \end{definition}
+    \begin{theorem}
+      ある道$P$が初等的な道ならば$P$は単純な道である。
+    \end{theorem}
+
+    \begin{definition}[有向路]
+      有向グラフ$G = (V, E)$上の道$P$が
+      \begin{equation}
+        (v_0, e_1, v_1, e_2, v_2, \ldots, e_k, v_k)
+      \end{equation}
+      と書かれるとき、任意の$1 \le i < k$に対して$e_i = (v_{i-1}, v_i)$が成り立つならば道$P$を有向な道、有向路という。
+    \end{definition}
+
+    道に対する単純な道、初等的な道、有向路と同様に閉路に対しても単純な閉路、初等的な閉路、有向閉路が定まる。% TODO
+
+    \begin{definition}[タイセット]
+      グラフ$G = (V, E)$のある道$P$が
+      \begin{equation}
+        (v_0, e_1, v_1, e_2, v_2, \ldots, e_k, v_k)
+      \end{equation}
+      と書かれるとき、この道$P$を
+      \begin{equation}
+        (e_1, e_2, \ldots, e_k)
+      \end{equation}
+      と書くかきかたをタイセットという。
+      有向グラフの場合は辺の向きに対して経路の向きの正負を記入する。
+    \end{definition}
+
+    \begin{definition}[カットセット]
+      あるグラフ$G = (V, E)$のノードの集合$V$を$X$と$\overline{X}$に分割したとき、$X$のノードと$\overline{X}$のノードを繋ぐ辺の集合をカットセットといい$C(X, \overline{X})$と書く。
+    \end{definition}
+
+
+  \section{関係}
+
+  %TODO: p19 まで
+
+
+  \begin{definition}[hoge]
+  \end{definition}
+  \begin{theorem}[hoge]
+  \end{theorem}
 
 
 \end{document}
