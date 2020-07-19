@@ -19,11 +19,124 @@
   \maketitle
   \tableofcontents
 
+  \section{概要}
+    ガウス過程回帰はカーネルを用いて未知の関数の回帰を行う手法の一つである。
+    得られる出力がガウス過程にもとづいているという前提のもとで、関数を推定する。
+    また、回帰によって得られるのは入力に対する出力ではなく、入力に対しての出力の確率分布である。
+
+
+  \section{前提}
+    あるパラメータ$\vect{w}$をもち、入力$\vect{x}$をうけとる関数
+    \begin{equation}
+      \func{f}{\vect{x}, \vect{w}}
+    \end{equation}
+    にガウスノイズが加わった
+    \begin{equation}
+      \func{f}{\vect{x}, \vect{w}} = \func{f}{\vect{x}, \vect{w}} + \varepsilon
+    \end{equation}
+    を考える。
+    ここで$\varepsilon \sim N(0, \sigma^2)$である。
+
+    $n$個の入力$\vect{x}_1, \vect{x}_2, \cdots, \vect{x}_n$が与えられ、それぞれに対して$y_1, y_2, \cdots, y_n$が得られたとする。
+    このとき与えられた入力ベクトルからなる行列$X$と出力からなるベクトル$\vect{y}$を
+    \begin{align}
+      X        = \begin{pmatrix}
+        \vect{x}_1 & \vect{x}_2 & \cdots & \vect{x}_n
+      \end{pmatrix} \\
+      \vect{y} = \begin{pmatrix}
+        y_1 \\
+        y_2 \\
+        \vdots \\
+        y_n
+      \end{pmatrix}
+    \end{align}
+    と書く。
+    入力$X$とパラメータ$\vect{w}$が与えられたときに、出力$\vect{y}$が得られる確率(パラメータの尤度)を
+    \begin{equation}
+      p(\vect{y} | X, \vect{w})
+    \end{equation}
+    と書き、これを求める。
+
+    関数$f$がパラメータ$\vect{w}$の各成分を係数とする関数の線形結合で表されるとすると、ある関数$\phi_1, \phi_2, \cdots$によって
+    \begin{equation}
+      \func{f}{\vect{x}, \vect{w}} = \begin{pmatrix}
+        \func{\phi_1}{\vect{x}} & \func{\phi_2}{\vect{x}} & \cdots
+      \end{pmatrix} \vect{w} = \vect{\phi}(\vect{x}) \vect{w}
+    \end{equation}
+    と書くことができ、$p(\vect{y} | X, \vect{w})$は
+    \begin{align}
+      p(\vect{y} | X, \vect{x}) &= \Pi_{i=1}^n p(y_i | \vect{\phi}(\vect{x}_i), \vect{w}) \\
+                                &= \Pi_{i=1}^n \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left( -\frac{(y_i - \vect{\phi}(\vect{x}_i)^t \vect{w})^2}{2 \sigma^2} \right) \\
+                                &= \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left( -\frac{1}{2 \sigma^2} \left[ (y_1 - \vect{\phi}(\vect{x}_1)^t \vect{w})^2 + (y_2 - \vect{\phi}(\vect{x}_2)^t \vect{w})^2 + \cdots + (y_n - \vect{\phi}(\vect{x}_n)^t \vect{w})^2 \right] \right) \\
+                                &= \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left( -\frac{1}{2 \sigma^2} \abs{\vect{y}^t - \Phi^t \vect{w}}^2 \right) \\
+                                &= \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left( -\frac{1}{2} (\vect{y}^t - \Phi^t \vect{w})^t (\sigma^2 I)^{-1} (\vect{y}^t - \Phi^t \vect{w}) \right)
+    \end{align}
+    となる。
+    ここで$I$は単位行列、$\Phi$は
+    \begin{equation}
+      \Phi = \begin{pmatrix}
+        \vect{\phi}(\vect{x}_1) & \vect{\phi}(\vect{x}_2) & \cdots & \vect{\phi}(\vect{x}_n)
+      \end{pmatrix}
+    \end{equation}
+    であり、$o(\vect{y} | X, \vect{w})$が平均が$\Phi^t \vect{w}$で分散が$\sigma^2 I$であるガウス分布であることが示された。
+
+    入力として$X$と対応する出力$\vect{y}$が与えられたときパラメータ$\vect{w}$の事後確率つまり入力と出力の尤度は
+    \begin{align}
+      p(\vect{w} | X, \vect{y}) &= \frac{p(\vect{y} | X, \vect{w}) p(\vect{w})}{p(\vect{y} | X)} \\
+                                &\propto p(\vect{y} | X, \vect{w}) p(\vect{w})
+    \end{align}
+    となる。
+    であり、
+    ここで$\vect{w}$が標準正規分布に従うとすれば
+    \begin{equation}
+      p(\vect{w}) \propto \exp\left( -\frac{1}{2} \vect{w}^t \Sigma^{-1} \vect{w} \right)
+    \end{equation}
+    であり、また
+    \begin{equation}
+      p(\vect{y} | X, \vect{x}) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left( -\frac{1}{2} (\vect{y}^t - \Phi^t \vect{w})^t (\sigma^2 I)^{-1} (\vect{y}^t - \Phi^t \vect{w}) \right)
+    \end{equation}
+    であるため
+    \begin{align}
+      p(\vect{y} | X, \vect{w}) p(\vect{w}) &\propto \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left( -\frac{1}{2} (\vect{y}^t - \Phi^t \vect{w})^t (\sigma^2 I)^{-1} (\vect{y}^t - \Phi^t \vect{w}) \right) \exp\left( -\frac{1}{2} \vect{w}^t \Sigma^{-1} \vect{w} \right) \\
+                                            &\propto \exp\left( -\frac{1}{2} (\vect{y}^t - \Phi^t \vect{w})^t (\sigma^2 I)^{-1} (\vect{y}^t - \Phi^t \vect{w}) \right) \exp\left( -\frac{1}{2} \vect{w}^t \Sigma^{-1} \vect{w} \right) \\
+                                            &= \exp\left( -\frac{1}{2} \left[ (\vect{y}^t - \Phi^t \vect{w})^t (\sigma^2 I)^{-1} (\vect{y}^t - \Phi^t \vect{w}) + \vect{w}^t \Sigma^{-1} \vect{w} \right] \right) \\
+                                            &= \exp\left( -\frac{1}{2} \left[ \frac{1}{\sigma^2} (\vect{y}^t \vect{y} - \vect{y}^t \Phi^t \vect{w} - \vect{w}^t \Phi \vect{y} + \vect{w}^t \Phi \Phi^t \vect{w}) + \vect{w}^t \Sigma^{-1} \vect{w} \right] \right) \\
+                                            &= \exp\left( -\frac{1}{2} \left[ \vect{w}^t \left( \frac{1}{\sigma^2} \Phi \Phi^t + \Sigma^{-1} \right) \vect{w} - \frac{1}{\sigma^2} \left( \vect{y}^t \Phi^t \vect{w} + \vect{w}^t \Phi \vect{y} \right) + \frac{1}{\sigma^2} \vect{y}^t \vect{y} \right] \right)
+    \end{align}
+    となる。
+    ここで
+    \begin{align}
+      A &= \frac{1}{\sigma^2} \Phi \Phi^t + \Sigma^{-1} \\
+      \vect{b} &= \frac{1}{\sigma^2} \Phi \vect{y} \\
+      2c &= \frac{1}{\sigma^2} \vect{y}^t \vect{y}
+    \end{align}
+    とすると
+    \begin{align}
+      p(\vect{y} | X, \vect{w}) p(\vect{w}) &\propto \exp\left( -\frac{1}{2} \left[ \vect{w}^t \left( \frac{1}{\sigma^2} \Phi \Phi^t + \Sigma^{-1} \right) \vect{w} - \frac{1}{\sigma^2} \left( \vect{y}^t \Phi^t \vect{w} + \vect{w}^t \Phi \vect{y} \right) + \frac{1}{\sigma^2} \vect{y}^t \vect{y} \right] \right) \\
+                                            &= \exp\left( -\frac{1}{2} \left[ \vect{w}^t A \vect{w} - \left( \vect{b}^t \vect{w} + \vect{w}^t \vect{b} \right) + 2c \right] \right) \\
+                                            &= \exp\left( -\frac{1}{2} \left[ \left( \vect{w}^t A \vect{w} - \vect{b}^t \vect{w} - \vect{w}^t \vect{b} \right) + \vect{b}^t A^{-1} \vect{b} - \vect{b}^t A^{-1} \vect{b} + 2c \right] \right) \\
+                                            &= \exp\left( -\frac{1}{2} \left[ \left( \vect{w}^t A - \vect{b}^t \right) A \left( \vect{w} - A^{-1} \vect{b} \right) + 2c - \vect{b}^t A^{-1} \vect{b} \right] \right) \\
+                                            &= \exp\left( -\frac{1}{2} \left( \vect{w}^t A - \vect{b}^t \right) A \left( \vect{w} - A^{-1} \vect{b} \right)  \right) \exp\left( -\frac{1}{2} \left[ 2c - \vect{b}^t A^{-1} \vect{b} \right] \right) \\
+                                            &\propto \exp\left( -\frac{1}{2} \left( \vect{w} - A^{-1} \vect{b} \right)^t {A^{-1}}^{-1} \left( \vect{w} - A^{-1} \vect{b} \right)  \right)
+    \end{align}
+    と書くことができる。
+    よって
+    \begin{equation}
+      p(\vect{w} | X, \vect{y}) \propto p(\vect{y} | X, \vect{w}) p(\vect{w}) \propto \exp\left( -\frac{1}{2} \left( \vect{w} - A^{-1} \vect{b} \right)^t {A^{-1}}^{-1} \left( \vect{w} - A^{-1} \vect{b} \right)  \right)
+    \end{equation}
+    となり
+    \begin{equation}
+      p(\vect{w} | X, \vect{y}) \sim N(A^{-1} \vect{b}, A^{-1})
+    \end{equation}
+    であることがしめされた。
+    これは、複数の入力と対応する出力が与えられると、それらを用いてパラメータの分布を計算できるということである。
+
 
 
 
   \begin{thebibliography}{99}
     \bibitem{bib:a} ``ガウス過程回帰の導出 ( GPR : Gaussian Process Regression )''，\url{https://www.slideshare.net/KenjiUrai/explanation-of-gpr}，参照May.31,2020．
+    \bibitem{bib:b} ``Gaussian process - Wikipedia''，\url{https://en.wikipedia.org/wiki/Gaussian_process#Definition}，参照May.31,2020．
     %\bibitem{bib:z} ``''，\url{}，参照May.17,2020.
   \end{thebibliography}
 \end{document}
